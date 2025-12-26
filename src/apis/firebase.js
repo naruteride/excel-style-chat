@@ -41,15 +41,23 @@ export const chatService = {
 	subscribeToRoom: (roomName, callback) => {
 		const q = query(
 			collection(db, "messages"),
-			where("room", "==", roomName),
-			orderBy("timestamp", "asc")
+			where("room", "==", roomName)
+			// orderBy("timestamp", "asc") // Requires Composite Index, skipping for simplicity
 		);
 
 		return onSnapshot(q, (snapshot) => {
-			const messages = snapshot.docs.map(doc => ({
+			let messages = snapshot.docs.map(doc => ({
 				id: doc.id,
 				...doc.data()
 			}));
+
+			// Client-side sort
+			messages.sort((a, b) => {
+				const t1 = a.timestamp ? a.timestamp.seconds : Date.now() / 1000;
+				const t2 = b.timestamp ? b.timestamp.seconds : Date.now() / 1000;
+				return t1 - t2;
+			});
+
 			callback(messages);
 		});
 	}
