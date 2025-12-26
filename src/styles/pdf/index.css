@@ -1,0 +1,14 @@
+:root {
+    /* 상단 헤더 배경색 */
+    --viewer-pdf-toolbar-background-color: rgb(60, 60, 60);
+    /* 사이드바 배경색 */
+    --viewer-side-background-color: rgb(40, 41, 42);
+    /* 전체 배경색 */
+    --viewer-background-color: rgb(40, 40, 40);
+    /* 사이드바와의 구분선 색상 */
+    --viewer-border-color: rgb(94, 94, 94);
+    /* 포커스 상태의 테두리 색상 */
+    --focus-border-color: rgb(138, 180, 248);
+    /* 툴바 텍스트 색상 */
+    --pdf-toolbar-text-color: rgb(241, 241, 241);
+}
