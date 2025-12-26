@@ -11,9 +11,6 @@ themeStore.registerTheme("pdf", { name: "pdf", components: {} });
 themeStore.registerTheme("figma", { name: "figma", components: {} });
 
 document.addEventListener("DOMContentLoaded", () => {
-	const app = document.createElement("stealth-app");
-	document.body.appendChild(app);
-
 	// Initialize Router
 	router.init();
 });
