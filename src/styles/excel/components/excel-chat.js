@@ -28,27 +28,26 @@ export default class ExcelChat extends BaseComponent {
 
 	render() {
 		// Excel Editor Layout
+		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; height: 100%; width: 100%;";
 		this.innerHTML = `
-			<div style="display: flex; flex-direction: column; align-items: stretch; height: 100%; width: 100%;">
-				<excel-header room="${this.roomName}"></excel-header>
+			<excel-header room="${this.roomName}"></excel-header>
 
-				<!-- Editor Area (Messages) -->
-				<div id="message-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
-					<!-- Messages injected here -->
+			<!-- Editor Area (Messages) -->
+			<div id="message-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
+				<!-- Messages injected here -->
+			</div>
+
+			<!-- Terminal / Input Area -->
+			<div style="border-top: 1px solid #3c3c3c;">
+				<div style="background: #1e1e1e; padding: 5px 15px; font-size: 11px; color: #d4d4d4; text-transform: uppercase; font-weight: bold; display: flex; gap: 15px;">
+					<span style="border-bottom: 1px solid white;">Terminal</span>
+					<span style="opacity: 0.5;">Output</span>
+					<span style="opacity: 0.5;">Debug Console</span>
 				</div>
-
-				<!-- Terminal / Input Area -->
-				<div style="border-top: 1px solid #3c3c3c;">
-					<div style="background: #1e1e1e; padding: 5px 15px; font-size: 11px; color: #d4d4d4; text-transform: uppercase; font-weight: bold; display: flex; gap: 15px;">
-						<span style="border-bottom: 1px solid white;">Terminal</span>
-						<span style="opacity: 0.5;">Output</span>
-						<span style="opacity: 0.5;">Debug Console</span>
-					</div>
-					<div style="padding: 10px; background: #1e1e1e; display: flex; align-items: center;">
-						<span style="color: #00ff00; margin-right: 10px;">➜  ~</span>
-						<input type="text" id="msg-input" placeholder="console.log('your message')..." 
-							style="flex: 1; background: transparent; border: none; color: #d4d4d4; font-family: Consolas, monospace; outline: none;" />
-					</div>
+				<div style="padding: 10px; background: #1e1e1e; display: flex; align-items: center;">
+					<span style="color: #00ff00; margin-right: 10px;">➜  ~</span>
+					<input type="text" id="msg-input" placeholder="console.log('your message')..." 
+						style="flex: 1; background: transparent; border: none; color: #d4d4d4; font-family: Consolas, monospace; outline: none;" />
 				</div>
 			</div>
         `;
@@ -104,20 +103,14 @@ class ExcelChatMessage extends BaseComponent {
 		// Excel style: Line numbers + Code look
 		const lineNumber = Math.floor(Math.random() * 1000); // Fake line number for effect
 
-		this.style.display = "block";
-		this.style.fontFamily = "Consolas, monospace";
-		this.style.fontSize = "14px";
-		this.style.lineHeight = "1.5";
-		this.style.color = "#d4d4d4";
-		this.style.padding = "0 5px";
+
+		this.style.cssText = "display: flex; font-family: Consolas, monospace; font-size: 14px; line-height: 1.5; color: #d4d4d4; padding: 0 5px;";
 		if (isMe) this.style.backgroundColor = "#2c2c2c"; // Highlight my lines slightly
 
 		this.innerHTML = `
-			<div style="display: flex;">
-				<span style="color: #858585; width: 40px; text-align: right; margin-right: 15px; user-select: none;">${lineNumber}</span>
-				<span style="color: #569cd6; margin-right: 10px;">${author}:</span>
-				<span style="color: #ce9178;">"${text}"</span> 
-			</div>
+			<span style="color: #858585; width: 40px; text-align: right; margin-right: 15px; user-select: none;">${lineNumber}</span>
+			<span style="color: #569cd6; margin-right: 10px;">${author}:</span>
+			<span style="color: #ce9178;">"${text}"</span> 
         `;
 	}
 }
