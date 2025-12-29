@@ -1,38 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import { chatService, authService } from "../../../apis/firebase.js";
 
-class ExcelChatMessage extends BaseComponent {
-	static get observedAttributes() { return ["text", "author", "uid", "timestamp"]; }
-
-	render() {
-		const text = this.getAttribute("text") || "";
-		const author = this.getAttribute("author") || "Unknown";
-		const uid = this.getAttribute("uid");
-		const currentUser = authService.getCurrentUser();
-		const isMe = currentUser && currentUser.uid == uid;
-
-		// Excel style: Line numbers + Code look
-		const lineNumber = Math.floor(Math.random() * 1000); // Fake line number for effect
-
-		this.style.display = "block";
-		this.style.fontFamily = "Consolas, monospace";
-		this.style.fontSize = "14px";
-		this.style.lineHeight = "1.5";
-		this.style.color = "#d4d4d4";
-		this.style.padding = "0 5px";
-		if (isMe) this.style.backgroundColor = "#2c2c2c"; // Highlight my lines slightly
-
-		this.innerHTML = `
-			<div style="display: flex;">
-				<span style="color: #858585; width: 40px; text-align: right; margin-right: 15px; user-select: none;">${lineNumber}</span>
-				<span style="color: #569cd6; margin-right: 10px;">${author}:</span>
-				<span style="color: #ce9178;">"${text}"</span> 
-			</div>
-        `;
-	}
-}
-customElements.define("excel-chat-message", ExcelChatMessage);
-
 export default class ExcelChat extends BaseComponent {
 	constructor() {
 		super();
@@ -125,3 +93,36 @@ export default class ExcelChat extends BaseComponent {
 }
 
 customElements.define("excel-chat", ExcelChat);
+
+
+class ExcelChatMessage extends BaseComponent {
+	static get observedAttributes() { return ["text", "author", "uid", "timestamp"]; }
+
+	render() {
+		const text = this.getAttribute("text") || "";
+		const author = this.getAttribute("author") || "Unknown";
+		const uid = this.getAttribute("uid");
+		const currentUser = authService.getCurrentUser();
+		const isMe = currentUser && currentUser.uid == uid;
+
+		// Excel style: Line numbers + Code look
+		const lineNumber = Math.floor(Math.random() * 1000); // Fake line number for effect
+
+		this.style.display = "block";
+		this.style.fontFamily = "Consolas, monospace";
+		this.style.fontSize = "14px";
+		this.style.lineHeight = "1.5";
+		this.style.color = "#d4d4d4";
+		this.style.padding = "0 5px";
+		if (isMe) this.style.backgroundColor = "#2c2c2c"; // Highlight my lines slightly
+
+		this.innerHTML = `
+			<div style="display: flex;">
+				<span style="color: #858585; width: 40px; text-align: right; margin-right: 15px; user-select: none;">${lineNumber}</span>
+				<span style="color: #569cd6; margin-right: 10px;">${author}:</span>
+				<span style="color: #ce9178;">"${text}"</span> 
+			</div>
+        `;
+	}
+}
+customElements.define("excel-chat-message", ExcelChatMessage);

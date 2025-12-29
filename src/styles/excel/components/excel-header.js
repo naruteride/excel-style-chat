@@ -1,4 +1,4 @@
-class Header extends HTMLElement {
+class ExcelHeader extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -64,5 +64,5 @@ class Header extends HTMLElement {
 	}
 }
 
-customElements.define("header", Header, { extends: "header" });
-export default Header;
+customElements.define("excel-header", ExcelHeader, { extends: "header" });
+export default ExcelHeader;
