@@ -16,7 +16,7 @@ class ExcelHeader extends HTMLElement {
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
-						<input value="${this.getAttribute("room")}" style="font-size: 1.125rem; width: 14.438rem; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
+						<input value="${this.getAttribute("room")}" style="font-size: 1.125rem; width: 14.438rem; border: none; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
 						
 						<!-- Star Icon -->
 						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
@@ -43,7 +43,7 @@ class ExcelHeader extends HTMLElement {
 				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<!-- Comment Icon -->
-				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -90pxpx -324px; width: 1.5rem; height: 1.5rem;"></div>
+				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -90px -324px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<!-- Meet Icon -->
 				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
