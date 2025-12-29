@@ -1,5 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import { chatService, authService } from "../../../apis/firebase.js";
+import ExcelHeader from "./excel-header.js";
 
 export default class ExcelChat extends BaseComponent {
 	constructor() {
@@ -28,13 +29,8 @@ export default class ExcelChat extends BaseComponent {
 	render() {
 		// Excel Editor Layout
 		this.innerHTML = `
-			<div style="display: flex; flex-direction: column; height: 100%; width: 100%; background-color: #1e1e1e; font-family: Consolas, monospace;">
-				<!-- Tab/Header Area -->
-				<div style="background: #2d2d2d; color: #969696; padding: 5px 15px; font-size: 13px; display: flex; align-items: center; border-top: 2px solid #007acc;">
-					<span style="margin-right: 5px;">📄</span>
-					<span style="color: white;">${this.roomName}.js</span>
-					<span style="margin-left: 10px; font-size: 11px; opacity: 0.7;">— src/chats</span>
-				</div>
+			<div style="display: flex; flex-direction: column; align-items: stretch; height: 100%; width: 100%;">
+				<excel-header room="${this.roomName}"></excel-header>
 
 				<!-- Editor Area (Messages) -->
 				<div id="message-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
