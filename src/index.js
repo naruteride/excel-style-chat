@@ -1,8 +1,8 @@
 import "./components/stealth-app.js";
 import themeStore from "./utils/theme-store.js";
 import router from "./utils/router.js";
-import vscodeTheme from "./styles/vscode/index.js";
-import excelTheme from "./styles/excel/index.js";
+import vscodeTheme from "./themes/vscode/index.js";
+import excelTheme from "./themes/excel/index.js";
 
 // Register initial themes (more can be added later)
 themeStore.registerTheme("vscode", vscodeTheme);
