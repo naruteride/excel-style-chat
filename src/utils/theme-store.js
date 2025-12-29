@@ -8,6 +8,10 @@ class ThemeStore {
 	// Register a theme object
 	registerTheme(name, themeObject) {
 		this.themes[name] = themeObject;
+		// If we just registered the current theme, notify listeners so they can re-render with the new data
+		if (this.currentTheme == name) {
+			this.notify();
+		}
 	}
 
 	getTheme() {
