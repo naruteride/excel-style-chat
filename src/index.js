@@ -9,6 +9,7 @@ themeStore.registerTheme("vscode", vscodeTheme);
 themeStore.registerTheme("excel", { name: "excel", components: {} });
 themeStore.registerTheme("pdf", { name: "pdf", components: {} });
 themeStore.registerTheme("figma", { name: "figma", components: {} });
+themeStore.registerTheme("notion", { name: "notion", components: {} });
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Initialize Router

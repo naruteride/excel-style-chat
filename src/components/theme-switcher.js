@@ -4,7 +4,7 @@ import themeStore from "../utils/theme-store.js";
 export default class ThemeSwitcher extends BaseComponent {
 	constructor() {
 		super();
-		this.themes = ["vscode", "excel", "pdf", "figma"];
+		this.themes = ["vscode", "excel", "pdf", "figma", "notion"];
 	}
 
 	render() {
