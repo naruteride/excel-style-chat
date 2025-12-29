@@ -30,7 +30,7 @@ export default class ExcelChat extends BaseComponent {
 		// Excel Editor Layout
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; height: 100%; width: 100%;";
 		this.innerHTML = `
-			<excel-header room="${this.roomName}"></excel-header>
+			<header is="excel-header" room="${this.roomName}"></header>
 
 			<!-- Editor Area (Messages) -->
 			<div id="message-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
