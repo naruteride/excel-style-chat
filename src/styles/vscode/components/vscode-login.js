@@ -35,7 +35,7 @@ export default class VSCodeLogin extends BaseComponent {
 				
 				<div style="display: flex; flex-direction: column; gap: 10px;">
 					${!this.user ? `
-						<button id="btn-anon" style="padding: 8px; background: #007acc; color: white; border: none; cursor: pointer;">Login Anonymously</button>
+						<button id="btn-anonymous" style="padding: 8px; background: #007acc; color: white; border: none; cursor: pointer;">Login Anonymously</button>
 						<button id="btn-google" style="padding: 8px; background: #007acc; color: white; border: none; cursor: pointer;">Login with Google</button>
 					` : `
 						<button id="btn-logout" style="padding: 8px; background: #3c3c3c; color: white; border: 1px solid #555; cursor: pointer;">Logout</button>
@@ -52,11 +52,11 @@ export default class VSCodeLogin extends BaseComponent {
 			</div>
         `;
 
-		this.querySelector("#btn-anon").addEventListener("click", () => authService.loginAnonymously());
-		this.querySelector("#btn-google").addEventListener("click", () => authService.loginGoogle());
-		this.querySelector("#btn-logout").addEventListener("click", () => authService.logout());
+		this.querySelector("#btn-anonymous")?.addEventListener("click", () => authService.loginAnonymously());
+		this.querySelector("#btn-google")?.addEventListener("click", () => authService.loginGoogle());
+		this.querySelector("#btn-logout")?.addEventListener("click", () => authService.logout());
 
-		this.querySelector("#btn-join").addEventListener("click", () => {
+		this.querySelector("#btn-join")?.addEventListener("click", () => {
 			const roomName = this.querySelector("#room-input").value;
 			if (roomName) {
 				router.navigateTo(`/${roomName}`);
