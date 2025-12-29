@@ -16,19 +16,19 @@ class ExcelHeader extends HTMLElement {
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
-						<input value="${this.getAttribute("room")}" style="font-size: 1.1rem; border: none; background: transparent; color: #444746; font-family: inherit;" />
+						<input value="${this.getAttribute("room")}" style="font-size: 1.125rem; width: 14.438rem; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
 						
 						<!-- Star Icon -->
 						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
 							<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -202px -2102px; width: 1.25rem; height: 1.25rem;"></div>
 						</button>
-						<!-- Folder Icon -->
+						<!-- Drive Icon -->
 						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
-							<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -202px -2102px; width: 1.25rem; height: 1.25rem;"></div>
+							<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1434px -416px; width: 1.25rem; height: 1.25rem;"></div>
 						</button>
 						<!-- Cloud Check Icon -->
 						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
-							<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -202px -2102px; width: 1.25rem; height: 1.25rem;"></div>
+							<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -660px -1578px; width: 1.25rem; height: 1.25rem;"></div>
 						</button>
 					</div>
 
@@ -43,10 +43,10 @@ class ExcelHeader extends HTMLElement {
 				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<!-- Comment Icon -->
-				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
+				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -90pxpx -324px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<!-- Meet Icon -->
-				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
+				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<button style="background: #c2e7ff; color: #001d35; border: none; border-radius: 16px; padding: 8px 20px; font-weight: 500; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
 					<div class="gh-logo" style="background: url(/src/themes/excel/images/sprite-24.svg) no-repeat -0px -236px; width: 1.125rem; height: 1.125rem;"></div>
