@@ -12,7 +12,7 @@ class ExcelHeader extends HTMLElement {
 		this.innerHTML = `
 			<div style="display: flex; align-items: center;">
 				<!-- Google Sheets Logo -->
-				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -156px -570px; width: 2.25rem; height: 2.25rem; margin: 0.5rem;"></div>
+				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -717px -926px; width: 2.25rem; height: 2.25rem; margin: 0.5rem;"></div>
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
