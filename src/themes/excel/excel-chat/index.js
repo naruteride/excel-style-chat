@@ -1,6 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import { chatService, authService } from "../../../api/firebase.js";
-import ExcelHeader from "./excel-header.js";
+import ExcelHeader from "../components/excel-header.js";
 
 export default class ExcelChat extends BaseComponent {
 	constructor() {

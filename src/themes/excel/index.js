@@ -1,5 +1,5 @@
-import "./components/excel-login.js";
-import "./components/excel-chat.js";
+import "./excel-login/index.js";
+import "./excel-chat/index.js";
 
 export default {
     name: "excel",
