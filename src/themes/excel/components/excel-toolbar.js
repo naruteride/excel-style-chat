@@ -50,7 +50,7 @@ class ExcelToolbar extends HTMLElement {
 				<button is="excel-icon-button" image-position-left="-350px" image-position-top="-106px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-872px" image-position-top="-2060px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-464px" image-position-top="-1500px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem; border-bottom: 4px solid rgb(67, 67, 67); border-bottom-style: double;"></button>
+				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem; border-bottom: 4px solid rgb(67, 67, 67); border-bottom-style: double; border-radius: 0;"></button>
 
 				<hr is="excel-toolbar-hr">
 
