@@ -1,3 +1,4 @@
+import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
 import ExcelDropdownButton from "./excel-dropdown-button.js";
 
 class ExcelMenu extends HTMLMenuElement {
@@ -14,24 +15,20 @@ class ExcelMenu extends HTMLMenuElement {
 		this.innerHTML = `
 			<div style="display: flex; align-items: center; margin-inline: 0.5rem;">
 				<!-- Google Sheets Logo -->
-				<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -717px -926px; width: 2.25rem; height: 2.25rem; margin: 0.5rem;"></div>
+				<button is="excel-icon-button" image-position-left="-717px" image-position-top="-926px" style="width: 2.75rem; height: 2.75rem; padding: 0.5rem;"></button>
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
 						<input value="${this.getAttribute("room")}" style="font-size: 1.125rem; width: 14.438rem; border: none; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
 						
 						<!-- Star Icon -->
-						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
-							<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -202px -2102px; width: 1.25rem; height: 1.25rem;"></div>
-						</button>
+						<button is="excel-icon-button" image-position-left="-202px" image-position-top="-2102px" style="width: 1.5rem; height: 1.5rem; padding: 0.25rem;"></button>
+
 						<!-- Drive Icon -->
-						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
-							<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1434px -416px; width: 1.25rem; height: 1.25rem;"></div>
-						</button>
+						<button is="excel-icon-button" image-position-left="-1434px" image-position-top="-416px" style="width: 1.5rem; height: 1.5rem; padding: 0.25rem;"></button>
+						
 						<!-- Cloud Check Icon -->
-						<button style="background:none; border:none; cursor:pointer; padding: 0.25rem;">
-							<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -660px -1578px; width: 1.25rem; height: 1.25rem;"></div>
-						</button>
+						<button is="excel-icon-button" image-position-left="-660px" image-position-top="-1578px" style="width: 1.5rem; height: 1.5rem; padding: 0.25rem;"></button>
 					</div>
 
 					<div style="display: flex; align-items: center; gap: 0.5rem; margin-top: -0.25rem;">
@@ -40,23 +37,23 @@ class ExcelMenu extends HTMLMenuElement {
 				</div>
 			</div>
 
-			<div style="display: flex; align-items: center; gap: 1.5rem; margin-inline: 1rem;">
+			<div style="display: flex; align-items: center; gap: 1rem; margin-inline: 1rem;">
 				<!-- History Icon -->
-				<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
+				<button is="excel-icon-button" image-position-left="-786px" image-position-top="-1482px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				
 				<!-- Comment Icon -->
-				<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -90px -324px; width: 1.5rem; height: 1.5rem;"></div>
+				<button is="excel-icon-button" image-position-left="-90px" image-position-top="-324px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				
 				<!-- Meet Icon -->
-				<div style="display: flex; align-items: center; gap: 0.2rem">
-					<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
+				<button style="display: flex; align-items: center; gap: 0.2rem; padding: 0; border: none; background: none;">
+					<excel-icon image-position-left="-1386px" image-position-top="-1234px" style="width: 1.5rem; height: 1.5rem;"></excel-icon>
 					<button is="excel-dropdown-button"></button>
-				</div>
+				</button>
 
 				<!-- Share Button -->
 				<div style="display: flex; align-items: center; gap: 0.063rem;">
 					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 100px; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-						<div style="background: url(/src/themes/excel/images/sprite-24.svg) no-repeat -0px -236px; width: 1.125rem; height: 1.125rem;"></div>
+						<excel-icon image="sprite-24.svg" image-position-left="-0px" image-position-top="-236px" style="width: 1.125rem; height: 1.125rem;"></excel-icon>
 						공유
 					</button>
 					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
