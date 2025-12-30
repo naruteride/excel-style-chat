@@ -13,7 +13,7 @@ class ExcelToolbar extends HTMLElement {
 	render() {
 		this.style.cssText = "display: flex; align-items: center; justify-content: space-between; background-color: #f0f4f9; border-radius: 1.5rem; margin: 6px 16px 8px 16px; min-height: 40px; padding: 0 8px; -webkit-font-smoothing: antialiased;";
 		this.innerHTML = `
-			<div style="display: flex; align-items: center; gap: 0.125rem; margin-inline: 0.75rem;">
+			<div style="display: flex; align-items: center; gap: 0.25rem; margin-inline: 0.75rem;">
 				<button is="excel-icon-button" image-position-left="-670px" image-position-top="-62px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-680px" image-position-top="-1304px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-236px" image-position-top="-264px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
@@ -50,7 +50,7 @@ class ExcelToolbar extends HTMLElement {
 				<button is="excel-icon-button" image-position-left="-350px" image-position-top="-106px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-872px" image-position-top="-2060px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-464px" image-position-top="-1500px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem; border-bottom: 4px solid rgb(67, 67, 67); border-bottom-style: double; border-radius: 0;"></button>
+				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.625rem; padding: 0.25rem 0.25rem 0; border-bottom: 4px solid rgb(67, 67, 67); border-bottom-style: double; border-radius: 0;"></button>
 
 				<hr is="excel-toolbar-hr">
 
