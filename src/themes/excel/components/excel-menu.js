@@ -1,15 +1,15 @@
 class ExcelMenu extends HTMLElement {
-    constructor() {
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    connectedCallback() {
-        this.render();
-    }
+	connectedCallback() {
+		this.render();
+	}
 
-    render() {
-        this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; background: #f9fbfd; border-bottom: 1px solid #f9fbfd; margin-bottom: -1px;";
-        this.innerHTML = `
+	render() {
+		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; background: #f9fbfd; border-bottom: 1px solid #f9fbfd; margin-bottom: -1px;";
+		this.innerHTML = `
 			<menu style="display: flex; align-items: center; padding: 0 12px; height: 4rem;">
 				<div style="display: flex; align-items: center;">
 					<!-- Google Sheets Logo -->
@@ -70,7 +70,7 @@ class ExcelMenu extends HTMLElement {
 			<!-- Toolbar -->
 			<excel-toolbar></excel-toolbar>
 		`;
-    }
+	}
 }
 
 customElements.define("excel-menu", ExcelMenu, { extends: "menu" });
