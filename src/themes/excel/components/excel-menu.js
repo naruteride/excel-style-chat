@@ -1,3 +1,5 @@
+import ExcelDropdownButton from "./excel-dropdown-button.js";
+
 class ExcelMenu extends HTMLMenuElement {
 	constructor() {
 		super();
@@ -47,8 +49,8 @@ class ExcelMenu extends HTMLMenuElement {
 				
 				<!-- Meet Icon -->
 				<div style="display: flex; align-items: center; gap: 0.2rem">
-					<div style="border-style: solid; border-width: 4px 4px 0 4px; border-color: #444746 transparent; height: 0; width: 0;"></div>
 					<div style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
+					<button is="excel-dropdown-button"></button>
 				</div>
 
 				<!-- Share Button -->
@@ -58,7 +60,7 @@ class ExcelMenu extends HTMLMenuElement {
 						공유
 					</button>
 					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
-						&nbsp;<div style="border-style: solid; border-width: 4px 4px 0 4px; border-color: #444746 transparent; height: 0; width: 0;"></div>
+						&nbsp;<button is="excel-dropdown-button"></button>
 					</button>
 				</div>
 
