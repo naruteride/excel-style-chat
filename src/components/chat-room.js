@@ -1,5 +1,5 @@
 import BaseComponent from "./base-component.js";
-import { chatService, authService } from "../apis/firebase.js";
+import { chatService, authService } from "../api/firebase.js";
 import "./chat-message.js";
 
 export default class ChatRoom extends BaseComponent {

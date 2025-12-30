@@ -1,5 +1,5 @@
 import BaseComponent from "../../../components/base-component.js";
-import { chatService, authService } from "../../../apis/firebase.js";
+import { chatService, authService } from "../../../api/firebase.js";
 
 class VSCodeChatMessage extends BaseComponent {
 	static get observedAttributes() { return ["text", "author", "uid", "timestamp"]; }

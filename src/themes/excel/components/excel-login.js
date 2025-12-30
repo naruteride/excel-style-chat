@@ -1,6 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import router from "../../../utils/router.js";
-import { authService } from "../../../apis/firebase.js";
+import { authService } from "../../../api/firebase.js";
 
 export default class ExcelLogin extends BaseComponent {
 	constructor() {

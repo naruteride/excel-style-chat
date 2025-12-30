@@ -1,5 +1,5 @@
 import BaseComponent from "./base-component.js";
-import { authService } from "../apis/firebase.js";
+import { authService } from "../api/firebase.js";
 
 export default class ChatMessage extends BaseComponent {
 	static get observedAttributes() {
