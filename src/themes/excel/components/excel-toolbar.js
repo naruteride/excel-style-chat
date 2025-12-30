@@ -17,7 +17,7 @@ class ExcelToolbar extends HTMLElement {
 				
 			</div>
 			<div style="display: flex; align-items: center; gap: 0.125rem">
-				<button is="excel-icon-button" image-position-left="-0px" image-position-top="-236px" style="width: 1.125rem; height: 1.125rem;"></button>
+				<button is="excel-icon-button" image-position-left="-756px" image-position-top="-1110px" style="width: 1.25rem; height: 1.25rem;"></button>
 			</div>
 		`;
 	}
