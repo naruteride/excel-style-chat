@@ -1,5 +1,5 @@
-import ExcelDropdownButton from "./excel-dropdown-button.js";
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
+import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 
 class ExcelToolbar extends HTMLElement {
 	constructor() {

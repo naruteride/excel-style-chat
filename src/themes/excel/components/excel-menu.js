@@ -1,5 +1,5 @@
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
-import ExcelDropdownButton from "./excel-dropdown-button.js";
+import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 
 class ExcelMenu extends HTMLMenuElement {
 	constructor() {
@@ -47,7 +47,7 @@ class ExcelMenu extends HTMLMenuElement {
 				<!-- Meet Icon -->
 				<button style="display: flex; align-items: center; gap: 0.2rem; padding: 0; border: none; background: none;">
 					<excel-icon image-position-left="-1386px" image-position-top="-1234px" style="width: 1.5rem; height: 1.5rem;"></excel-icon>
-					<button is="excel-dropdown-button"></button>
+					<excel-dropdown-icon></excel-dropdown-icon>
 				</button>
 
 				<!-- Share Button -->
@@ -57,7 +57,7 @@ class ExcelMenu extends HTMLMenuElement {
 						공유
 					</button>
 					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
-						&nbsp;<button is="excel-dropdown-button"></button>
+						&nbsp;<excel-dropdown-icon></excel-dropdown-icon>
 					</button>
 				</div>
 

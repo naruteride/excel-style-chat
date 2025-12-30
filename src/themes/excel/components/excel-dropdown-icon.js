@@ -1,4 +1,4 @@
-class ExcelDropdownButton extends HTMLButtonElement {
+class ExcelDropdownIcon extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -11,5 +11,5 @@ class ExcelDropdownButton extends HTMLButtonElement {
 		this.style.cssText = "border-style: solid; border-width: 4px 4px 0 4px; border-color: #444746 transparent; height: 0; width: 0; background: none;";
 	}
 }
-customElements.define("excel-dropdown-button", ExcelDropdownButton, { extends: "button" });
-export default ExcelDropdownButton;
+customElements.define("excel-dropdown-icon", ExcelDropdownIcon);
+export default ExcelDropdownIcon;
