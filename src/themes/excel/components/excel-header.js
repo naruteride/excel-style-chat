@@ -38,7 +38,7 @@ class ExcelHeader extends HTMLElement {
 				</div>
 			</div>
 
-			<div style="display: flex; align-items: center; gap: 1rem; margin-left: auto;">
+			<div style="display: flex; align-items: center; gap: 1.5rem; margin-left: auto;">
 				<!-- History Icon -->
 				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -786px -1482px; width: 1.5rem; height: 1.5rem;"></div>
 				
@@ -48,17 +48,17 @@ class ExcelHeader extends HTMLElement {
 				<!-- Meet Icon -->
 				<div style="display: flex; align-items: center; gap: 0.2rem">
 					<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
-					<div style="border-style: solid; border-width: 4px 4px 0 4px; height: 0; width: 0;"></div>
+					<div style="border-style: solid; border-width: 4px 4px 0 4px; border-color: #444746 transparent; height: 0; width: 0;"></div>
 				</div>
 
 				<!-- Share Button -->
 				<div style="display: flex; align-items: center; gap: 0.063rem">
-					<button style="background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 50%; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 20px; font-weight: 500; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+					<button style="background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 100px; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 20px; font-weight: 500; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
 						<div class="gh-logo" style="background: url(/src/themes/excel/images/sprite-24.svg) no-repeat -0px -236px; width: 1.125rem; height: 1.125rem;"></div>
 						공유
 					</button>
-					<button style="background: #c2e7ff; border: none; font-size: 0.875rem; padding: 10px 20px 10px 8px; border-radius: 50%; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer;">
-						<div style="border-style: solid; border-width: 4px 4px 0 4px; height: 0; width: 0;"></div>
+					<button style="background: #c2e7ff; border: none; font-size: 0.875rem; padding: 10px 20px 10px 1em; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
+						&nbsp;<div style="border-style: solid; border-width: 4px 4px 0 4px; border-color: #444746 transparent; height: 0; width: 0;"></div>
 					</button>
 				</div>
 
