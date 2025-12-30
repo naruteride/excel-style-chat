@@ -10,7 +10,7 @@ const renderIcon = (element) => {
 // Autonomous Custom Element: <excel-icon>
 export default class ExcelIcon extends HTMLElement {
 	constructor() { super(); }
-	static get observedAttributes() { return ["image", "image-position-left", "image-position-top", "style"]; }
+	static get observedAttributes() { return ["image", "image-position-left", "image-position-top"]; }
 	connectedCallback() { renderIcon(this); }
 	attributeChangedCallback() { renderIcon(this); }
 }
@@ -20,7 +20,7 @@ export default class ExcelIcon extends HTMLElement {
 // Usage: <button is="excel-icon-button"></button>
 export class ExcelIconButton extends HTMLButtonElement {
 	constructor() { super(); }
-	static get observedAttributes() { return ["image", "image-position-left", "image-position-top", "style"]; }
+	static get observedAttributes() { return ["image", "image-position-left", "image-position-top"]; }
 	connectedCallback() { renderIcon(this); }
 	attributeChangedCallback() { renderIcon(this); }
 }
