@@ -1,4 +1,4 @@
-class ExcelMenu extends HTMLElement {
+class ExcelMenu extends HTMLMenuElement {
 	constructor() {
 		super();
 	}
