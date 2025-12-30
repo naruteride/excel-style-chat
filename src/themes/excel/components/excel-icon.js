@@ -4,7 +4,7 @@ const renderIcon = (element) => {
 	const left = element.getAttribute("image-position-left");
 	const top = element.getAttribute("image-position-top");
 	const style = element.getAttribute("style");
-	element.style.cssText = `background: content-box url(/src/themes/excel/images/${image}) no-repeat ${left} ${top}; display: inline-block; width: 1rem; height: 1rem; padding: 0; border: none; border-radius: 0.25rem; ${style}`;
+	element.style.cssText = `background: content-box url(/src/themes/excel/images/${image}) no-repeat ${left} ${top}; display: inline-block; width: 1rem; height: 1rem; padding: 0; border: none; border-radius: 0.25rem; user-select: none; ${style}`;
 };
 
 // Autonomous Custom Element: <excel-icon>

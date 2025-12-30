@@ -50,7 +50,7 @@ class ExcelToolbar extends HTMLElement {
 				<button is="excel-icon-button" image-position-left="-350px" image-position-top="-106px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-872px" image-position-top="-2060px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-464px" image-position-top="-1500px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
+				<button is="excel-icon-button" image-position-left="-626px" image-position-top="-1938px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem; border-bottom: 4px solid rgb(67, 67, 67); border-bottom-style: double;"></button>
 
 				<hr is="excel-toolbar-hr">
 
@@ -95,7 +95,7 @@ class ExcelToolbarHr extends HTMLHRElement {
 	}
 
 	render() {
-		this.style.cssText = "border-color: #c7c7c7; margin-inline: 3px; width: 0; height: 10px;";
+		this.style.cssText = "border-color: #ffffff; border-right: none; margin-inline: 3px; width: 0; height: 20px;";
 	}
 }
 customElements.define("excel-toolbar-hr", ExcelToolbarHr, { extends: "hr" });
@@ -111,7 +111,7 @@ class ExcelToolbarTextButton extends HTMLButtonElement {
 
 	render() {
 		const style = this.getAttribute("style");
-		this.style.cssText = `display: flex; justify-content: center; align-items: center; width: 1.75rem; height: 1.75rem; padding: none; border: none; text-align: center; font-size: 13px; font-weight: 500; ${style}`;
+		this.style.cssText = `display: flex; justify-content: center; align-items: center; width: 1.75rem; height: 1.75rem; padding: none; border: none; background-color: transparent; text-align: center; font-size: 13px; font-weight: 500; color: rgba(0, 0, 0, 0.7); ${style}`;
 	}
 }
 customElements.define("excel-toolbar-text-button", ExcelToolbarTextButton, { extends: "button" });
