@@ -14,7 +14,7 @@ class ExcelHeader extends HTMLElement {
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; background: #f9fbfd; border-bottom: 1px solid #f9fbfd; margin-bottom: -1px;";
 		this.innerHTML = `
 			<!-- Menu -->
-			<menu is="excel-menu"></menu>
+			<menu is="excel-menu" room="${this.getAttribute("room")}"></menu>
 
 			<!-- Toolbar -->
 			<excel-toolbar></excel-toolbar>
