@@ -32,7 +32,7 @@ class ExcelMenu extends HTMLMenuElement {
 					</div>
 
 					<div style="display: flex; align-items: center; gap: 0.5rem; margin-top: -0.25rem;">
-						${["파일", "수정", "보기", "삽입", "서식", "데이터", "도구", "확장 프로그램", "도움말"].map(label => `<button style="background: none; border: none; color: #444746; font-size: 0.875rem; padding: 2px 6px; border-radius: 4px; cursor: pointer;">${label}</button>`).join('')}
+						${["파일", "수정", "보기", "삽입", "서식", "데이터", "도구", "확장 프로그램", "도움말"].map(label => `<button style="background: none; border: none; color: #444746; font-size: 0.875rem; padding: 2px 6px; border-radius: 4px;">${label}</button>`).join("")}
 					</div>
 				</div>
 			</div>
