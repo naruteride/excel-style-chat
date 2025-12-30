@@ -1,7 +1,7 @@
 class ThemeStore {
 	constructor() {
 		this.listeners = [];
-		this.currentTheme = localStorage.getItem("stealth-chat-theme") || "vscode";
+		this.currentTheme = localStorage.getItem("stealth-chat-theme") || "excel";
 		this.themes = {};
 	}
 
