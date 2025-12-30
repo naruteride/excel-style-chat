@@ -46,13 +46,22 @@ class ExcelHeader extends HTMLElement {
 				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -90px -324px; width: 1.5rem; height: 1.5rem;"></div>
 				
 				<!-- Meet Icon -->
-				<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
-				
-				<button style="background: #c2e7ff; color: #001d35; border: none; border-radius: 16px; padding: 8px 20px; font-weight: 500; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-					<div class="gh-logo" style="background: url(/src/themes/excel/images/sprite-24.svg) no-repeat -0px -236px; width: 1.125rem; height: 1.125rem;"></div>
-					공유
-				</button>
-				
+				<div style="display: flex; align-items: center; gap: 0.2rem">
+					<div class="gh-logo" style="background: url(/src/themes/excel/images/material_common_sprite908_gm3_grey_medium.svg) no-repeat -1386px -1234px; width: 1.5rem; height: 1.5rem;"></div>
+					<div style="border-style: solid; border-width: 4px 4px 0 4px; height: 0; width: 0;"></div>
+				</div>
+
+				<!-- Share Button -->
+				<div style="display: flex; align-items: center; gap: 0.063rem">
+					<button style="background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 50%; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 20px; font-weight: 500; font-size: 0.875rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+						<div class="gh-logo" style="background: url(/src/themes/excel/images/sprite-24.svg) no-repeat -0px -236px; width: 1.125rem; height: 1.125rem;"></div>
+						공유
+					</button>
+					<button style="background: #c2e7ff; border: none; font-size: 0.875rem; padding: 10px 20px 10px 8px; border-radius: 50%; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer;">
+						<div style="border-style: solid; border-width: 4px 4px 0 4px; height: 0; width: 0;"></div>
+					</button>
+				</div>
+
 				<img src="//lh3.googleusercontent.com/a/ACg8ocJurJ724n294UpZHA1EukYYB2H7x5MFFOrW47W0rMAeFo6MzA=s50-c-k-no" style="width: 32px; height: 32px; border-radius: 50%; margin-left: 10px;">
 			</div>
 		`;
