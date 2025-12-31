@@ -3,6 +3,10 @@ import { authService } from "/src/api/firebase.js";
 export default class ExcelChatMessage extends HTMLTableRowElement {
 	static get observedAttributes() { return ["text", "author", "uid", "timestamp"]; }
 
+	connectedCallback() {
+		this.render();
+	}
+
 	render() {
 		const text = this.getAttribute("text") || "";
 		const author = this.getAttribute("author") || "Unknown";
