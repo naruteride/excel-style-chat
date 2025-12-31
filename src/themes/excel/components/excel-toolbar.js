@@ -48,7 +48,7 @@ class ExcelToolbar extends HTMLElement {
 				<hr is="excel-toolbar-hr">
 
 				<button is="excel-icon-button" image-position-left="-427px" image-position-top="-526px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<button is="excel-toolbar-dropdown-menu" style="border: 1px solid rgb(116, 119, 117);">
+				<button is="excel-toolbar-dropdown-menu" style="border: 1px solid rgb(116, 119, 117); padding: 0.25rem 0.5rem;">
 					10
 				</button>
 				<button is="excel-icon-button" image-position-left="-536px" image-position-top="-394px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
@@ -103,7 +103,7 @@ class ExcelToolbarHr extends HTMLHRElement {
 	}
 
 	render() {
-		this.style.cssText = "border: #c7c7c7; border-right: 0; margin-inline: 3px; width: 0; height: 20px;";
+		this.style.cssText = "border: rgb(199, 199, 199) 1px solid; border-right: 0; margin-inline: 3px; width: 0; height: 20px;";
 	}
 }
 customElements.define("excel-toolbar-hr", ExcelToolbarHr, { extends: "hr" });
@@ -135,7 +135,7 @@ class ExcelToolbarDropdownMenu extends HTMLButtonElement {
 
 	render() {
 		const style = this.getAttribute("style");
-		this.style.cssText = `display: flex; align-items: center; gap: 0.625rem; border: 0; padding: 0.5rem 0.25rem; background: none; ${style}`;
+		this.style.cssText = `display: flex; align-items: center; gap: 0.625rem; border: 0; padding: 0.325rem 0.25rem; background: none; ${style}`;
 	}
 }
 customElements.define("excel-toolbar-dropdown-menu", ExcelToolbarDropdownMenu, { extends: "button" });
