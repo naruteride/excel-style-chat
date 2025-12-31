@@ -29,7 +29,7 @@ export default class ExcelChatEditor extends HTMLElement {
 			<table style="width: 100%; font-size: 13px; border-collapse: collapse;">
 				<thead>
 					<tr>
-						<th style="min-width: 4em;"></th>
+						<th style="min-width: 2.5em;"></th>
 						<th style="padding-inline: 0.25em;">업무(그룹)</th>
 						<th style="padding-inline: 0.25em;">채널</th>
 						<th style="padding-inline: 0.25em;">채널</th>
@@ -54,11 +54,8 @@ export default class ExcelChatEditor extends HTMLElement {
 		this.messages.forEach(msg => {
 			const element = document.createElement("tr", { is: "excel-chat-message" });
 
-			// Set calculated index
 			element.setAttribute("index", currentIndex);
-
-			// Increment for next row: 1~5 random
-			currentIndex += Math.floor(Math.random() * 5) + 1;
+			currentIndex += 1;
 			if (currentIndex > 999) currentIndex = 1;
 
 			element.setAttribute("text", msg.text);
