@@ -49,8 +49,7 @@ export default class ExcelChatEditor extends HTMLElement {
 		const messageList = this.querySelector("#message-list");
 		messageList.innerHTML = "";
 		this.messages.forEach(msg => {
-			const element = document.createElement("tr");
-			element.setAttribute("is", "excel-chat-message");
+			const element = document.createElement("tr", { is: "excel-chat-message" });
 			element.setAttribute("index", msg.index);
 			element.setAttribute("text", msg.text);
 			element.setAttribute("author", msg.displayName);
