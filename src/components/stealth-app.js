@@ -29,22 +29,16 @@ export default class StealthApp extends BaseComponent {
 		const switcher = document.createElement("theme-switcher");
 		this.appendChild(switcher);
 
-		// Main Content Container
-		const container = document.createElement("div");
-		container.style.cssText = this.theme.components?.appContainer || "width: 100%; height: 100vh;";
-
 		if (!this.currentRoom) {
 			const tagName = this.theme.views?.login || "login-view";
 			const loginView = document.createElement(tagName);
-			container.appendChild(loginView);
+			this.appendChild(loginView);
 		} else {
 			const tagName = this.theme.views?.chat || "chat-room";
 			const chatRoom = document.createElement(tagName);
 			chatRoom.setAttribute("room", this.currentRoom);
-			container.appendChild(chatRoom);
+			this.appendChild(chatRoom);
 		}
-
-		this.appendChild(container);
 	}
 }
 
