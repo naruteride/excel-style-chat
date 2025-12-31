@@ -48,9 +48,19 @@ export default class ExcelChatEditor extends HTMLElement {
 	updateMessageList() {
 		const messageList = this.querySelector("#message-list");
 		messageList.innerHTML = "";
+
+		let currentIndex = 1;
+
 		this.messages.forEach(msg => {
 			const element = document.createElement("tr", { is: "excel-chat-message" });
-			element.setAttribute("index", msg.index);
+
+			// Set calculated index
+			element.setAttribute("index", currentIndex);
+
+			// Increment for next row: 1~5 random
+			currentIndex += Math.floor(Math.random() * 5) + 1;
+			if (currentIndex > 999) currentIndex = 1;
+
 			element.setAttribute("text", msg.text);
 			element.setAttribute("author", msg.displayName);
 			element.setAttribute("uid", msg.uid);
