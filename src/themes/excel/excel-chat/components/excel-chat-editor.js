@@ -29,14 +29,14 @@ export default class ExcelChatEditor extends HTMLElement {
 			<table style="width: 100%; font-size: 13px; border-collapse: collapse;">
 				<thead>
 					<tr>
-						<th></th>
-						<th>업무(그룹)</th>
-						<th>채널</th>
-						<th>채널</th>
-						<th>작업</th>
-						<th>진행 소요일</th>
-						<th>월 구분</th>
-						<th>진행 주</th>
+						<th style="min-width: 4em;"></th>
+						<th style="padding-inline: 0.25em;">업무(그룹)</th>
+						<th style="padding-inline: 0.25em;">채널</th>
+						<th style="padding-inline: 0.25em;">채널</th>
+						<th style="padding-inline: 0.25em;">작업</th>
+						<th style="padding-inline: 0.25em;">진행 소요일</th>
+						<th style="padding-inline: 0.25em;">월 구분</th>
+						<th style="padding-inline: 0.25em;">진행 주</th>
 					</tr>
 				</thead>
 				<tbody id="message-list">

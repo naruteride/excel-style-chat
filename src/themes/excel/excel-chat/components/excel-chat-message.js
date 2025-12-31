@@ -58,16 +58,16 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 			<td style="${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</td>
 			
 			<!-- 3. Channel (User Name) -->
-			<td style="text-align: center;">${author}</td>
+			<td style="padding-right: 1rem;">${author}</td>
 			
 			<!-- 4. Channel (Message) -->
 			<td style="text-align: left;">${text}</td>
 			
 			<!-- 5. Task -->
-			<td>${taskStr}</td>
+			<td style="padding-right: 1rem;">${taskStr}</td>
 			
 			<!-- 6. Duration -->
-			<td style="text-align: center;">${duration}</td>
+			<td>${duration}</td>
 			
 			<!-- 7. Month -->
 			<td style="text-align: center;">${month}</td>
