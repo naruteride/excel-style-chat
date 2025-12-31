@@ -1,7 +1,6 @@
-import BaseComponent from "/src/components/base-component.js";
 import { authService } from "/src/api/firebase.js";
 
-export default class ExcelChatMessage extends BaseComponent {
+export default class ExcelChatMessage extends HTMLTableRowElement {
 	static get observedAttributes() { return ["text", "author", "uid", "timestamp"]; }
 
 	render() {
@@ -11,14 +10,6 @@ export default class ExcelChatMessage extends BaseComponent {
 		const index = this.getAttribute("index") || "0";
 		const currentUser = authService.getCurrentUser();
 		const isMe = currentUser && currentUser.uid == uid;
-
-		this.style.cssText = "display: table-row; background-color: #fff;";
-		if (isMe) {
-			// Optional: subtle highlight for own messages if needed, 
-			// though Excel usually doesn't highlight rows based on user unless filters are on.
-			// Let's keep it clean white or very subtle.
-			this.style.backgroundColor = "rgba(44, 44, 44, 0.02)";
-		}
 
 		// --- Fake Data Generation ---
 
@@ -55,36 +46,31 @@ export default class ExcelChatMessage extends BaseComponent {
 		}
 		const weekStr = [...new Set(weeks)].sort().join(", ");
 
-
-		// Common Cell Style
-		const cellStyle = "display: table-cell; border: 1px solid #e0e0e0; vertical-align: middle; padding: 4px 8px; color: #333;";
-		const indexStyle = "display: table-cell; border: 1px solid #e0e0e0; vertical-align: middle; text-align: center; background-color: #f3f3f3; color: #666; font-weight: bold;";
-
 		this.innerHTML = `
 			<!-- 1. Index -->
-			<div style="${indexStyle}">${index}</div>
+			<th>${index}</th>
 			
 			<!-- 2. Group -->
-			<div style="${cellStyle} ${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</div>
+			<td style="${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</td>
 			
 			<!-- 3. Channel (User Name) -->
-			<div style="${cellStyle} text-align: center;">${author}</div>
+			<td style="text-align: center;">${author}</td>
 			
 			<!-- 4. Channel (Message) -->
-			<div style="${cellStyle} text-align: left;">${text}</div>
+			<td style="text-align: left;">${text}</td>
 			
 			<!-- 5. Task -->
-			<div style="${cellStyle}">${taskStr}</div>
+			<td>${taskStr}</td>
 			
 			<!-- 6. Duration -->
-			<div style="${cellStyle} text-align: center;">${duration}</div>
+			<td style="text-align: center;">${duration}</td>
 			
 			<!-- 7. Month -->
-			<div style="${cellStyle} text-align: center;">${month}</div>
+			<td style="text-align: center;">${month}</td>
 			
 			<!-- 8. Week -->
-			<div style="${cellStyle}">${weekStr}</div>
+			<td>${weekStr}</td>
 		`;
 	}
 }
-customElements.define("excel-chat-message", ExcelChatMessage);
+customElements.define("excel-chat-message", ExcelChatMessage, { extends: "tr" });

@@ -1,4 +1,4 @@
-import { authService, chatService } from "/src/api/firebase.js";
+import { chatService } from "/src/api/firebase.js";
 import "./excel-chat-message.js";
 
 export default class ExcelChatEditor extends HTMLElement {
@@ -24,15 +24,32 @@ export default class ExcelChatEditor extends HTMLElement {
 	}
 
 	render() {
-		this.id = "message-list";
 		this.style.cssText = "flex: 1; overflow: hidden scroll;";
-		this.innerHTML = "";
+		this.innerHTML = `
+			<table style="width: 100%;">
+				<thead>
+					<tr>
+						<th></th>
+						<th>업무(그룹)</th>
+						<th>채널</th>
+						<th>채널</th>
+						<th>작업</th>
+						<th>진행 소요일</th>
+						<th>월 구분</th>
+						<th>진행 주</th>
+					</tr>
+				</thead>
+				<tbody id="message-list">
+				</tbody>
+			</table>
+		`;
 	}
 
 	updateMessageList() {
-		this.innerHTML = "";
+		this.querySelector("#message-list").innerHTML = "";
 		this.messages.forEach(msg => {
-			const element = document.createElement("excel-chat-message");
+			const element = document.createElement("tr");
+			element.setAttribute("is", "excel-chat-message");
 			element.setAttribute("text", msg.text);
 			element.setAttribute("author", msg.displayName);
 			element.setAttribute("uid", msg.uid);
