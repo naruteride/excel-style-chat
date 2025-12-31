@@ -1,6 +1,7 @@
-import BaseComponent from "../../../components/base-component.js";
-import router from "../../../utils/router.js";
-import { authService } from "../../../api/firebase.js";
+import BaseComponent from "/src/components/base-component.js";
+import router from "/src/utils/router.js";
+import { authService } from "/src/api/firebase.js";
+import ExcelHeader from "../components/excel-header.js";
 
 export default class ExcelLogin extends BaseComponent {
 	constructor() {
@@ -17,19 +18,11 @@ export default class ExcelLogin extends BaseComponent {
 	}
 
 	render() {
-		const style = `
-			margin: auto; 
-			padding: 20px; 
-			border: 1px solid #3c3c3c; 
-			background-color: #252526; 
-			width: 300px; 
-			color: #d4d4d4; 
-			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-			box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        `; // Hardcoded Excel style for now, or fetch from theme props if we want to keep props separate
+		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 
 		this.innerHTML = `
-			<div style="${style}">
+			<excel-header></excel-header>
+			<div style="padding: 20px; background-color: #252526; color: #d4d4d4;">
 				<h1 style="font-size: 1.2em; font-weight: normal; margin-bottom: 20px; color: #007acc;">Excel Stealth Chat</h1>
 				${this.user ? `<p style="font-size: 0.9em; margin-bottom: 10px;">Logged in as: <strong>${this.user.displayName || "Anonymous"}</strong></p>` : ""}
 				
