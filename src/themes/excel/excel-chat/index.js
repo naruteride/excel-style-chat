@@ -34,7 +34,7 @@ export default class ExcelChat extends BaseComponent {
 			<header is="excel-header" room="${this.roomName}"></header>
 
 			<!-- Editor Area (Messages) -->
-			<excel-chat-editor></excel-chat-editor>
+			<main is="excel-chat-editor"></main>
 
 			<!-- Terminal / Input Area -->
 			<div>
