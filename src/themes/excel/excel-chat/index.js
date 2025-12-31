@@ -1,6 +1,7 @@
 import BaseComponent from "../../../components/base-component.js";
 import { chatService, authService } from "../../../api/firebase.js";
 import ExcelHeader from "../components/excel-header.js";
+import ExcelChatEditor from "./components/excel-chat-editor.js";
 
 export default class ExcelChat extends BaseComponent {
 	constructor() {
@@ -28,24 +29,22 @@ export default class ExcelChat extends BaseComponent {
 
 	render() {
 		// Excel Editor Layout
-		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; height: 100%; width: 100%;";
+		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 		this.innerHTML = `
 			<header is="excel-header" room="${this.roomName}"></header>
 
 			<!-- Editor Area (Messages) -->
-			<div id="message-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
-				<!-- Messages injected here -->
-			</div>
+			<excel-chat-editor></excel-chat-editor>
 
 			<!-- Terminal / Input Area -->
-			<div style="border-top: 1px solid #3c3c3c;">
+			<div>
 				<div style="background: #1e1e1e; padding: 5px 15px; font-size: 11px; color: #d4d4d4; text-transform: uppercase; font-weight: bold; display: flex; gap: 15px;">
 					<span style="border-bottom: 1px solid white;">Terminal</span>
 					<span style="opacity: 0.5;">Output</span>
 					<span style="opacity: 0.5;">Debug Console</span>
 				</div>
 				<div style="padding: 10px; background: #1e1e1e; display: flex; align-items: center;">
-					<span style="color: #00ff00; margin-right: 10px;">➜  ~</span>
+					<span style="color: #00ff00; margin-right: 10px;"> ~</span>
 					<input type="text" id="msg-input" placeholder="console.log('your message')..." 
 						style="flex: 1; background: transparent; border: none; color: #d4d4d4; font-family: Consolas, monospace; outline: none;" />
 				</div>
@@ -60,7 +59,7 @@ export default class ExcelChat extends BaseComponent {
 				chatService.sendMessage(this.roomName, text, user);
 				input.value = "";
 			} else if (!user) {
-				alert("Please login first needed for terminal access.");
+				alert("로그인 후에 사용해주세요.");
 			}
 		};
 
