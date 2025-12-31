@@ -1,5 +1,6 @@
 import ExcelMenu from "./excel-menu.js";
 import ExcelToolbar from "./excel-toolbar.js";
+import ExcelFormulaBar from "./excel-formula-bar.js";
 
 class ExcelHeader extends HTMLElement {
 	constructor() {
@@ -18,6 +19,9 @@ class ExcelHeader extends HTMLElement {
 
 			<!-- Toolbar -->
 			<excel-toolbar></excel-toolbar>
+
+			<!-- Formula Bar -->
+			<excel-formula-bar></excel-formula-bar>
 		`;
 	}
 }

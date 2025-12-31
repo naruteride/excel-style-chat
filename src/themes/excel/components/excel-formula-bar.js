@@ -8,7 +8,7 @@ class ExcelFormulaBar extends HTMLElement {
 	}
 
 	render() {
-		this.style.cssText = "";
+		this.style.cssText = "display: flex; align-items: center; justify-content: space-between; background-color: #fff;";
 		this.innerHTML = `
 		`;
 	}
