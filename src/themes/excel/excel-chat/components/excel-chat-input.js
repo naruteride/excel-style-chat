@@ -1,3 +1,5 @@
+import { authService, chatService } from "/src/api/firebase.js";
+
 export default class ExcelChatInput extends HTMLElement {
 	connectedCallback() {
 		this.render();
@@ -16,6 +18,24 @@ export default class ExcelChatInput extends HTMLElement {
 					style="flex: 1; background: transparent; border: none; color: #d4d4d4; font-family: Consolas, monospace; outline: none;" />
 			</div>
 		`;
+
+		const input = this.querySelector("#msg-input");
+		const sendMessage = () => {
+			const text = input.value;
+			const user = authService.getCurrentUser();
+			const roomName = this.getAttribute("room");
+
+			if (text && user && roomName) {
+				chatService.sendMessage(roomName, text, user);
+				input.value = "";
+			} else if (!user) {
+				alert("로그인 후에 사용해주세요.");
+			}
+		};
+
+		input.addEventListener("keypress", (e) => {
+			if (e.key == "Enter") sendMessage();
+		});
 	}
 }
 
