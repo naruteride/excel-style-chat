@@ -19,7 +19,10 @@ class ExcelToolbar extends HTMLElement {
 				<button is="excel-icon-button" image-position-left="-236px" image-position-top="-264px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-1168px" image-position-top="-976px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-130px" image-position-top="-152px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<!-- 확대축소 드롭다운 -->
+				<button is="excel-toolbar-dropdown-menu">
+					100%
+					<excel-dropdown-icon></excel-dropdown-icon>
+				</button>
 
 				<hr is="excel-toolbar-hr">
 
@@ -37,12 +40,17 @@ class ExcelToolbar extends HTMLElement {
 
 				<hr is="excel-toolbar-hr">
 
-				<!-- 폰트 변경 드롭다운 -->
+				<button is="excel-toolbar-dropdown-menu">
+					Roboto
+					<excel-dropdown-icon></excel-dropdown-icon>
+				</button>
 
 				<hr is="excel-toolbar-hr">
 
 				<button is="excel-icon-button" image-position-left="-427px" image-position-top="-526px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<!-- 글자 크기 변경 인풋 -->
+				<button is="excel-toolbar-dropdown-menu" style="border: 1px solid rgb(116, 119, 117);">
+					10
+				</button>
 				<button is="excel-icon-button" image-position-left="-536px" image-position-top="-394px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 
 				<hr is="excel-toolbar-hr">
@@ -95,7 +103,7 @@ class ExcelToolbarHr extends HTMLHRElement {
 	}
 
 	render() {
-		this.style.cssText = "border-color: #ffffff; border-right: none; margin-inline: 3px; width: 0; height: 20px;";
+		this.style.cssText = "border: #c7c7c7; border-right: 0; margin-inline: 3px; width: 0; height: 20px;";
 	}
 }
 customElements.define("excel-toolbar-hr", ExcelToolbarHr, { extends: "hr" });
@@ -115,3 +123,19 @@ class ExcelToolbarTextButton extends HTMLButtonElement {
 	}
 }
 customElements.define("excel-toolbar-text-button", ExcelToolbarTextButton, { extends: "button" });
+
+class ExcelToolbarDropdownMenu extends HTMLButtonElement {
+	constructor() {
+		super();
+	}
+
+	connectedCallback() {
+		this.render();
+	}
+
+	render() {
+		const style = this.getAttribute("style");
+		this.style.cssText = `display: flex; align-items: center; gap: 0.625rem; border: 0; padding: 0.5rem 0.25rem; background: none; ${style}`;
+	}
+}
+customElements.define("excel-toolbar-dropdown-menu", ExcelToolbarDropdownMenu, { extends: "button" });
