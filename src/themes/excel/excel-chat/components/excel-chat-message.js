@@ -61,19 +61,19 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 			<td style="padding-right: 1rem;">${author}</td>
 			
 			<!-- 4. Channel (Message) -->
-			<td style="text-align: left;">${text}</td>
+			<td style="padding-right: 1rem;">${text}</td>
 			
 			<!-- 5. Task -->
 			<td style="padding-right: 1rem;">${taskStr}</td>
 			
 			<!-- 6. Duration -->
-			<td>${duration}</td>
+			<td style="padding-right: 1rem;">${duration}</td>
 			
 			<!-- 7. Month -->
 			<td style="text-align: center;">${month}</td>
 			
 			<!-- 8. Week -->
-			<td>${weekStr}</td>
+			<td style="padding-right: 1rem;">${weekStr}</td>
 		`;
 	}
 }
