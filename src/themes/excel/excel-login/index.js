@@ -43,10 +43,10 @@ export default class ExcelLogin extends BaseComponent {
 						${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-login-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
 						${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-login-google" style="padding-right: 1rem;">Login with Google</td>`}
 						${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
-						<td> &nbsp; &nbsp; &nbsp; </td>
-						<td> &nbsp; &nbsp; &nbsp; </td>
-						<td> &nbsp; &nbsp; &nbsp; </td>
-						<td> &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
 					</tr>
 					<tr>
 						<th>2</th>
