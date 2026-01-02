@@ -21,7 +21,7 @@ export default class ExcelLogin extends BaseComponent {
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 
 		this.innerHTML = `
-			<excel-header></excel-header>
+			<header is="excel-header" room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></header>
 			<div style="padding: 20px; background-color: #252526; color: #d4d4d4;">
 				<h1 style="font-size: 1.2em; font-weight: normal; margin-bottom: 20px; color: #007acc;">Excel Stealth Chat</h1>
 				${this.user ? `<p style="font-size: 0.9em; margin-bottom: 10px;">Logged in as: <strong>${this.user.displayName || "Anonymous"}</strong></p>` : ""}
