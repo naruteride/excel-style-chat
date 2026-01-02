@@ -2,6 +2,7 @@ import BaseComponent from "/src/components/base-component.js";
 import router from "/src/utils/router.js";
 import { authService } from "/src/api/firebase.js";
 import ExcelHeader from "../components/excel-header.js";
+import ExcelTable from "../components/excel-table.js";
 
 export default class ExcelLogin extends BaseComponent {
 	constructor() {
@@ -22,6 +23,45 @@ export default class ExcelLogin extends BaseComponent {
 
 		this.innerHTML = `
 			<header is="excel-header" room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></header>
+
+			<table is="excel-table">
+				
+				<thead>
+					<tr>
+						<th style="min-width: 2.5em;"></th>
+						<th style="padding-inline: 0.25em;">A</th>
+						<th style="padding-inline: 0.25em;">B</th>
+						<th style="padding-inline: 0.25em;">C</th>
+						<th style="padding-inline: 0.25em;">D</th>
+						<th style="padding-inline: 0.25em;">E</th>
+						<th style="padding-inline: 0.25em;">F</th>
+						<th style="padding-inline: 0.25em;">G</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>1</th>
+						${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-login-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
+						${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-login-google" style="padding-right: 1rem;">Login with Google</td>`}
+						${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td style="padding-right: 1rem;">Workspace</td>
+						<td><input type="text" id="room-input" placeholder="e.g. project-alpha" style="padding: 0; background: transparent; border: none; width: 100%; height: 100%;" /></td>
+						<td id="btn-join" style="padding-right: 1rem;">Open Workspace</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
 			<div style="padding: 20px; background-color: #252526; color: #d4d4d4;">
 				<h1 style="font-size: 1.2em; font-weight: normal; margin-bottom: 20px; color: #007acc;">Excel Stealth Chat</h1>
 				${this.user ? `<p style="font-size: 0.9em; margin-bottom: 10px;">Logged in as: <strong>${this.user.displayName || "Anonymous"}</strong></p>` : ""}

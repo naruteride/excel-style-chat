@@ -12,3 +12,7 @@ button {
 table :where(tr, td) {
 	border: 1px solid #ccc;
 }
+
+table th {
+	background-color: #E7F8ED;
+}
