@@ -1,5 +1,6 @@
 import { chatService } from "/src/api/firebase.js";
 import "./excel-chat-message.js";
+import "../../components/excel-table.js";
 
 export default class ExcelChatEditor extends HTMLElement {
 	constructor() {
@@ -26,7 +27,7 @@ export default class ExcelChatEditor extends HTMLElement {
 	render() {
 		this.style.cssText = "flex: 1; overflow: hidden scroll;";
 		this.innerHTML = `
-			<table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+			<table is="excel-table">
 				<thead>
 					<tr>
 						<th style="min-width: 2.5em;"></th>
