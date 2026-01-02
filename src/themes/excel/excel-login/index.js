@@ -43,16 +43,86 @@ export default class ExcelLogin extends BaseComponent {
 						${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-login-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
 						${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-login-google" style="padding-right: 1rem;">Login with Google</td>`}
 						${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td> &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; </td>
+						<td> &nbsp; &nbsp; &nbsp; </td>
 					</tr>
 					<tr>
 						<th>2</th>
 						<td style="padding-right: 1rem;">Workspace</td>
 						<td><input type="text" id="room-input" placeholder="e.g. project-alpha" style="padding: 0; background: transparent; border: none; width: 100%; height: 100%;" /></td>
 						<td id="btn-join" style="padding-right: 1rem;">Open Workspace</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>3</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>4</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>5</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>6</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>7</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>8</th>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th>9</th>
+						<td></td>
+						<td></td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
