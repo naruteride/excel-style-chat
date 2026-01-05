@@ -25,7 +25,7 @@ export default class ExcelChatEditor extends HTMLElement {
 	}
 
 	render() {
-		this.style.cssText = "flex: 1; overflow: hidden scroll;";
+		this.style.cssText = "flex: 1; overflow: auto;";
 		this.innerHTML = `
 			<table is="excel-table">
 				<thead style="position: sticky; top: 0; text-align: center; font-weight: 400; background-color: #fff;">

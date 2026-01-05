@@ -11,7 +11,7 @@ export default class ExcelToolbar extends HTMLElement {
 	}
 
 	render() {
-		this.style.cssText = "display: flex; align-items: center; justify-content: space-between; background-color: #f0f4f9; border-radius: 1.5rem; margin: 6px 16px 8px 16px; min-height: 40px; padding: 0 8px; -webkit-font-smoothing: antialiased;";
+		this.style.cssText = "overflow-x: auto; scrollbar-width: thin; display: flex; align-items: center; justify-content: space-between; background-color: #f0f4f9; border-radius: 1.5rem; margin: 6px 16px 8px 16px; min-height: 40px; padding: 0 8px; -webkit-font-smoothing: antialiased;";
 		this.innerHTML = `
 			<div style="display: flex; align-items: center; gap: 0.25rem;">
 				<button is="excel-icon-button" image-position-left="-670px" image-position-top="-62px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
@@ -118,7 +118,7 @@ class ExcelToolbarTextButton extends HTMLButtonElement {
 
 	render() {
 		const style = this.getAttribute("style");
-		this.style.cssText = `display: flex; justify-content: center; align-items: center; width: 1.75rem; height: 1.75rem; padding: none; border: none; background-color: transparent; text-align: center; font-size: 13px; font-weight: 500; color: rgba(0, 0, 0, 0.7); ${style}`;
+		this.style.cssText = `overflow-x: auto; scrollbar-width: thin; display: flex; justify-content: center; align-items: center; width: 1.75rem; height: 1.75rem; padding: none; border: none; background-color: transparent; text-align: center; font-size: 13px; font-weight: 500; color: rgba(0, 0, 0, 0.7); ${style}`;
 	}
 }
 customElements.define("excel-toolbar-text-button", ExcelToolbarTextButton, { extends: "button" });
