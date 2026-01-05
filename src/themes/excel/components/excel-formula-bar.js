@@ -43,7 +43,7 @@ class ExcelFormulaBarHr extends HTMLHRElement {
 	}
 
 	render() {
-		this.style.cssText = "border: rgb(199, 199, 199) 1px solid; border-right: 0; margin-block: 0; margin-inline: 3px; width: 0; height: 17px;";
+		this.style.cssText = "border: rgb(199, 199, 199) 1px solid; border-right: 0; margin-block: 0; width: 0; height: 17px;";
 	}
 }
 customElements.define("excel-formula-bar-hr", ExcelFormulaBarHr, { extends: "hr" });

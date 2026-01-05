@@ -31,13 +31,23 @@ export default class ExcelChatEditor extends HTMLElement {
 				<thead>
 					<tr>
 						<th style="min-width: 2.5em;"></th>
-						<th style="padding-inline: 0.25em;">업무(그룹)</th>
-						<th style="padding-inline: 0.25em;">채널</th>
-						<th style="padding-inline: 0.25em;">채널</th>
-						<th style="padding-inline: 0.25em;">작업</th>
-						<th style="padding-inline: 0.25em;">진행 소요일</th>
-						<th style="padding-inline: 0.25em;">월 구분</th>
-						<th style="padding-inline: 0.25em;">진행 주</th>
+						<th style="padding-inline: 0.25em;">A</th>
+						<th style="padding-inline: 0.25em;">B</th>
+						<th style="padding-inline: 0.25em;">C</th>
+						<th style="padding-inline: 0.25em;">D</th>
+						<th style="padding-inline: 0.25em;">E</th>
+						<th style="padding-inline: 0.25em;">F</th>
+						<th style="padding-inline: 0.25em;">G</th>
+					</tr>
+					<tr>
+						<td style="min-width: 2.5em;">1</td>
+						<td style="padding-inline: 0.25em;">업무(그룹)</td>
+						<td style="padding-inline: 0.25em;">채널</td>
+						<td style="padding-inline: 0.25em;">채널</td>
+						<td style="padding-inline: 0.25em;">작업</td>
+						<td style="padding-inline: 0.25em;">진행 소요일</td>
+						<td style="padding-inline: 0.25em;">월 구분</td>
+						<td style="padding-inline: 0.25em;">진행 주</td>
 					</tr>
 				</thead>
 				<tbody id="message-list">

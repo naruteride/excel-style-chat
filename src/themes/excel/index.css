@@ -9,7 +9,7 @@ button {
 	background: transparent;
 }
 
-table :where(tr, td) {
+table :where(th, td) {
 	border: 1px solid #ccc;
 }
 
