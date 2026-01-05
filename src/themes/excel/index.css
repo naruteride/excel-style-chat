@@ -15,4 +15,5 @@ table :where(th, td) {
 
 table th {
 	background-color: #E7F8ED;
+	font-weight: 400;
 }

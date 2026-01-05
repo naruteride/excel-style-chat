@@ -28,7 +28,7 @@ export default class ExcelChatEditor extends HTMLElement {
 		this.style.cssText = "flex: 1; overflow: hidden scroll;";
 		this.innerHTML = `
 			<table is="excel-table">
-				<thead style="text-align: center; font-weight: bold;">
+				<thead style="text-align: center; font-weight: 400;">
 					<tr>
 						<th style="min-width: 2.5em; background-color: #F8F9FA; border-right: 0.25rem solid #C7C7C7;"></th>
 						<th style="padding-inline: 0.25em;">A</th>
@@ -39,7 +39,7 @@ export default class ExcelChatEditor extends HTMLElement {
 						<th style="padding-inline: 0.25em;">F</th>
 						<th style="padding-inline: 0.25em;">G</th>
 					</tr>
-					<tr>
+					<tr style="font-weight: bold;">
 						<th style="min-width: 2.5em;">1</th>
 						<td style="padding-inline: 0.25em;">업무(그룹)</td>
 						<td style="padding-inline: 0.25em;">채널</td>
