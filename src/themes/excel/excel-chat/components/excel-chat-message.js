@@ -61,7 +61,7 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 			<td style="padding-right: 1rem;">${author}</td>
 			
 			<!-- 4. Channel (Message) -->
-			<td style="padding-right: 1rem;">${text}</td>
+			<td style="padding-right: 1rem; white-space: normal; word-break: keep-all;">${text}</td>
 			
 			<!-- 5. Task -->
 			<td style="padding-right: 1rem;">${taskStr}</td>
