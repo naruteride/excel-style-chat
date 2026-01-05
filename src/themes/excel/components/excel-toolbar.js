@@ -64,7 +64,7 @@ export default class ExcelToolbar extends HTMLElement {
 
 				<button is="excel-icon-button" image-position-left="-764px" image-position-top="-330px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
 				<button is="excel-icon-button" image-position-left="-1198px" image-position-top="-1164px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
-				<button is="excel-icon-button" image-position-left="-388px" image-position-top="-898px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
+				<button is="excel-icon-button" image-position-left="-388px" image-position-top="-898px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem; opacity: 0.55;"></button>
 				<excel-dropdown-icon></excel-dropdown-icon>
 
 				<hr is="excel-toolbar-hr">
