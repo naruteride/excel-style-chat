@@ -8,7 +8,7 @@ export default class ExcelTable extends HTMLTableElement {
     }
 
     render() {
-        this.style.cssText = "width: 100%; font-size: 13px; border-collapse: collapse;";
+        this.style.cssText = "width: 100%; font-size: 13px; border-collapse: separate; border-spacing: 0;";
     }
 }
 
