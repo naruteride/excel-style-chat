@@ -1,6 +1,6 @@
-import ExcelDropdownIcon from "./excel-dropdown-icon";
+import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 
-class ExcelFormulaBar extends HTMLElement {
+export default class ExcelFormulaBar extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -21,4 +21,3 @@ class ExcelFormulaBar extends HTMLElement {
 }
 
 customElements.define("excel-formula-bar", ExcelFormulaBar);
-export default ExcelFormulaBar;

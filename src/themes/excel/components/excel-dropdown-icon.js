@@ -1,4 +1,4 @@
-class ExcelDropdownIcon extends HTMLElement {
+export default class ExcelDropdownIcon extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -12,4 +12,3 @@ class ExcelDropdownIcon extends HTMLElement {
 	}
 }
 customElements.define("excel-dropdown-icon", ExcelDropdownIcon);
-export default ExcelDropdownIcon;

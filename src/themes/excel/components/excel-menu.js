@@ -1,7 +1,7 @@
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 
-class ExcelMenu extends HTMLMenuElement {
+export default class ExcelMenu extends HTMLMenuElement {
 	constructor() {
 		super();
 	}
@@ -68,4 +68,3 @@ class ExcelMenu extends HTMLMenuElement {
 }
 
 customElements.define("excel-menu", ExcelMenu, { extends: "menu" });
-export default ExcelMenu;

@@ -1,7 +1,7 @@
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 
-class ExcelToolbar extends HTMLElement {
+export default class ExcelToolbar extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -91,7 +91,6 @@ class ExcelToolbar extends HTMLElement {
 }
 
 customElements.define("excel-toolbar", ExcelToolbar);
-export default ExcelToolbar;
 
 class ExcelToolbarHr extends HTMLHRElement {
 	constructor() {

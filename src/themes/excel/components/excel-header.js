@@ -2,7 +2,7 @@ import ExcelMenu from "./excel-menu.js";
 import ExcelToolbar from "./excel-toolbar.js";
 import ExcelFormulaBar from "./excel-formula-bar.js";
 
-class ExcelHeader extends HTMLElement {
+export default class ExcelHeader extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -27,4 +27,3 @@ class ExcelHeader extends HTMLElement {
 }
 
 customElements.define("excel-header", ExcelHeader, { extends: "header" });
-export default ExcelHeader;
