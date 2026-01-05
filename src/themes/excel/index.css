@@ -9,7 +9,7 @@ button {
 	background: transparent;
 }
 
-table> :first-child {
+table thead tr:first-child th {
 	border-top: 1px solid #ccc;
 }
 
