@@ -27,6 +27,7 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 		this.style.cssText = `opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; appearance: none; ${style}`;
 
 		this.innerHTML = `
+			<!-- 테마 스위처를 인식함 -->
 			${this.themes.map(theme => `
 				<option value="${theme}" ${theme == themeStore.currentTheme ? "selected" : ""}>
 					${theme.toUpperCase()}
