@@ -1,6 +1,6 @@
 import { chatService } from "/src/api/firebase.js";
-import "./excel-chat-message.js";
-import "../../components/excel-table.js";
+import ExcelChatMessage from "./excel-chat-message.js";
+import ExcelTable, { ExcelThead, ExcelCrossedTh } from "../../components/excel-table.js";
 
 export default class ExcelChatEditor extends HTMLElement {
 	constructor() {
@@ -28,9 +28,9 @@ export default class ExcelChatEditor extends HTMLElement {
 		this.style.cssText = "flex: 1; overflow: auto;";
 		this.innerHTML = `
 			<table is="excel-table">
-				<thead style="position: sticky; top: 0; text-align: center; font-weight: 400; background-color: #fff;">
+				<thead is="excel-thead">
 					<tr>
-						<th style="min-width: 2.5em; background-color: #F8F9FA; border-right: 0.25rem solid #C7C7C7;"></th>
+						<th is="excel-crossed-th"></th>
 						<th style="padding-inline: 0.25em;">A</th>
 						<th style="padding-inline: 0.25em;">B</th>
 						<th style="padding-inline: 0.25em;">C</th>
