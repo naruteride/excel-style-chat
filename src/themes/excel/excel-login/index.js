@@ -33,114 +33,114 @@ export default class ExcelLogin extends BaseComponent {
 			<header is="excel-header" room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></header>
 
 			<main style="flex: 1; overflow: auto;">
-				<table is="excel-table">
-					<thead is="excel-thead">
-						<tr>
-							<th is="excel-crossed-th"></th>
-							<th style="padding-inline: 0.25em;">A</th>
-							<th style="padding-inline: 0.25em;">B</th>
-							<th style="padding-inline: 0.25em;">C</th>
-							<th style="padding-inline: 0.25em;">D</th>
-							<th style="padding-inline: 0.25em;">E</th>
-							<th style="padding-inline: 0.25em;">F</th>
-							<th style="padding-inline: 0.25em;">G</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th>1</th>
-							${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
-							${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-google" style="padding-right: 1rem;">Login with Google</td>`}
-							${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
-							<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-							<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-							<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-							<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
-						</tr>
-						<tr>
-							<form id="join-form" style="display: contents;">
+				<form id="join-form" style="display: contents;">
+					<table is="excel-table">
+						<thead is="excel-thead">
+							<tr>
+								<th is="excel-crossed-th"></th>
+								<th style="padding-inline: 0.25em;">A</th>
+								<th style="padding-inline: 0.25em;">B</th>
+								<th style="padding-inline: 0.25em;">C</th>
+								<th style="padding-inline: 0.25em;">D</th>
+								<th style="padding-inline: 0.25em;">E</th>
+								<th style="padding-inline: 0.25em;">F</th>
+								<th style="padding-inline: 0.25em;">G</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>1</th>
+								${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
+								${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-google" style="padding-right: 1rem;">Login with Google</td>`}
+								${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
+								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+							</tr>
+							<tr>
 								<th>2</th>
 								<td style="padding-right: 1rem;">Workspace</td>
 								<td><input type="text" id="room-input" placeholder="e.g. project-alpha" style="padding: 0; background: transparent; border: none; width: 100%; height: 100%;" /></td>
-								<button type="submit" style="display: contents;"><td style="padding-right: 1rem;">Open Workspace</td></button>
+								<td style="padding-right: 1rem;"><button is="excel-no-style-button" type="submit">Open Workspace</button></td>
 								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
-							</form>
-						</tr>
-						<tr>
-							<th>3</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>4</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>5</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>6</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>7</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>8</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<th>9</th>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>4</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>5</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>6</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>7</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>8</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<th>9</th>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</main>
         `;
 
@@ -153,3 +153,12 @@ export default class ExcelLogin extends BaseComponent {
 }
 
 customElements.define("excel-login", ExcelLogin);
+
+class ExcelNoStyleButton extends HTMLButtonElement {
+	constructor() {
+		super();
+		this.type = this.getAttribute("type") || "button";
+		this.style.cssText = "background: transparent; width: 100%; height: 100%; text-align: inherit; color: inherit; font: inherit;";
+	}
+}
+customElements.define("excel-no-style-button", ExcelNoStyleButton, { extends: "button" });

@@ -3,7 +3,7 @@
 }
 
 button {
-	border: 1px solid transparent;
+	border: 0 solid transparent;
 	border-radius: 0.25rem;
 	padding: 0;
 	background: transparent;
