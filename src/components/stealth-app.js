@@ -1,7 +1,7 @@
 import BaseComponent from "./base-component.js";
-import "./theme-switcher.js";
-import "./login-view.js";
-import "./chat-room.js";
+import ThemeSwitcher from "./theme-switcher.js";
+import LoginView from "./login-view.js";
+import ChatRoom from "./chat-room.js";
 
 export default class StealthApp extends BaseComponent {
 	constructor() {
@@ -19,15 +19,14 @@ export default class StealthApp extends BaseComponent {
 	}
 
 	render() {
-		// Apply global theme styles to self or body if needed
-		// For now, we just render the structure
-
 		// Clear content
 		this.innerHTML = "";
 
-		// Add Theme Switcher (always visible)
-		const switcher = document.createElement("theme-switcher");
-		this.appendChild(switcher);
+		// Add Theme Switcher (visible unless excel theme)
+		if (this.theme.name != "excel") {
+			const switcher = document.createElement("theme-switcher");
+			this.appendChild(switcher);
+		}
 
 		if (!this.currentRoom) {
 			const tagName = this.theme.views?.login || "login-view";

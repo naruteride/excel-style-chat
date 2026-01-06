@@ -1,33 +1,43 @@
 import BaseComponent from "./base-component.js";
 import themeStore from "../utils/theme-store.js";
 
-export default class ThemeSwitcher extends BaseComponent {
+export default class ThemeSwitcher extends HTMLSelectElement {
 	constructor() {
 		super();
-		this.themes = ["vscode", "excel", "pdf", "figma", "notion"];
+		this.themes = ["excel", "vscode", "pdf", "figma", "notion"];
+		// this.unsubscribe = null;
 	}
 
+	// connectedCallback() {
+	// 	this.render();
+	// 	this.unsubscribe = themeStore.subscribe((newTheme) => {
+	// 		this.value = newTheme.name;
+	// 	});
+	// }
+
+	// disconnectedCallback() {
+	// 	if (this.unsubscribe) {
+	// 		this.unsubscribe();
+	// 	}
+	// }
+
 	render() {
-		// We can apply some inline styles from the current theme if defined,
-		// or just default ones.
-		const style = this.theme.components?.themeSwitcher || "position: fixed; top: 10px; right: 10px; z-index: 9999;";
+		const style = this.getAttribute("style") || "";
+
+		this.style.cssText = `opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; appearance: none; ${style}`;
 
 		this.innerHTML = `
-			<div style="${style}">
-				<select id="theme-select">
-					${this.themes.map(t => `
-						<option value="${t}" ${t == themeStore.currentTheme ? "selected" : ""}>
-							${t.toUpperCase()}
-						</option>
-					`).join("")}
-				</select>
-			</div>
+			${this.themes.map(theme => `
+				<option value="${theme}" ${theme == themeStore.currentTheme ? "selected" : ""}>
+					${theme.toUpperCase()}
+				</option>
+			`).join("")}
 		`;
 
-		this.querySelector("#theme-select").addEventListener("change", (e) => {
+		this.addEventListener("change", (e) => {
 			themeStore.setTheme(e.target.value);
 		});
 	}
 }
 
-customElements.define("theme-switcher", ThemeSwitcher);
+customElements.define("theme-switcher", ThemeSwitcher, { extends: "select" });

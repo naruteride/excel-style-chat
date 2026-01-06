@@ -1,5 +1,6 @@
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
+import ThemeSwitcher from "/src/components/theme-switcher.js";
 
 export default class ExcelMenu extends HTMLMenuElement {
 	constructor() {
@@ -51,19 +52,22 @@ export default class ExcelMenu extends HTMLMenuElement {
 				</button>
 
 				<!-- Share Button -->
-				<div style="display: flex; align-items: center; gap: 0.063rem;">
-					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 100px; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+				<div id="share-buttons" style="position: relative; display: flex; align-items: center; gap: 0.063rem;">
+					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 100px; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
 						<excel-icon image="sprite-24.svg" image-position-left="-0px" image-position-top="-236px" style="width: 1.125rem; height: 1.125rem;"></excel-icon>
 						공유
 					</button>
 					<button style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
 						&nbsp;<excel-dropdown-icon></excel-dropdown-icon>
 					</button>
+					<select is="theme-switcher"></select>
 				</div>
 
 				<img src="//lh3.googleusercontent.com/a/ACg8ocJurJ724n294UpZHA1EukYYB2H7x5MFFOrW47W0rMAeFo6MzA=s50-c-k-no" style="width: 32px; height: 32px; border-radius: 50%; margin-left: 10px;">
 			</div>
 		`;
+
+		this.querySelector("#share-buttons")?.addEventListener("click", () => this.toggleThemeMenu());
 	}
 }
 
