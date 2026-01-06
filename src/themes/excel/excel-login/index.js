@@ -158,7 +158,7 @@ class ExcelNoStyleButton extends HTMLButtonElement {
 	constructor() {
 		super();
 		this.type = this.getAttribute("type") || "button";
-		this.style.cssText = "background: transparent; width: 100%; height: 100%; text-align: inherit; color: inherit; font: inherit;";
+		this.style.cssText = "width: 100%; height: 100%; text-align: inherit; color: inherit; font: inherit;";
 	}
 }
 customElements.define("excel-no-style-button", ExcelNoStyleButton, { extends: "button" });
