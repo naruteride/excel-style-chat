@@ -33,7 +33,7 @@ export default class ExcelLogin extends BaseComponent {
 			<header is="excel-header" room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></header>
 
 			<main style="flex: 1; overflow: auto;">
-				<form id="join-form" style="display: contents;">
+				<form id="form-join" style="display: contents;">
 					<table is="excel-table">
 						<thead is="excel-thead">
 							<tr>
@@ -50,9 +50,9 @@ export default class ExcelLogin extends BaseComponent {
 						<tbody>
 							<tr>
 								<th>1</th>
-								${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td id="btn-anonymous" style="padding-right: 1rem;">Login Anonymously</td>`}
-								${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td id="btn-google" style="padding-right: 1rem;">Login with Google</td>`}
-								${this.user ? `<td id="btn-logout" style="padding-right: 1rem;">Logout</td>` : `<td></td>`}
+								${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-anonymous">Login Anonymously</button></td>`}
+								${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-google">Login with Google</button></td>`}
+								${this.user ? `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-logout">Logout</button></td>` : `<td></td>`}
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
@@ -147,7 +147,7 @@ export default class ExcelLogin extends BaseComponent {
 		this.querySelector("#btn-anonymous")?.addEventListener("click", () => authService.loginAnonymously());
 		this.querySelector("#btn-google")?.addEventListener("click", () => authService.loginGoogle());
 		this.querySelector("#btn-logout")?.addEventListener("click", () => authService.logout());
-		this.querySelector("#join-form")?.addEventListener("submit", (e) => this.goToRoom(e));
+		this.querySelector("#form-join")?.addEventListener("submit", (e) => this.goToRoom(e));
 
 	}
 }
