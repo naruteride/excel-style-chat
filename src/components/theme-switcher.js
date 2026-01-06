@@ -8,12 +8,12 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 		// this.unsubscribe = null;
 	}
 
-	// connectedCallback() {
-	// 	this.render();
-	// 	this.unsubscribe = themeStore.subscribe((newTheme) => {
-	// 		this.value = newTheme.name;
-	// 	});
-	// }
+	connectedCallback() {
+		this.render();
+		// this.unsubscribe = themeStore.subscribe((newTheme) => {
+		// 	this.value = newTheme.name;
+		// });
+	}
 
 	// disconnectedCallback() {
 	// 	if (this.unsubscribe) {

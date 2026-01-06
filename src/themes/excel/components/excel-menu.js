@@ -1,6 +1,6 @@
 import ExcelIcon, { ExcelIconButton } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
-import ThemeSwitcher from "../../../components/theme-switcher.js";
+import ThemeSwitcher from "/src/components/theme-switcher.js";
 
 export default class ExcelMenu extends HTMLMenuElement {
 	constructor() {
