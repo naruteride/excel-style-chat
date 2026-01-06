@@ -5,26 +5,16 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 	constructor() {
 		super();
 		this.themes = ["excel", "vscode", "pdf", "figma", "notion"];
-		// this.unsubscribe = null;
 	}
 
 	connectedCallback() {
 		this.render();
-		// this.unsubscribe = themeStore.subscribe((newTheme) => {
-		// 	this.value = newTheme.name;
-		// });
 	}
-
-	// disconnectedCallback() {
-	// 	if (this.unsubscribe) {
-	// 		this.unsubscribe();
-	// 	}
-	// }
 
 	render() {
 		const style = this.getAttribute("style") || "";
-
-		this.style.cssText = `opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; appearance: none; ${style}`;
+		this.style.cssText = `opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${style}`;
+		this.id = "theme-switcher";
 
 		this.innerHTML = `
 			<!-- 테마 스위처를 인식함 -->
@@ -37,6 +27,15 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 
 		this.addEventListener("change", (e) => {
 			themeStore.setTheme(e.target.value);
+		});
+
+		// 접근성 요소: 탭키로 접근하면 보임
+		this.addEventListener("focus", () => {
+			this.style.opacity = "1";
+		});
+
+		this.addEventListener("blur", () => {
+			this.style.opacity = "0";
 		});
 	}
 }
