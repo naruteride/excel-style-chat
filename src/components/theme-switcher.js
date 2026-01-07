@@ -12,8 +12,10 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 	}
 
 	render() {
+		const isExcel = themeStore.currentTheme == "excel";
 		const style = this.getAttribute("style") || "";
-		this.style.cssText = `opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${style}`;
+
+		this.style.cssText = `position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${isExcel ? "opacity: 0;" : "top: 10px; right: 10px; bottom: unset; left: unset;"} ${style}`;
 		this.id = "theme-switcher";
 
 		this.innerHTML = `
@@ -29,14 +31,16 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 			themeStore.setTheme(e.target.value);
 		});
 
-		// 접근성 요소: 탭키로 접근하면 보임
-		this.addEventListener("focus", () => {
-			this.style.opacity = "1";
-		});
+		// 접근성 요소: 엑셀 테마일 때만 탭키로 접근하면 보임
+		if (isExcel) {
+			this.addEventListener("focus", () => {
+				this.style.opacity = "1";
+			});
 
-		this.addEventListener("blur", () => {
-			this.style.opacity = "0";
-		});
+			this.addEventListener("blur", () => {
+				this.style.opacity = "0";
+			});
+		}
 	}
 }
 
