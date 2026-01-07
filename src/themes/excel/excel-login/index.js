@@ -142,7 +142,7 @@ export default class ExcelLogin extends BaseComponent {
 					</table>
 				</form>
 			</main>
-        `;
+		`;
 
 		this.querySelector("#btn-anonymous")?.addEventListener("click", () => authService.loginAnonymously());
 		this.querySelector("#btn-google")?.addEventListener("click", () => authService.loginGoogle());
