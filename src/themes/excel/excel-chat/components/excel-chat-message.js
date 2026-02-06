@@ -84,12 +84,13 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 customElements.define("excel-chat-message", ExcelChatMessage, { extends: "tr" });
 
 function formatTimestamp(timestamp) {
+	timestamp = new Date(timestamp);
 	const yy = String(timestamp.getFullYear()).slice(-2);
 	const MM = String(timestamp.getMonth() + 1).padStart(2, '0');
 	const dd = String(timestamp.getDate()).padStart(2, '0');
 	const HH = String(timestamp.getHours()).padStart(2, '0');
 	const mm = String(timestamp.getMinutes()).padStart(2, '0');
-	const ss = String(date.getSeconds()).padStart(2, '0');
+	const ss = String(timestamp.getSeconds()).padStart(2, '0');
 
 	return `${yy}${MM}${dd}${HH}${mm}${ss}`;
 }
