@@ -45,7 +45,8 @@ export const chatService = {
 		return onSnapshot(q, (snapshot) => {
 			const messages = snapshot.docs.map(doc => ({
 				id: doc.id,
-				...doc.data()
+				...doc.data(),
+				timestamp: doc.data().timestamp.toDate()
 			}));
 			callback(messages);
 		});
