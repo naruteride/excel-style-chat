@@ -23,14 +23,12 @@ export const chatService = {
 		if (!text.trim()) return;
 
 		try {
-			await addDoc(collection(db, "messages"), {
-				room: roomName,
+			// Structure: chatRooms (col) -> roomName (doc) -> messages (subcol) -> message (doc)
+			await addDoc(collection(db, "chatRooms", roomName, "messages"), {
 				text: text,
 				uid: user.uid,
 				displayName: user.displayName || "Anonymous", // Fallback
 				timestamp: serverTimestamp(),
-				// Include explicit time string for easier rendering if needed, 
-				// but serverTimestamp is better for ordering.
 			});
 		} catch (e) {
 			console.error("Error sending message: ", e);
@@ -40,8 +38,7 @@ export const chatService = {
 
 	subscribeToRoom: (roomName, callback) => {
 		const q = query(
-			collection(db, "messages"),
-			where("room", "==", roomName),
+			collection(db, "chatRooms", roomName, "messages"),
 			orderBy("timestamp", "asc")
 		);
 
