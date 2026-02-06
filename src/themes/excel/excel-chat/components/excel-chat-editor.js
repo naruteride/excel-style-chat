@@ -38,9 +38,11 @@ export default class ExcelChatEditor extends HTMLElement {
 						<th style="padding-inline: 0.25em;">E</th>
 						<th style="padding-inline: 0.25em;">F</th>
 						<th style="padding-inline: 0.25em;">G</th>
+						<th style="padding-inline: 0.25em;">H</th>
 					</tr>
 					<tr style="font-weight: bold;">
 						<th style="min-width: 2.5em;">1</th>
+						<td style="padding-inline: 0.25em;">ID</td>
 						<td style="padding-inline: 0.25em;">업무(그룹)</td>
 						<td style="padding-inline: 0.25em;">채널</td>
 						<td style="padding-inline: 0.25em;">채널</td>
@@ -72,6 +74,7 @@ export default class ExcelChatEditor extends HTMLElement {
 			element.setAttribute("text", msg.text);
 			element.setAttribute("author", msg.displayName);
 			element.setAttribute("uid", msg.uid);
+			element.setAttribute("timestamp", msg.timestamp);
 			messageList.appendChild(element);
 		});
 		this.scrollTop = this.scrollHeight;

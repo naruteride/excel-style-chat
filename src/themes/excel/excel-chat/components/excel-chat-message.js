@@ -8,10 +8,11 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 	}
 
 	render() {
+		const index = this.getAttribute("index") || "0";
 		const text = this.getAttribute("text") || "";
 		const author = this.getAttribute("author") || "Unknown";
 		const uid = this.getAttribute("uid");
-		const index = this.getAttribute("index") || "0";
+		const timestamp = this.getAttribute("timestamp");
 		const currentUser = authService.getCurrentUser();
 		const isMe = currentUser && currentUser.uid == uid;
 
@@ -53,28 +54,43 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 		this.innerHTML = `
 			<!-- 1. Index -->
 			<th>${index}</th>
+
+			<!-- 2. ID (Timestamp) -->
+			<th>${formatTimestamp(timestamp)}</th>
 			
-			<!-- 2. Group -->
+			<!-- 3. Group -->
 			<td style="${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</td>
 			
-			<!-- 3. Channel (User Name) -->
+			<!-- 4. Channel (User Name) -->
 			<td style="padding-right: 1rem;">${author}</td>
 			
-			<!-- 4. Channel (Message) -->
+			<!-- 5. Channel (Message) -->
 			<td style="padding-right: 1rem; white-space: normal; word-break: keep-all;">${text}</td>
 			
-			<!-- 5. Task -->
+			<!-- 6. Task -->
 			<td style="padding-right: 1rem;">${taskStr}</td>
 			
-			<!-- 6. Duration -->
+			<!-- 7. Duration -->
 			<td style="padding-right: 1rem;">${duration}</td>
 			
-			<!-- 7. Month -->
+			<!-- 8. Month -->
 			<td style="text-align: center;">${month}</td>
 			
-			<!-- 8. Week -->
+			<!-- 9. Week -->
 			<td style="padding-right: 1rem;">${weekStr}</td>
 		`;
 	}
 }
 customElements.define("excel-chat-message", ExcelChatMessage, { extends: "tr" });
+
+function formatTimestamp(firestoreTimestamp) {
+	const date = firestoreTimestamp.toDate();
+	const yy = String(date.getFullYear()).slice(-2);
+	const MM = String(date.getMonth() + 1).padStart(2, '0');
+	const dd = String(date.getDate()).padStart(2, '0');
+	const HH = String(date.getHours()).padStart(2, '0');
+	const mm = String(date.getMinutes()).padStart(2, '0');
+	const ss = String(date.getSeconds()).padStart(2, '0');
+
+	return `${yy}${MM}${dd}${HH}${mm}${ss}`;
+}
