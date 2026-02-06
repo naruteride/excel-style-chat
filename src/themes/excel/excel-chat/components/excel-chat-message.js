@@ -56,7 +56,7 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 			<th>${index}</th>
 
 			<!-- 2. ID (Timestamp) -->
-			<th>${formatTimestamp(timestamp)}</th>
+			<td style="text-align: right;">${formatTimestamp(timestamp)}</td>
 			
 			<!-- 3. Group -->
 			<td style="${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</td>
