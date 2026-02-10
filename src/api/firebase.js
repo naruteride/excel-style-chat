@@ -23,11 +23,11 @@ export const chatService = {
 		if (!text.trim()) return;
 
 		try {
-			// Structure: chatRooms (col) -> roomName (doc) -> messages (subcol) -> message (doc)
+			// 구조: chatRooms (col) -> roomName (doc) -> messages (subcol) -> message (doc)
 			await addDoc(collection(db, "chatRooms", roomName, "messages"), {
 				text: text,
 				uid: user.uid,
-				displayName: user.displayName || "Anonymous", // Fallback
+				displayName: user.displayName || "Anonymous", // 폴백
 				timestamp: serverTimestamp(),
 			});
 		} catch (e) {

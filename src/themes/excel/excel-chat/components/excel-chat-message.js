@@ -16,35 +16,35 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 		const currentUser = authService.getCurrentUser();
 		const isMe = currentUser && currentUser.uid == uid;
 
-		// --- Fake Data Generation ---
+		// --- 가짜 데이터 생성 ---
 
-		// 1. Group: "컨텐츠", "기획", "개발", "" (High chance)
+		// 1. 업무(그룹): "컨텐츠", "기획", "개발", "" (공백은 높은 확률)
 		const groups = ["", "", "", "", "", "컨텐츠", "기획", "개발"];
 		const group = groups[Math.floor(Math.random() * groups.length)];
-		const isBoldGroup = group && Math.random() < 0.2; // Rare bold
+		const isBoldGroup = group && Math.random() < 0.2; // 가끔 bold
 
-		// 2. Tasks: 0~3 random items from set
+		// 2. 작업: 0~3개 랜덤
 		const taskOptions = ["기획", "UI/UX", "디자인", "프론트", "백엔드"];
-		const taskCount = Math.floor(Math.random() * 4); // 0 to 3
+		const taskCount = Math.floor(Math.random() * 4); // 0~3
 		const tasks = [];
 		for (let i = 0; i < taskCount; i++) {
 			tasks.push(taskOptions[Math.floor(Math.random() * taskOptions.length)]);
 		}
-		const taskStr = [...new Set(tasks)].join(", "); // Remove duplicates
+		const taskStr = [...new Set(tasks)].join(", "); // 중복 제거
 
-		// 3. Duration: 1/8 chance
+		// 3. 진행 소요일: 1/8 확률
 		const durationOptions = ["1일", "2일", "3일", "4일", "5일", "1주일", "2주일"];
 		let duration = "";
 		if (Math.random() < 0.125) {
 			duration = durationOptions[Math.floor(Math.random() * durationOptions.length)];
 		}
 
-		// 4. Month: Current Month
+		// 4. 월 구분: 현재 월
 		const month = new Date().getMonth() + 1 + "월";
 
-		// 5. Week: 0~2 items from 1~5 weeks
+		// 5. 진행 주: 1~5주 중 0~2개
 		const weekOptions = ["1주차", "2주차", "3주차", "4주차", "5주차"];
-		const weekCount = Math.floor(Math.random() * 3); // 0 to 2
+		const weekCount = Math.floor(Math.random() * 3); // 0~2
 		const weeks = [];
 		for (let i = 0; i < weekCount; i++) {
 			weeks.push(weekOptions[Math.floor(Math.random() * weekOptions.length)]);
@@ -58,25 +58,25 @@ export default class ExcelChatMessage extends HTMLTableRowElement {
 			<!-- 2. ID (Timestamp) -->
 			<td style="text-align: right;">${formatTimestamp(timestamp)}</td>
 			
-			<!-- 3. Group -->
+			<!-- 3. 업무(그룹) -->
 			<td style="${isBoldGroup ? 'font-weight: bold;' : ''}">${group}</td>
 			
-			<!-- 4. Channel (User Name) -->
+			<!-- 4. 채널 (유저 이름) -->
 			<td style="padding-right: 1rem;">${author}</td>
 			
-			<!-- 5. Channel (Message) -->
+			<!-- 5. 채널 (메시지) -->
 			<td style="padding-right: 1rem; white-space: normal; word-break: keep-all;">${text}</td>
 			
-			<!-- 6. Task -->
+			<!-- 6. 작업 -->
 			<td style="padding-right: 1rem;">${taskStr}</td>
 			
-			<!-- 7. Duration -->
+			<!-- 7. 진행 소요일 -->
 			<td style="padding-right: 1rem;">${duration}</td>
 			
-			<!-- 8. Month -->
+			<!-- 8. 월 구분 -->
 			<td style="text-align: center;">${month}</td>
 			
-			<!-- 9. Week -->
+			<!-- 9. 진행 주 -->
 			<td style="padding-right: 1rem;">${weekStr}</td>
 		`;
 	}
