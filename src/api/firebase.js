@@ -43,11 +43,14 @@ export const chatService = {
 		);
 
 		return onSnapshot(q, (snapshot) => {
-			const messages = snapshot.docs.map(doc => ({
-				id: doc.id,
-				...doc.data(),
-				timestamp: doc.data().timestamp.toDate()
-			}));
+			const messages = snapshot.docs.map(doc => {
+				const data = doc.data();
+				return {
+					id: doc.id,
+					...data,
+					timestamp: data.timestamp ? data.timestamp.toDate() : new Date()
+				};
+			});
 			callback(messages);
 		});
 	}
