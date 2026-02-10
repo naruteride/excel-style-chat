@@ -1,5 +1,5 @@
-import "./components/vscode-login.js";
-import "./components/vscode-chat.js";
+import "./vscode-login/index.js";
+import "./vscode-chat/index.js";
 
 export default {
 	name: "vscode",
