@@ -20,7 +20,7 @@ export default class ExcelMenu extends HTMLMenuElement {
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
-						<input value="${this.getAttribute("room")}" style="max-width: 24rem; text-overflow: ellipsis; font-size: 1.125rem; field-sizing: content; border: none; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
+						<input id="room-title-input" value="${this.getAttribute("room")}" style="max-width: 24rem; text-overflow: ellipsis; font-size: 1.125rem; field-sizing: content; border: none; border-radius: 0.25rem; padding: 0.063rem 0.375rem; background: transparent; color: #000000; font-variant-ligatures: no-contextual; height: 20px; line-height: 22px; white-space: nowrap;" />
 						
 						<!-- Star Icon -->
 						<button is="excel-icon-button" image-position-left="-202px" image-position-top="-2102px" style="width: 1.75rem; height: 1.75rem; padding: 0.25rem;"></button>
@@ -66,6 +66,10 @@ export default class ExcelMenu extends HTMLMenuElement {
 				<img src="//lh3.googleusercontent.com/a/ACg8ocJurJ724n294UpZHA1EukYYB2H7x5MFFOrW47W0rMAeFo6MzA=s50-c-k-no" style="width: 32px; height: 32px; border-radius: 50%; margin-left: 10px;">
 			</div>
 		`;
+
+		this.querySelector("#room-title-input")?.addEventListener("input", (e) => {
+			document.title = e.target.value;
+		});
 	}
 }
 
