@@ -1,21 +1,21 @@
 import "./excel-login/index.js";
 import "./excel-chat/index.js";
 
-// Inject Excel Theme CSS
+// 엑셀 테마 CSS 주입
 const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "/src/themes/excel/index.css";
-// Avoid duplicate injection
+// 중복 주입 방지
 if (!document.querySelector(`link[href="${link.href}"]`)) {
 	document.head.appendChild(link);
 }
 
 export default {
 	name: "excel",
-	// Defines which Custom Element tag to use for each route/view
+	// 각 라우트/뷰에 사용할 Custom Element 태그를 정의
 	views: {
 		login: "excel-login",
 		chat: "excel-chat",
 	},
-	// We can still keep shared props here if needed, but primarily now driven by components
+	// 필요한 경우 공유 속성을 여기에 유지할 수 있지만, 주로 컴포넌트에서 처리
 };
