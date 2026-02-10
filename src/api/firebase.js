@@ -48,7 +48,7 @@ export const chatService = {
 				return {
 					id: doc.id,
 					...data,
-					timestamp: data.timestamp ? data.timestamp.toDate() : new Date()
+					timestamp: data.timestamp ? data.timestamp.toDate() : serverTimestamp().toDate()
 				};
 			});
 			callback(messages);
