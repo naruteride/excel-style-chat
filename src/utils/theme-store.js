@@ -3,6 +3,7 @@ class ThemeStore {
 		this.listeners = [];
 		this.currentTheme = localStorage.getItem("stealth-chat-theme") || "excel";
 		this.themes = {};
+		this._updateFavicon(this.currentTheme);
 	}
 
 	// Register a theme object
@@ -23,7 +24,26 @@ class ThemeStore {
 
 		this.currentTheme = themeName;
 		localStorage.setItem("stealth-chat-theme", themeName);
+		this._updateFavicon(themeName);
 		this.notify();
+	}
+
+	_updateFavicon(themeName) {
+		const link = document.querySelector("link[rel*='icon']") || document.createElement("link");
+		link.type = "image/x-icon";
+		link.rel = "shortcut icon";
+		if (!link.parentNode) {
+			document.head.appendChild(link);
+		}
+
+		if (themeName == "excel") {
+			link.href = "/public/spreadsheets_2023q4.ico";
+			document.title = "최종 로직 정리_0903_쿠폰TEST번호.xlsx";
+		} else {
+			// Default or empty for other themes to be stealthy or generic
+			link.href = "data:,";
+			document.title = "Home"; // Fallback title
+		}
 	}
 
 	subscribe(listener) {
