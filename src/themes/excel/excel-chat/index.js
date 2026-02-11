@@ -30,4 +30,3 @@ export default class ExcelChat extends BaseComponent {
 }
 
 customElements.define("excel-chat", ExcelChat);
-

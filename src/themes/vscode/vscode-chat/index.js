@@ -12,7 +12,7 @@ export default class VscodeChat extends BaseComponent {
 	}
 
 	render() {
-		this.style.cssText = "width: 100%; height: 100%;";
+		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
 			<vscode-split-view-container></vscode-split-view-container>
 		`;

@@ -13,6 +13,7 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 
 	render() {
 		const isExcel = themeStore.currentTheme == "excel";
+		const isVscode = themeStore.currentTheme == "vscode";
 		const style = this.getAttribute("style") || "";
 
 		this.style.cssText = `position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${isExcel ? "opacity: 0;" : "top: 10px; right: 10px; bottom: unset; left: unset;"} ${style}`;
