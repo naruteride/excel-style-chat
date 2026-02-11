@@ -9,7 +9,7 @@ export default class VscodePartBanner extends HTMLElement {
 
 	render() {
 		this.id = "workbench.parts.banner";
-		this.classList.add("part banner");
+		this.classList.add("part", "banner");
 		this.setAttribute("role", "banner");
 		this.setAttribute("tabindex", "0");
 		this.setAttribute("data-keybinding-context", "2");
