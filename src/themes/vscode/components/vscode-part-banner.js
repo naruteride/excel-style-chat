@@ -3,6 +3,10 @@ export default class VscodePartBanner extends HTMLElement {
 		super();
 	}
 
+	connectedCallback() {
+		this.render();
+	}
+
 	render() {
 		this.id = "workbench.parts.banner";
 		this.classList.add("part banner");
