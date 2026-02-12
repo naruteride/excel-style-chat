@@ -10205,7 +10205,7 @@ div.preview.inline .monaco-editor .comment-range-glyph {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 16px;
-	background-image: url(../../media/code-icon.svg);
+	background-image: url(./images/code-icon.svg);
 	width: 16px;
 	padding: 0;
 	margin: 0 6px 0 10px
@@ -31128,7 +31128,7 @@ div.simple-find-part-wrapper div.button:hover:not(.disabled) {
 
 .file-icons-enabled .show-file-icons .vscode_getting_started_page-name-file-icon.file-icon:before {
 	content: " ";
-	background-image: url(../../media/code-icon.svg)
+	background-image: url(./images/code-icon.svg)
 }
 
 .monaco-workbench .part.editor>.content .gettingStartedContainer {
@@ -32303,7 +32303,7 @@ blockquote[data-severity]>p>:first-child .codicon {
 
 .file-icons-enabled .show-file-icons .webview-vs_code_release_notes-name-file-icon.file-icon:before {
 	content: " ";
-	background-image: url(../../media/code-icon.svg)
+	background-image: url(./images/code-icon.svg)
 }
 
 .agentSessionsWelcome {
@@ -32905,7 +32905,7 @@ blockquote[data-severity]>p>:first-child .codicon {
 
 .file-icons-enabled .show-file-icons .vs_code_editor_walkthrough\.md-name-file-icon.md-ext-file-icon.ext-file-icon.markdown-lang-file-icon.file-icon:before {
 	content: " ";
-	background-image: url(../../media/code-icon.svg)
+	background-image: url(./images/code-icon.svg)
 }
 
 .monaco-workbench .part.editor>.content .walkThroughContent .mac-only,
@@ -35068,7 +35068,7 @@ body {
 }
 
 .monaco-workbench .part.titlebar>.titlebar-container>.titlebar-left>.window-appicon:not(.codicon) {
-	background-image: url(../../media/code-icon.svg);
+	background-image: url(./images/code-icon.svg);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 16px
