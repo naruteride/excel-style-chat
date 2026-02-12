@@ -2379,7 +2379,7 @@
 @font-face {
 	font-family: codicon;
 	font-display: block;
-	src: url(../../media/codicon.ttf?5d4d76ab2ce5108968ad644d591a16a6) format("truetype")
+	src: url(/public/codicon.ttf) format("truetype")
 }
 
 .codicon[class*=codicon-] {
