@@ -1,7 +1,7 @@
 import BaseComponent from "../../../components/base-component.js";
 import router from "/src/utils/router.js";
 import { authService } from "/src/api/firebase.js";
-import VscodeSplitViewContainer from "../components/vscode-split-view-container.js";
+import VscodeMonacoWorkbench from "../components/vscode-monaco-workbench.js";
 
 export default class VscodeLogin extends BaseComponent {
 	constructor() {
@@ -28,7 +28,7 @@ export default class VscodeLogin extends BaseComponent {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<vscode-split-view-container></vscode-split-view-container>
+			<vscode-monaco-workbench></vscode-monaco-workbench>
 		`;
 	}
 }

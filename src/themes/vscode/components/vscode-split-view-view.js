@@ -9,7 +9,7 @@ export default class VscodeSplitViewView extends HTMLElement {
 
 	render() {
 		this.classList.add("split-view-view");
-		this.style.cssText = this.getAttribute("style") || "";
+		this.style.cssText = `display: block; ${this.getAttribute("style") || ""}`;
 	}
 }
 

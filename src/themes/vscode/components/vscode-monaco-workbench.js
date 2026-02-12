@@ -3,7 +3,7 @@ import VscodePartBanner from "./vscode-part-banner.js";
 import VscodePartTitlebar from "./vscode-part-titlebar.js";
 import VscodePartStatusbar from "./vscode-part-statusbar.js";
 
-export default class VscodeSplitViewContainer extends HTMLElement {
+export default class VscodeMonacoWorkbench extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -14,7 +14,7 @@ export default class VscodeSplitViewContainer extends HTMLElement {
 
 	render() {
 		this.classList.add("monaco-enable-motion", "monaco-workbench", "windows", "web", "chromium", "nopanel", "noauxiliarybar", "file-icons-enabled", "vs-dark", "vscode-theme-defaults-themes-dark_plus-json");
-		this.style.cssText = "width: 100%; height: 100%;";
+		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
 			<div class="split-view-container" style="overflow: hidden;">
 				<vscode-split-view-view style="top: 0px; height: 26px;">
@@ -37,4 +37,4 @@ export default class VscodeSplitViewContainer extends HTMLElement {
 	}
 }
 
-customElements.define("vscode-split-view-container", VscodeSplitViewContainer);
+customElements.define("vscode-monaco-workbench", VscodeMonacoWorkbench);

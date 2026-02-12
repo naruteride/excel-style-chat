@@ -1,5 +1,5 @@
 import BaseComponent from "../../../components/base-component.js";
-import VscodeSplitViewContainer from "../components/vscode-split-view-container.js";
+import VscodeMonacoWorkbench from "../components/vscode-monaco-workbench.js";
 
 export default class VscodeChat extends BaseComponent {
 	constructor() {
@@ -14,7 +14,7 @@ export default class VscodeChat extends BaseComponent {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<vscode-split-view-container></vscode-split-view-container>
+			<vscode-monaco-workbench></vscode-monaco-workbench>
 		`;
 	}
 }
