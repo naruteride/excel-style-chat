@@ -9,7 +9,14 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 	}
 
 	connectedCallback() {
+		// 쉐도우 돔 형식으로 진행하려 했는데, 그러면 글로벌 CSS 영향을 받지 못 해서 그냥 라이트 돔으로 진행함.
+		// 렌더링 전 자식 엘리먼트들을 저장
+		const children = Array.from(this.childNodes);
+
 		this.render();
+
+		// 렌더링 후 자식 엘리먼트들을 slot에 추가
+		this.querySelector(".slot").replaceWith(...children);
 	}
 
 	render() {
@@ -27,7 +34,7 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 				</vscode-split-view-view>
 
 				<vscode-split-view-view style="top: 61px; height: ${window.innerHeight - 83}px;">
-					<slot></slot>
+					<div class="slot"></div>
 				</vscode-split-view-view>
 
 				<vscode-split-view-view style="top: ${window.innerHeight - 22}px; height: 22px;">
