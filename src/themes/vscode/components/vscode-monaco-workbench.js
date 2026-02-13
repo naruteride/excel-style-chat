@@ -24,7 +24,7 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 
 		this.innerHTML = `
-			<div class="split-view-container" style="overflow: hidden;">
+			<div class="split-view-container" style="overflow: hidden; height: 100%;">
 				<vscode-split-view-view style="top: 0px; height: 26px;">
 					<vscode-part-banner></vscode-part-banner>
 				</vscode-split-view-view>
@@ -33,11 +33,11 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 					<vscode-part-titlebar></vscode-part-titlebar>
 				</vscode-split-view-view>
 
-				<vscode-split-view-view style="top: 61px; height: ${window.innerHeight - 83}px;">
+				<vscode-split-view-view style="top: 61px; height: calc(100% - 83px);">
 					<div class="slot"></div>
 				</vscode-split-view-view>
 
-				<vscode-split-view-view style="top: ${window.innerHeight - 22}px; height: 22px;">
+				<vscode-split-view-view style="top: calc(100% - 22px); height: 22px;">
 					<footer is="vscode-part-statusbar"></footer>
 				</vscode-split-view-view>
 			</div>
