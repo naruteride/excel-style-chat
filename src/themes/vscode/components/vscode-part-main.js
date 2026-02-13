@@ -1114,7 +1114,9 @@ export default class VscodePartMain extends HTMLElement {
 																														</p>
 																														<p class="telemetry-notice">
 																															<div class="rendered-markdown">
-																																Code은(는) 사용량 현황 데이터를 수집합니다. <a href="" title="command:workbench.action.openPrivacyStatementUrl" draggable="false" data-href="command:workbench.action.openPrivacyStatementUrl">개인정보처리방침</a>을(를) 읽고 <a href="" title="command:settings.filterByTelemetry" draggable="false" data-href="command:settings.filterByTelemetry">옵트아웃</a> 방법을 알아봅니다.
+																																<p>
+																																	Code은(는) 사용량 현황 데이터를 수집합니다. <a href="" title="command:workbench.action.openPrivacyStatementUrl" draggable="false" data-href="command:workbench.action.openPrivacyStatementUrl">개인정보처리방침</a>을(를) 읽고 <a href="" title="command:settings.filterByTelemetry" draggable="false" data-href="command:settings.filterByTelemetry">옵트아웃</a> 방법을 알아봅니다.
+																																</p>
 																															</div>
 																														</p>
 																													</div>
