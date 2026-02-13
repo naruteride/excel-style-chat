@@ -2,6 +2,7 @@ import BaseComponent from "../../../components/base-component.js";
 import router from "/src/utils/router.js";
 import { authService } from "/src/api/firebase.js";
 import VscodeMonacoWorkbench from "../components/vscode-monaco-workbench.js";
+import VscodePartMain from "../components/vscode-part-main.js";
 
 export default class VscodeLogin extends BaseComponent {
 	constructor() {
@@ -29,7 +30,7 @@ export default class VscodeLogin extends BaseComponent {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
 			<vscode-monaco-workbench>
-				<h1>child element of login page</h1>
+				<vscode-part-main></vscode-part-main>
 			</vscode-monaco-workbench>
 		`;
 	}

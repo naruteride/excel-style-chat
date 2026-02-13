@@ -1,5 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import VscodeMonacoWorkbench from "../components/vscode-monaco-workbench.js";
+import VscodePartMain from "../components/vscode-part-main.js";
 
 export default class VscodeChat extends BaseComponent {
 	constructor() {
@@ -15,7 +16,7 @@ export default class VscodeChat extends BaseComponent {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
 			<vscode-monaco-workbench>
-				<h1>child element of chat page</h1>
+				<vscode-part-main></vscode-part-main>
 			</vscode-monaco-workbench>
 		`;
 	}
