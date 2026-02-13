@@ -23,8 +23,8 @@ export default class StealthApp extends BaseComponent {
 		this.innerHTML = "";
 
 		// Add Theme Switcher (visible unless excel theme)
-		if (this.theme.name != "excel") {
-			const switcher = document.createElement("theme-switcher");
+		if (this.theme.name != "excel" && this.theme.name != "vscode") {
+			const switcher = document.createElement("select", { is: "theme-switcher" });
 			this.appendChild(switcher);
 		}
 
