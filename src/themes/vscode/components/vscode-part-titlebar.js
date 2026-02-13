@@ -1,3 +1,5 @@
+import ThemeSwitcher from "/src/components/theme-switcher.js";
+
 export default class VscodePartTitlebar extends HTMLElement {
 	constructor() {
 		super();
@@ -30,7 +32,7 @@ export default class VscodePartTitlebar extends HTMLElement {
                                         <li class="action-item disabled menu-entry" role="presentation" custom-hover="true">
                                             <a class="action-label disabled codicon codicon-arrow-right" role="button" aria-label="앞으로 이동 (&lt;Alt&gt;+RightArrow)" aria-disabled="true" tabindex="-1"></a>
                                         </li>
-                                        <li class="action-item command-center-center" role="presentation" custom-hover="true" tabindex="-1">
+                                        <li style="position: relative;" class="action-item command-center-center" role="presentation" custom-hover="true" tabindex="-1">
                                             <div class="monaco-toolbar">
                                                 <div class="monaco-action-bar">
                                                     <ul class="actions-container" role="toolbar">
@@ -41,6 +43,7 @@ export default class VscodePartTitlebar extends HTMLElement {
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <select is="theme-switcher"></select>
                                         </li>
                                     </ul>
                                 </div>
