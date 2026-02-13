@@ -15,6 +15,7 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 	render() {
 		this.classList.add("monaco-enable-motion", "monaco-workbench", "windows", "web", "chromium", "nopanel", "noauxiliarybar", "file-icons-enabled", "vs-dark", "vscode-theme-defaults-themes-dark_plus-json");
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
+
 		this.innerHTML = `
 			<div class="split-view-container" style="overflow: hidden;">
 				<vscode-split-view-view style="top: 0px; height: 26px;">
@@ -26,7 +27,7 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 				</vscode-split-view-view>
 
 				<vscode-split-view-view style="top: 61px; height: ${window.innerHeight - 83}px;">
-					
+					<slot></slot>
 				</vscode-split-view-view>
 
 				<vscode-split-view-view style="top: ${window.innerHeight - 22}px; height: 22px;">

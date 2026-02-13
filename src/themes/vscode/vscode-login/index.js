@@ -28,7 +28,9 @@ export default class VscodeLogin extends BaseComponent {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<vscode-monaco-workbench></vscode-monaco-workbench>
+			<vscode-monaco-workbench>
+				<h1>child element of login page</h1>
+			</vscode-monaco-workbench>
 		`;
 	}
 }

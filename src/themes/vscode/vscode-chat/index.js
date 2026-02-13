@@ -14,7 +14,9 @@ export default class VscodeChat extends BaseComponent {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<vscode-monaco-workbench></vscode-monaco-workbench>
+			<vscode-monaco-workbench>
+				<h1>child element of chat page</h1>
+			</vscode-monaco-workbench>
 		`;
 	}
 }
