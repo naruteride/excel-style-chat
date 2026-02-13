@@ -14,7 +14,6 @@ export default class VscodePartTitlebar extends HTMLElement {
 		this.style.cssText = "background-color: rgb(31, 31, 31); color: rgb(157, 157, 157); border-bottom: 1px solid rgb(43, 43, 43); --zoom-factor: 1; width: 100%; height: 35px;";
 		this.innerHTML = `
 			<div class="titlebar-container has-center">
-                <div class="titlebar-drag-region"></div>
                 <div class="titlebar-left">
                     <a class="window-appicon"></a>
                     <div class="window-controls-container"></div>
