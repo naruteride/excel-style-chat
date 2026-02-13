@@ -1,17 +1,9 @@
 import "./excel-login/index.js";
 import "./excel-chat/index.js";
 
-// 엑셀 테마 CSS 주입
-const link = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "/src/themes/excel/index.css";
-// 중복 주입 방지
-if (!document.querySelector(`link[href="${link.href}"]`)) {
-	document.head.appendChild(link);
-}
-
 export default {
 	name: "excel",
+	css: ["/src/themes/excel/index.css"],
 	// 각 라우트/뷰에 사용할 Custom Element 태그를 정의
 	views: {
 		login: "excel-login",

@@ -1,29 +1,13 @@
 import "./vscode-login/index.js";
 import "./vscode-chat/index.js";
 
-// vscode 테마 CSS 주입
-const link = document.createElement("link");
-const link2 = document.createElement("link");
-const link3 = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "/src/themes/vscode/index.css";
-link2.rel = "stylesheet";
-link2.href = "/src/themes/vscode/workbench.web.main.internal.css";
-link3.rel = "stylesheet";
-link3.href = "/src/themes/vscode/codicon-styles.css";
-// 중복 주입 방지
-if (!document.querySelector(`link[href="${link.href}"]`)) {
-	document.head.appendChild(link);
-}
-if (!document.querySelector(`link[href="${link2.href}"]`)) {
-	document.head.appendChild(link2);
-}
-if (!document.querySelector(`link[href="${link3.href}"]`)) {
-	document.head.appendChild(link3);
-}
-
 export default {
 	name: "vscode",
+	css: [
+		"/src/themes/vscode/index.css",
+		"/src/themes/vscode/workbench.web.main.internal.css",
+		"/src/themes/vscode/codicon-styles.css"
+	],
 	// 각 라우트/뷰에 사용할 커스텀 엘리먼트 태그를 정의
 	views: {
 		login: "vscode-login",
