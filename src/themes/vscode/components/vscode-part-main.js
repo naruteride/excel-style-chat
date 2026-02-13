@@ -1107,48 +1107,18 @@ export default class VscodePartMain extends HTMLElement {
 																															</div>
 																														</div>
 																													</div>
-																													<div
-																														class="footer">
-																														<p class="showOnStartup"></p>
-																														<div
-																															class="monaco-custom-toggle codicon codicon-check getting-started-checkbox checked"
-																															tabindex="0"
-																															role="checkbox"
-																															aria-checked="true"
-																															aria-label="선택하면 시작 시 이 페이지가 표시됩니다."
-																															id="showOnStartup"
-																															style="border-color: var(--vscode-inputOption-activeBorder); color: var(--vscode-inputOption-activeForeground); background-color: var(--vscode-inputOption-activeBackground);"></div>
-																														<label
-																															class="caption"
-																															for="showOnStartup">시작
-																															시
-																															시작
-																															페이지
-																															표시</label>
-																														<p></p>
-																														<p class="telemetry-notice"></p>
-																														<div
-																															class="rendered-markdown">
-																															<p>
-																																Code은(는)
-																																사용량
-																																현황
-																																데이터를
-																																수집합니다.
-																																<a href=""
-																																   title="command:workbench.action.openPrivacyStatementUrl"
-																																   draggable="false"
-																																   data-href="command:workbench.action.openPrivacyStatementUrl">개인정보처리방침</a>을(를)
-																																읽고
-																																<a href=""
-																																   title="command:settings.filterByTelemetry"
-																																   draggable="false"
-																																   data-href="command:settings.filterByTelemetry">옵트아웃</a>
-																																방법을
-																																알아봅니다.
-																															</p>
-																														</div>
-																														<p></p>
+																													<div class="footer">
+																														<p class="showOnStartup">
+																															<div class="monaco-custom-toggle codicon codicon-check getting-started-checkbox checked" tabindex="0" role="checkbox" aria-checked="true" aria-label="선택하면 시작 시 이 페이지가 표시됩니다." id="showOnStartup" style="border-color: var(--vscode-inputOption-activeBorder); color: var(--vscode-inputOption-activeForeground); background-color: var(--vscode-inputOption-activeBackground);"></div>
+																															<label class="caption" for="showOnStartup">시작 시 시작 페이지 표시</label>
+																														</p>
+																														<p class="telemetry-notice">
+																															<div class="rendered-markdown">
+																																<p>
+																																	Code은(는) 사용량 현황 데이터를 수집합니다. <a href="" title="command:workbench.action.openPrivacyStatementUrl" draggable="false" data-href="command:workbench.action.openPrivacyStatementUrl">개인정보처리방침</a>을(를) 읽고 <a href="" title="command:settings.filterByTelemetry" draggable="false" data-href="command:settings.filterByTelemetry">옵트아웃</a> 방법을 알아봅니다.
+																																</p>
+																															</div>
+																														</p>
 																													</div>
 																												</div>
 																											</div>
