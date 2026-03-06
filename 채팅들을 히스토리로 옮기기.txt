@@ -1,0 +1,61 @@
+// Firefoo 서드파티 앱 활용
+
+async function run() {
+  const sourceCollection = "chatRooms/asdf/messages";
+  const destCollection = "chatRooms/asdf/histories";
+
+  // 1. 이동할 문서들 조회
+  console.log("문서를 조회하는 중...");
+  const querySnapshot = await db.collection(sourceCollection)
+    .where("timestamp", "<", admin.firestore.Timestamp.fromMillis(1772290800451))
+    .orderBy("timestamp", "asc")
+    .limit(10000)
+    .get();
+
+  if (querySnapshot.empty) {
+    console.log("이동할 문서가 없습니다.");
+    return;
+  }
+
+  console.log(`총 ${querySnapshot.size}개의 문서를 찾았습니다. 이동을 시작합니다...`);
+
+  let batch = db.batch();
+  let operationCount = 0;
+  let batchCount = 0;
+  let movedDocsCount = 0;
+
+  // 2. 조회한 문서들을 순회하며 Batch에 작업 추가
+  for (const doc of querySnapshot.docs) {
+    // 새 컬렉션의 문서 참조 생성 (기존 문서 ID를 그대로 유지)
+    const destDocRef = db.collection(destCollection).doc(doc.id);
+
+    // 새 위치에 데이터 쓰기 작업 추가
+    batch.set(destDocRef, doc.data());
+    // 기존 위치에서 데이터 삭제 작업 추가
+    batch.delete(doc.ref);
+
+    // 문서 1개 이동 시 2개의 작업(set, delete)이 발생
+    operationCount += 2;
+    movedDocsCount++;
+
+    // Firestore Batch 작업 한도인 500개에 도달하기 전에 커밋 (안전을 위해 498개로 설정)
+    if (operationCount >= 498) {
+      await batch.commit();
+      batchCount++;
+      console.log(`배치 ${batchCount} 커밋 완료 (현재까지 ${movedDocsCount}개 문서 이동됨)`);
+      
+      // Batch 초기화
+      batch = db.batch();
+      operationCount = 0;
+    }
+  }
+
+  // 3. 루프 종료 후 남은 작업이 있다면 마지막으로 커밋
+  if (operationCount > 0) {
+    await batch.commit();
+    batchCount++;
+    console.log(`마지막 배치 ${batchCount} 커밋 완료 (총 ${movedDocsCount}개 문서 이동됨)`);
+  }
+
+  console.log("모든 문서 이동이 성공적으로 완료되었습니다!");
+}
