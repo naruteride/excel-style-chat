@@ -6,8 +6,12 @@ async function run() {
 
   // 1. 이동할 문서들 조회
   console.log("문서를 조회하는 중...");
+
+  // 2026년 3월 12일 00:00:00 (KST 기준)
+  const targetDate = new Date("2026-03-12T00:00:00+09:00");
+
   const querySnapshot = await db.collection(sourceCollection)
-    .where("timestamp", "<", admin.firestore.Timestamp.fromMillis(1772290800451))
+    .where("timestamp", "<", admin.firestore.Timestamp.fromDate(targetDate))
     .orderBy("timestamp", "asc")
     .limit(10000)
     .get();
