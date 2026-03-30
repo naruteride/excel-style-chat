@@ -1,4 +1,14 @@
-// Firefoo 서드파티 앱 활용
+// 구글 클라우드 콘솔 활용: https://console.cloud.google.com/welcome?project=excel-style-chat&cloudshell=true
+// 패키지 설치: `npm install firebase-admin`
+
+const admin = require('firebase-admin');
+
+// Cloud Shell 기본 자격 증명으로 Admin SDK 초기화
+admin.initializeApp({
+  credential: admin.credential.applicationDefault()
+});
+
+const db = admin.firestore();
 
 async function run() {
   const sourceCollection = "chatRooms/asdf/messages";
@@ -8,7 +18,7 @@ async function run() {
   console.log("문서를 조회하는 중...");
 
   // 2026년 3월 12일 00:00:00 (KST 기준)
-  const targetDate = new Date("2026-03-12T00:00:00+09:00");
+  const targetDate = new Date("2026-03-30T00:00:00+09:00");
 
   const querySnapshot = await db.collection(sourceCollection)
     .where("timestamp", "<", admin.firestore.Timestamp.fromDate(targetDate))
@@ -47,7 +57,7 @@ async function run() {
       await batch.commit();
       batchCount++;
       console.log(`배치 ${batchCount} 커밋 완료 (현재까지 ${movedDocsCount}개 문서 이동됨)`);
-      
+
       // Batch 초기화
       batch = db.batch();
       operationCount = 0;
@@ -63,3 +73,5 @@ async function run() {
 
   console.log("모든 문서 이동이 성공적으로 완료되었습니다!");
 }
+
+run().catch(console.error);
