@@ -1,4 +1,4 @@
-export default class NotionMenu extends HTMLMenuElement {
+export default class NotionMenu extends HTMLElement {
     constructor() {
         super();
     }
@@ -14,4 +14,4 @@ export default class NotionMenu extends HTMLMenuElement {
     }
 }
 
-customElements.define("notion-menu", NotionMenu, { extends: "menu" });
+customElements.define("notion-menu", NotionMenu);

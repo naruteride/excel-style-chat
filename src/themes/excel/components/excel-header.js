@@ -15,7 +15,7 @@ export default class ExcelHeader extends HTMLElement {
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; background: #f9fbfd; border-bottom: 1px solid #f9fbfd; margin-bottom: -1px; white-space: nowrap; overflow: hidden;";
 		this.innerHTML = `
 			<!-- Menu -->
-			<menu is="excel-menu" room="${this.getAttribute("room")}"></menu>
+			<excel-menu room="${this.getAttribute("room")}"></excel-menu>
 
 			<!-- Toolbar -->
 			<excel-toolbar></excel-toolbar>
@@ -26,4 +26,4 @@ export default class ExcelHeader extends HTMLElement {
 	}
 }
 
-customElements.define("excel-header", ExcelHeader, { extends: "header" });
+customElements.define("excel-header", ExcelHeader);

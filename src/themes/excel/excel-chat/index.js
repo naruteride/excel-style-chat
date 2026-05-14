@@ -18,10 +18,10 @@ export default class ExcelChat extends BaseComponent {
 		// Excel Editor Layout
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<header is="excel-header" room="${this.roomName}"></header>
+			<excel-header room="${this.roomName}"></excel-header>
 
 			<!-- Editor Area (Messages) -->
-			<main is="excel-chat-editor" room="${this.roomName}"></main>
+			<excel-chat-editor room="${this.roomName}"></excel-chat-editor>
 
 			<!-- Terminal / Input Area -->
 			<excel-chat-input room="${this.roomName}"></excel-chat-input>

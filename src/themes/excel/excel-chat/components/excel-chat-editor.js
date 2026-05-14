@@ -1,6 +1,5 @@
 import { chatService } from "/src/api/firebase.js";
-import ExcelChatMessage from "./excel-chat-message.js";
-import ExcelTable, { ExcelThead, ExcelCrossedTh } from "../../components/excel-table.js";
+import createExcelChatMessageRow from "./excel-chat-message.js";
 
 export default class ExcelChatEditor extends HTMLElement {
 	constructor() {
@@ -25,12 +24,12 @@ export default class ExcelChatEditor extends HTMLElement {
 	}
 
 	render() {
-		this.style.cssText = "flex: 1; overflow: auto;";
+		this.style.cssText = "display: block; flex: 1; overflow: auto;";
 		this.innerHTML = `
-			<table is="excel-table">
-				<thead is="excel-thead">
+			<table class="excel-table">
+				<thead class="excel-thead">
 					<tr>
-						<th is="excel-crossed-th"></th>
+						<th class="excel-crossed-th"></th>
 						<th style="padding-inline: 0.25em;">A</th>
 						<th style="padding-inline: 0.25em;">B</th>
 						<th style="padding-inline: 0.25em;">C</th>
@@ -65,20 +64,20 @@ export default class ExcelChatEditor extends HTMLElement {
 		let currentIndex = 2;
 
 		this.messages.forEach(msg => {
-			const element = document.createElement("tr", { is: "excel-chat-message" });
-
-			element.setAttribute("index", currentIndex);
+			const element = createExcelChatMessageRow({
+				index: currentIndex,
+				text: msg.text,
+				author: msg.displayName,
+				uid: msg.uid,
+				timestamp: msg.timestamp,
+			});
 			currentIndex += 1;
 			if (currentIndex > 999) currentIndex = 2;
 
-			element.setAttribute("text", msg.text);
-			element.setAttribute("author", msg.displayName);
-			element.setAttribute("uid", msg.uid);
-			element.setAttribute("timestamp", msg.timestamp);
 			messageList.appendChild(element);
 		});
 		this.scrollTop = this.scrollHeight;
 	}
 }
 
-customElements.define("excel-chat-editor", ExcelChatEditor, { extends: "main" });
+customElements.define("excel-chat-editor", ExcelChatEditor);

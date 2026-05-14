@@ -17,7 +17,7 @@ export default class ExcelFormulaBar extends HTMLElement {
 				<span style="flex: 1; padding: 0.125rem 0.5rem; text-align: left;">C93</span>
 				<excel-dropdown-icon style="margin: 0.5rem;"></excel-dropdown-icon>
 			</button>
-			<hr is="excel-formula-bar-hr">
+			<hr class="excel-formula-bar-hr">
 			<div id="excel-formula-bar-separator" style="flex: 1; display: flex; align-items: center;">
 				<div id="t-formula-bar-label" style="width: 35px; display: flex; justify-content: center; align-items: center; opacity: 0.55;">
 					<excel-icon image-position-left="-746px" image-position-top="-1396px" style="width: 1.125rem; height: 1.125rem;"></excel-icon>
@@ -32,18 +32,3 @@ export default class ExcelFormulaBar extends HTMLElement {
 }
 
 customElements.define("excel-formula-bar", ExcelFormulaBar);
-
-class ExcelFormulaBarHr extends HTMLHRElement {
-	constructor() {
-		super();
-	}
-
-	connectedCallback() {
-		this.render();
-	}
-
-	render() {
-		this.style.cssText = "border: rgb(199, 199, 199) 1px solid; border-right: 0; margin-block: 0; width: 0; height: 17px;";
-	}
-}
-customElements.define("excel-formula-bar-hr", ExcelFormulaBarHr, { extends: "hr" });

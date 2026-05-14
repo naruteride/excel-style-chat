@@ -14,7 +14,7 @@ export default class VscodePartStatusbar extends HTMLElement {
 		this.setAttribute("aria-live", "off");
 		this.setAttribute("data-keybinding-context", "5");
 		this.setAttribute("tabindex", "0");
-		this.style.cssText = "background-color: rgb(0, 122, 204); color: rgb(255, 255, 255); width: 100%; height: 22px;";
+		this.style.cssText = "display: block; background-color: rgb(0, 122, 204); color: rgb(255, 255, 255); width: 100%; height: 22px;";
 		this.innerHTML = `
 			<div class="left-items items-container">
 				<div class="statusbar-item left first-visible-item" id="status.host" aria-label="remote" custom-hover="true">
@@ -66,4 +66,4 @@ export default class VscodePartStatusbar extends HTMLElement {
 	}
 }
 
-customElements.define("vscode-part-statusbar", VscodePartStatusbar, {extends: "footer"});
+customElements.define("vscode-part-statusbar", VscodePartStatusbar);

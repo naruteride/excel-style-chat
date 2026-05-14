@@ -14,4 +14,4 @@ export default class NotionPath extends HTMLElement {
 	}
 }
 
-customElements.define("notion-path", NotionPath, { extends: "nav" });
+customElements.define("notion-path", NotionPath);

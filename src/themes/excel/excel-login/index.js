@@ -2,7 +2,6 @@ import BaseComponent from "/src/components/base-component.js";
 import router from "/src/utils/router.js";
 import { authService } from "/src/api/firebase.js";
 import ExcelHeader from "../components/excel-header.js";
-import ExcelTable, { ExcelThead, ExcelCrossedTh } from "../components/excel-table.js";
 
 export default class ExcelLogin extends BaseComponent {
 	constructor() {
@@ -30,14 +29,14 @@ export default class ExcelLogin extends BaseComponent {
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 
 		this.innerHTML = `
-			<header is="excel-header" room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></header>
+			<excel-header room="Final logic summary_0903_couponTEST.xlsx"></excel-header>
 
 			<main style="flex: 1; overflow: auto;">
 				<form id="form-join" style="display: contents;">
-					<table is="excel-table">
-						<thead is="excel-thead">
+					<table class="excel-table">
+						<thead class="excel-thead">
 							<tr>
-								<th is="excel-crossed-th"></th>
+								<th class="excel-crossed-th"></th>
 								<th style="padding-inline: 0.25em;">A</th>
 								<th style="padding-inline: 0.25em;">B</th>
 								<th style="padding-inline: 0.25em;">C</th>
@@ -50,9 +49,9 @@ export default class ExcelLogin extends BaseComponent {
 						<tbody>
 							<tr>
 								<th>1</th>
-								${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-anonymous">Login Anonymously</button></td>`}
-								${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-google">Login with Google</button></td>`}
-								${this.user ? `<td style="padding-right: 1rem;"><button is="excel-no-style-button" id="btn-logout">Logout</button></td>` : `<td></td>`}
+								${this.user ? `<td style="padding-right: 1rem;">Logged in as</td>` : `<td style="padding-right: 1rem;"><button type="button" class="excel-no-style-button" id="btn-anonymous">Login Anonymously</button></td>`}
+								${this.user ? `<td style="padding-right: 1rem;">${this.user.displayName || "Anonymous"}</td>` : `<td style="padding-right: 1rem;"><button type="button" class="excel-no-style-button" id="btn-google">Login with Google</button></td>`}
+								${this.user ? `<td style="padding-right: 1rem;"><button type="button" class="excel-no-style-button" id="btn-logout">Logout</button></td>` : `<td></td>`}
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
 								<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
@@ -62,82 +61,24 @@ export default class ExcelLogin extends BaseComponent {
 								<th>2</th>
 								<td style="padding-right: 1rem;">Workspace</td>
 								<td><input type="text" id="room-input" placeholder="e.g. project-alpha" style="padding: 0; background: transparent; border: none; width: 100%; height: 100%;" /></td>
-								<td style="padding-right: 1rem;"><button is="excel-no-style-button" type="submit">Open Workspace</button></td>
+								<td style="padding-right: 1rem;"><button type="submit" class="excel-no-style-button">Open Workspace</button></td>
 								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
-							<tr>
-								<th>3</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>4</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>5</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>6</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>7</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>8</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>9</th>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+							${Array.from({ length: 7 }, (_, index) => `
+								<tr>
+									<th>${index + 3}</th>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							`).join("")}
 						</tbody>
 					</table>
 				</form>
@@ -148,17 +89,7 @@ export default class ExcelLogin extends BaseComponent {
 		this.querySelector("#btn-google")?.addEventListener("click", () => authService.loginGoogle());
 		this.querySelector("#btn-logout")?.addEventListener("click", () => authService.logout());
 		this.querySelector("#form-join")?.addEventListener("submit", (e) => this.goToRoom(e));
-
 	}
 }
 
 customElements.define("excel-login", ExcelLogin);
-
-class ExcelNoStyleButton extends HTMLButtonElement {
-	constructor() {
-		super();
-		this.type = this.getAttribute("type") || "button";
-		this.style.cssText = "width: 100%; height: 100%; text-align: inherit; color: inherit; font: inherit;";
-	}
-}
-customElements.define("excel-no-style-button", ExcelNoStyleButton, { extends: "button" });

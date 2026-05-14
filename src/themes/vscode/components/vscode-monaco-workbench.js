@@ -38,7 +38,7 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 				</vscode-split-view-view>
 
 				<vscode-split-view-view style="top: calc(100% - 22px); height: 22px;">
-					<footer is="vscode-part-statusbar"></footer>
+					<vscode-part-statusbar></vscode-part-statusbar>
 				</vscode-split-view-view>
 			</div>
 		`;

@@ -43,7 +43,7 @@ export default class VscodePartTitlebar extends HTMLElement {
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <select is="theme-switcher"></select>
+                                            <theme-switcher></theme-switcher>
                                         </li>
                                     </ul>
                                 </div>

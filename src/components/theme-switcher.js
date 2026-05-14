@@ -1,7 +1,6 @@
-import BaseComponent from "./base-component.js";
 import themeStore from "../utils/theme-store.js";
 
-export default class ThemeSwitcher extends HTMLSelectElement {
+export default class ThemeSwitcher extends HTMLElement {
 	constructor() {
 		super();
 		this.themes = ["excel", "vscode", "pdf", "figma", "notion"];
@@ -12,37 +11,38 @@ export default class ThemeSwitcher extends HTMLSelectElement {
 	}
 
 	render() {
-		const isExcel = themeStore.currentTheme == "excel";
-		const isVscode = themeStore.currentTheme == "vscode";
+		const isOverlay = themeStore.currentTheme == "excel" || themeStore.currentTheme == "vscode";
 		const style = this.getAttribute("style") || "";
 
-		this.style.cssText = `position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${isExcel || isVscode ? "opacity: 0;" : "top: 10px; right: 10px; bottom: unset; left: unset;"} ${style}`;
 		this.id = "theme-switcher";
-
+		this.style.cssText = `position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 100; ${isOverlay ? "" : "top: 10px; right: 10px; bottom: unset; left: unset;"} ${style}`;
 		this.innerHTML = `
-			<!-- 테마 스위처를 인식함 -->
-			${this.themes.map(theme => `
-				<option value="${theme}" ${theme == themeStore.currentTheme ? "selected" : ""}>
-					${theme.toUpperCase()}
-				</option>
-			`).join("")}
+			<select aria-label="Theme">
+				${this.themes.map(theme => `
+					<option value="${theme}" ${theme == themeStore.currentTheme ? "selected" : ""}>
+						${theme.toUpperCase()}
+					</option>
+				`).join("")}
+			</select>
 		`;
 
-		this.addEventListener("change", (e) => {
+		const select = this.querySelector("select");
+		select.style.cssText = `width: 100%; height: 100%; ${isOverlay ? "opacity: 0;" : ""}`;
+
+		select.addEventListener("change", (e) => {
 			themeStore.setTheme(e.target.value);
 		});
 
-		// 접근성 요소: 엑셀 테마일 때만 탭키로 접근하면 보임
-		if (isExcel || isVscode) {
-			this.addEventListener("focus", () => {
-				this.style.opacity = "1";
+		if (isOverlay) {
+			select.addEventListener("focus", () => {
+				select.style.opacity = "1";
 			});
 
-			this.addEventListener("blur", () => {
-				this.style.opacity = "0";
+			select.addEventListener("blur", () => {
+				select.style.opacity = "0";
 			});
 		}
 	}
 }
 
-customElements.define("theme-switcher", ThemeSwitcher, { extends: "select" });
+customElements.define("theme-switcher", ThemeSwitcher);
