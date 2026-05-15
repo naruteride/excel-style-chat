@@ -8,13 +8,55 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+let authReadyPromise = null;
+let authReady = false;
+let anonymousLoginPromise = null;
+
+const waitForInitialAuthState = () => {
+	if (authReadyPromise) return authReadyPromise;
+
+	authReadyPromise = new Promise((resolve, reject) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			authReady = true;
+			unsubscribe();
+			resolve(user);
+		}, (error) => {
+			authReadyPromise = null;
+			unsubscribe();
+			reject(error);
+		});
+	});
+
+	return authReadyPromise;
+};
+
 // Auth Service
 export const authService = {
 	loginAnonymously: () => signInAnonymously(auth),
 	loginGoogle: () => signInWithPopup(auth, new GoogleAuthProvider()),
 	logout: () => signOut(auth),
 	onUserChange: (callback) => onAuthStateChanged(auth, callback),
-	getCurrentUser: () => auth.currentUser
+	getCurrentUser: () => auth.currentUser,
+	ensureAnonymousUser: async () => {
+		if (auth.currentUser) return auth.currentUser;
+
+		if (!authReady) {
+			const initialUser = await waitForInitialAuthState();
+			if (initialUser) return initialUser;
+		}
+
+		if (auth.currentUser) return auth.currentUser;
+
+		if (!anonymousLoginPromise) {
+			anonymousLoginPromise = signInAnonymously(auth)
+				.then((credential) => credential.user)
+				.finally(() => {
+					anonymousLoginPromise = null;
+				});
+		}
+
+		return anonymousLoginPromise;
+	}
 };
 
 // Chat Service

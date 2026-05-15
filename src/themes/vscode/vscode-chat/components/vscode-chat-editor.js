@@ -257,15 +257,22 @@ export default class VscodeChatEditor extends HTMLElement {
 		const text = input?.value.trim();
 		if (!text) return;
 
-		const user = authService.getCurrentUser();
-		if (!user) {
-			alert("Please login first!");
+		let user;
+		try {
+			user = await authService.ensureAnonymousUser();
+		} catch (error) {
+			console.error("Unable to sign in anonymously: ", error);
+			alert("Unable to join anonymously. Please try again.");
 			return;
 		}
 
-		await chatService.sendMessage(this.roomName, text, user);
-		input.value = "";
-		input.focus();
+		try {
+			await chatService.sendMessage(this.roomName, text, user);
+			input.value = "";
+			input.focus();
+		} catch (error) {
+			console.error("Unable to send message: ", error);
+		}
 	}
 
 	updateMessageList() {

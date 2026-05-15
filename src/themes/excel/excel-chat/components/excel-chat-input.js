@@ -15,16 +15,25 @@ export default class ExcelChatInput extends HTMLElement {
 			</form>`;
 
 		const input = this.querySelector("#msg-input");
-		const sendMessage = () => {
+		const sendMessage = async () => {
 			const text = input.value;
-			const user = authService.getCurrentUser();
 			const roomName = this.getAttribute("room");
+			if (!text.trim() || !roomName) return;
 
-			if (text && user && roomName) {
-				chatService.sendMessage(roomName, text, user);
+			let user;
+			try {
+				user = await authService.ensureAnonymousUser();
+			} catch (error) {
+				console.error("Unable to sign in anonymously: ", error);
+				alert("Unable to join anonymously. Please try again.");
+				return;
+			}
+
+			try {
+				await chatService.sendMessage(roomName, text, user);
 				input.value = "";
-			} else if (!user) {
-				alert("로그인 후에 사용해주세요.");
+			} catch (error) {
+				console.error("Unable to send message: ", error);
 			}
 		};
 

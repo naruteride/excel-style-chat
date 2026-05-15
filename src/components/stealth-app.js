@@ -2,6 +2,7 @@ import BaseComponent from "./base-component.js";
 import ThemeSwitcher from "./theme-switcher.js";
 import LoginView from "./login-view.js";
 import ChatRoom from "./chat-room.js";
+import { authService } from "../api/firebase.js";
 
 export default class StealthApp extends BaseComponent {
 	constructor() {
@@ -33,6 +34,10 @@ export default class StealthApp extends BaseComponent {
 			const loginView = document.createElement(tagName);
 			this.appendChild(loginView);
 		} else {
+			authService.ensureAnonymousUser().catch((error) => {
+				console.error("Unable to sign in anonymously: ", error);
+			});
+
 			const tagName = this.theme.views?.chat || "chat-room";
 			const chatRoom = document.createElement(tagName);
 			chatRoom.setAttribute("room", this.currentRoom);

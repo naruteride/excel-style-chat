@@ -53,15 +53,24 @@ export default class ChatRoom extends BaseComponent {
 		const btnSend = this.querySelector("#btn-send");
 		const input = this.querySelector("#msg-input");
 
-		const sendMessage = () => {
+		const sendMessage = async () => {
 			const text = input.value;
-			const user = authService.getCurrentUser();
-			if (text && user) {
-				chatService.sendMessage(this.roomName, text, user);
+			if (!text.trim() || !this.roomName) return;
+
+			let user;
+			try {
+				user = await authService.ensureAnonymousUser();
+			} catch (error) {
+				console.error("Unable to sign in anonymously: ", error);
+				alert("Unable to join anonymously. Please try again.");
+				return;
+			}
+
+			try {
+				await chatService.sendMessage(this.roomName, text, user);
 				input.value = "";
-			} else if (!user) {
-				alert("Please login first!");
-				// Optionally redirect or show login
+			} catch (error) {
+				console.error("Unable to send message: ", error);
 			}
 		};
 
