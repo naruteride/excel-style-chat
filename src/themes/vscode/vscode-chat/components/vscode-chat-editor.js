@@ -41,7 +41,7 @@ export default class VscodeChatEditor extends HTMLElement {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<div class="vscode-markdown-editor" role="textbox" aria-label="daily-log.md" aria-multiline="true">
+			<div class="vscode-markdown-editor" role="textbox" aria-label="daily-log.md" aria-multiline="true" style="scrollbar-width: thin;">
 				<div class="vscode-editor-lines" id="message-list"></div>
 				<form class="vscode-editor-input-line" id="form-input">
 					<span class="vscode-line-number" id="input-line-number">1</span>
