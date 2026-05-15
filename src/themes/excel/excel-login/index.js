@@ -29,7 +29,7 @@ export default class ExcelLogin extends BaseComponent {
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 
 		this.innerHTML = `
-			<excel-header room="Final logic summary_0903_couponTEST.xlsx"></excel-header>
+			<excel-header room="최종 로직 정리_0903_쿠폰TEST번호.xlsx"></excel-header>
 
 			<main style="flex: 1; overflow: auto;">
 				<form id="form-join" style="display: contents;">

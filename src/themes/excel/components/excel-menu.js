@@ -2,7 +2,7 @@ import { renderIconButtons } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 import ThemeSwitcher from "/src/components/theme-switcher.js";
 
-const menuLabels = ["File", "Edit", "View", "Insert", "Format", "Data", "Tools", "Extensions", "Help"];
+const menuLabels = ["파일", "수정", "보기", "삽입", "서식", "데이터", "도구", "확장 프로그램", "도움말"];
 
 export default class ExcelMenu extends HTMLElement {
 	constructor() {
@@ -47,7 +47,7 @@ export default class ExcelMenu extends HTMLElement {
 						Share
 					</button>
 					<button type="button" tabindex="-1" style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
-						<excel-dropdown-icon></excel-dropdown-icon>
+						&nbsp;<excel-dropdown-icon></excel-dropdown-icon>
 					</button>
 					<theme-switcher></theme-switcher>
 				</div>
