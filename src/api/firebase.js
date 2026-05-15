@@ -65,11 +65,13 @@ export const chatService = {
 		if (!text.trim()) return;
 
 		try {
+			const sender = user || await authService.ensureAnonymousUser();
+
 			// 구조: chatRooms (col) -> roomName (doc) -> messages (subcol) -> message (doc)
 			await addDoc(collection(db, "chatRooms", roomName, "messages"), {
 				text: text,
-				uid: user.uid,
-				displayName: user.displayName || "Anonymous", // 폴백
+				uid: sender.uid,
+				displayName: sender.displayName || "Anonymous", // 폴백
 				timestamp: serverTimestamp(),
 			});
 		} catch (e) {

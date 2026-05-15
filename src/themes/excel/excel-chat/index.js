@@ -1,5 +1,4 @@
 import BaseComponent from "../../../components/base-component.js";
-import { chatService, authService } from "../../../api/firebase.js";
 import ExcelHeader from "../components/excel-header.js";
 import ExcelChatEditor from "./components/excel-chat-editor.js";
 import ExcelChatInput from "./components/excel-chat-input.js";

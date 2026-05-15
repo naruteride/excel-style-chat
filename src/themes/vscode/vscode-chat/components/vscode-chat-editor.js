@@ -1,4 +1,4 @@
-import { authService, chatService } from "/src/api/firebase.js";
+import { chatService } from "/src/api/firebase.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -257,21 +257,13 @@ export default class VscodeChatEditor extends HTMLElement {
 		const text = input?.value.trim();
 		if (!text) return;
 
-		let user;
 		try {
-			user = await authService.ensureAnonymousUser();
-		} catch (error) {
-			console.error("Unable to sign in anonymously: ", error);
-			alert("Unable to join anonymously. Please try again.");
-			return;
-		}
-
-		try {
-			await chatService.sendMessage(this.roomName, text, user);
+			await chatService.sendMessage(this.roomName, text);
 			input.value = "";
 			input.focus();
 		} catch (error) {
 			console.error("Unable to send message: ", error);
+			alert("Unable to send message. Please try again.");
 		}
 	}
 

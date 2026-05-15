@@ -1,5 +1,5 @@
 import BaseComponent from "./base-component.js";
-import { chatService, authService } from "../api/firebase.js";
+import { chatService } from "../api/firebase.js";
 import "./chat-message.js";
 
 export default class ChatRoom extends BaseComponent {
@@ -57,20 +57,12 @@ export default class ChatRoom extends BaseComponent {
 			const text = input.value;
 			if (!text.trim() || !this.roomName) return;
 
-			let user;
 			try {
-				user = await authService.ensureAnonymousUser();
-			} catch (error) {
-				console.error("Unable to sign in anonymously: ", error);
-				alert("Unable to join anonymously. Please try again.");
-				return;
-			}
-
-			try {
-				await chatService.sendMessage(this.roomName, text, user);
+				await chatService.sendMessage(this.roomName, text);
 				input.value = "";
 			} catch (error) {
 				console.error("Unable to send message: ", error);
+				alert("Unable to send message. Please try again.");
 			}
 		};
 

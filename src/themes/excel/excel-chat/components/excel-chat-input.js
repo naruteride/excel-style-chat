@@ -1,4 +1,4 @@
-import { authService, chatService } from "/src/api/firebase.js";
+import { chatService } from "/src/api/firebase.js";
 
 export default class ExcelChatInput extends HTMLElement {
 	connectedCallback() {
@@ -20,20 +20,12 @@ export default class ExcelChatInput extends HTMLElement {
 			const roomName = this.getAttribute("room");
 			if (!text.trim() || !roomName) return;
 
-			let user;
 			try {
-				user = await authService.ensureAnonymousUser();
-			} catch (error) {
-				console.error("Unable to sign in anonymously: ", error);
-				alert("Unable to join anonymously. Please try again.");
-				return;
-			}
-
-			try {
-				await chatService.sendMessage(roomName, text, user);
+				await chatService.sendMessage(roomName, text);
 				input.value = "";
 			} catch (error) {
 				console.error("Unable to send message: ", error);
+				alert("Unable to send message. Please try again.");
 			}
 		};
 
