@@ -33,32 +33,28 @@ const toLineCommentText = (value) => String(value ?? "")
 
 const toBlockCommentText = (value) => toLineCommentText(value).replaceAll("*/", "* /");
 
-const hashIdentifier = (value) => {
-	const hash = Array.from(String(value ?? "")).reduce((result, char) => {
-		return ((result * 31) + char.charCodeAt(0)) >>> 0;
-	}, 0);
-	return hash.toString(36).toUpperCase();
-};
+const toDisplayName = (value) => String(value ?? "").trim() || "Anonymous";
 
-const toIdentifierPart = (value, fallback = "anonymous") => {
-	const raw = String(value ?? "");
+const toIdentifierPart = (value) => {
+	const raw = toDisplayName(value);
 	const normalized = raw
-		.normalize("NFKD")
-		.replace(/[^\w]+/g, " ")
+		.normalize("NFKC")
+		.replace(/[^\p{L}\p{N}_$]+/gu, " ")
 		.trim()
 		.split(/\s+/)
 		.filter(Boolean)
 		.map((part) => part[0].toUpperCase() + part.slice(1))
 		.join("");
 
-	const identifier = normalized || (raw ? `User${hashIdentifier(raw)}` : fallback[0].toUpperCase() + fallback.slice(1));
-	return /^[A-Za-z_$]/u.test(identifier) ? identifier : `User${identifier}`;
+	const identifier = normalized || "Anonymous";
+	return /^[$_\p{L}]/u.test(identifier) ? identifier : `_${identifier}`;
 };
 
 const renderJsLine = (segments) => segments.map(([className, value]) => token(className, value)).join("");
 
 const renderMessageLines = (message, index) => {
-	const author = toIdentifierPart(message.displayName, "anonymous");
+	const authorName = toDisplayName(message.displayName);
+	const author = toIdentifierPart(authorName);
 	const timeToken = formatTimeToken(message.timestamp);
 	const text = message.text;
 	const variant = index % 8;
@@ -94,7 +90,7 @@ const renderMessageLines = (message, index) => {
 				["vscode-token-operator", "."],
 				["vscode-token-function", "has"],
 				["", "("],
-				["vscode-token-string", JSON.stringify(author)],
+				["vscode-token-string", JSON.stringify(authorName)],
 				["", ")) {"],
 			]),
 			renderJsLine([
@@ -134,7 +130,7 @@ const renderMessageLines = (message, index) => {
 				["vscode-token-keyword", "await"],
 				["", " "],
 				["vscode-token-function", "flushQueue"],
-				["", `(${author.length}, payload${author});`],
+				["", `(${authorName.length}, payload${author});`],
 			]),
 			"}"
 		);
@@ -183,7 +179,7 @@ const renderMessageLines = (message, index) => {
 				["", "\t"],
 				["vscode-token-property", "owner"],
 				["", ": "],
-				["vscode-token-string", JSON.stringify(author)],
+				["vscode-token-string", JSON.stringify(authorName)],
 				["", ","],
 			]),
 			renderJsLine([
@@ -197,7 +193,7 @@ const renderMessageLines = (message, index) => {
 		);
 	} else if (variant == 5) {
 		lines.push(
-			jsComment(`// TODO(${author}:${timeToken}) ${toLineCommentText(text)}`)
+			jsComment(`// TODO(${authorName}:${timeToken}) ${toLineCommentText(text)}`)
 		);
 	} else if (variant == 6) {
 		lines.push(
@@ -206,7 +202,7 @@ const renderMessageLines = (message, index) => {
 	} else {
 		lines.push(
 			jsComment("/*"),
-			jsComment(` * rollback${author}${timeToken}: ${toBlockCommentText(text)}`),
+			jsComment(` * rollback ${authorName} ${timeToken}: ${toBlockCommentText(text)}`),
 			jsComment(` * console.log(${JSON.stringify(String(text ?? ""))});`),
 			jsComment(" */")
 		);
