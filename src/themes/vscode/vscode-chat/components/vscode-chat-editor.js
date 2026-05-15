@@ -169,7 +169,7 @@ const renderMessageLines = (message, index) => {
 			]),
 			"}"
 		);
-	} else {
+	} else if (variant == 4) {
 		lines.push(
 			renderJsLine([
 				["vscode-token-keyword", "const"],
