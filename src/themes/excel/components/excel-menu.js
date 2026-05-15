@@ -44,7 +44,7 @@ export default class ExcelMenu extends HTMLElement {
 				<div id="share-buttons" style="position: relative; display: flex; align-items: center; gap: 0.063rem;">
 					<button type="button" tabindex="-1" style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; color: rgb(0, 29, 53); border: none; border-radius: 100px; border-bottom-right-radius: 0; border-top-right-radius: 0; padding: 10px 8px 10px 16px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
 						<excel-icon image="sprite-24.svg" image-position-left="-0px" image-position-top="-236px" style="width: 1.125rem; height: 1.125rem;"></excel-icon>
-						Share
+						공유
 					</button>
 					<button type="button" tabindex="-1" style="line-height: 20px; font-size: 0.875rem; background: #c2e7ff; border: none; padding: 10px 16px 10px 8px; border-radius: 100px; border-bottom-left-radius: 0; border-top-left-radius: 0; cursor: pointer; display: flex; align-items: center;">
 						&nbsp;<excel-dropdown-icon></excel-dropdown-icon>
