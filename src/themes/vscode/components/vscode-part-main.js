@@ -106,7 +106,7 @@ export default class VscodePartMain extends HTMLElement {
 	renderSidebar(isChat, roomName) {
 		return `
 			<div class="split-view-view visible" style="left: 48px; width: 300px;">
-				<div class="part sidebar left pane-composite-part" id="workbench.parts.sidebar" role="none" style="background-color: rgb(37, 37, 38); outline-color: rgba(83, 89, 93, 0.5);">
+				<div class="part sidebar left pane-composite-part" id="workbench.parts.sidebar" role="none" style="background-color: rgb(37, 37, 38); outline-color: rgba(83, 89, 93, 0.5); height: 100%;">
 					<div class="composite title has-actions">
 						<div class="title-label">
 							<h2 custom-hover="true" draggable="true" style="color: rgb(187, 187, 187);">Explorer</h2>
@@ -128,8 +128,8 @@ export default class VscodePartMain extends HTMLElement {
 						</div>
 					</div>
 					<div class="content vscode-sidebar-content">
-						<div class="composite viewlet explorer-viewlet" id="workbench.view.explorer">
-							<div class="pane expanded vertical">
+						<div class="composite viewlet explorer-viewlet" id="workbench.view.explorer" style="display: flex; flex-direction: column;">
+							<div class="pane expanded vertical" style="flex: 1;">
 								<div class="pane-header expanded" tabindex="0" role="button" aria-label="${isChat ? roomName : "No folder opened"} section" aria-expanded="true" style="line-height: 22px; color: var(--vscode-sideBarSectionHeader-foreground); background-color: var(--vscode-sideBarSectionHeader-background); border-top: 1px solid var(--vscode-sideBarSectionHeader-border);">
 									<div class="twisty-container codicon-view-pane-container-expanded codicon"></div>
 									<h3 class="title">${isChat ? roomName.toUpperCase() : "NO FOLDER OPENED"}</h3>
