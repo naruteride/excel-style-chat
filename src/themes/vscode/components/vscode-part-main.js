@@ -182,8 +182,8 @@ export default class VscodePartMain extends HTMLElement {
 					<span>${roomName}</span>
 				</div>
 				<div class="vscode-file-row file-row selected" role="treeitem" aria-selected="true">
-					<span class="codicon codicon-markdown"></span>
-					<span>daily-log.md</span>
+					<span class="codicon codicon-file-code"></span>
+					<span>automation.js</span>
 				</div>
 				<div class="vscode-file-row file-row" role="treeitem">
 					<span class="codicon codicon-json"></span>
@@ -216,8 +216,8 @@ export default class VscodePartMain extends HTMLElement {
 	}
 
 	renderTabs(isChat) {
-		const label = isChat ? "daily-log.md" : "Start";
-		const iconClass = isChat ? "markdown-name-file-icon" : "vscode_getting_started_page-name-file-icon";
+		const label = isChat ? "automation.js" : "Start";
+		const iconClass = isChat ? "js-name-file-icon" : "vscode_getting_started_page-name-file-icon";
 
 		return `
 			<div class="title tabs show-file-icons" style="--editor-group-tab-height: 35px; background-color: rgb(37, 37, 38);">

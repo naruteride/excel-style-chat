@@ -15,6 +15,187 @@ const formatTimestamp = (timestamp) => {
 	return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 };
 
+const formatTimeToken = (timestamp) => {
+	const value = formatTimestamp(timestamp).replaceAll(":", "");
+	return /^\d+$/u.test(value) ? value : "000000";
+};
+
+const token = (className, value) => {
+	const content = escapeHtml(value);
+	return className ? `<span class="${className}">${content}</span>` : `<span>${content}</span>`;
+};
+
+const jsComment = (value) => token("vscode-token-comment", value);
+
+const hashIdentifier = (value) => {
+	const hash = Array.from(String(value ?? "")).reduce((result, char) => {
+		return ((result * 31) + char.charCodeAt(0)) >>> 0;
+	}, 0);
+	return hash.toString(36).toUpperCase();
+};
+
+const toIdentifierPart = (value, fallback = "anonymous") => {
+	const raw = String(value ?? "");
+	const normalized = raw
+		.normalize("NFKD")
+		.replace(/[^\w]+/g, " ")
+		.trim()
+		.split(/\s+/)
+		.filter(Boolean)
+		.map((part) => part[0].toUpperCase() + part.slice(1))
+		.join("");
+
+	const identifier = normalized || (raw ? `User${hashIdentifier(raw)}` : fallback[0].toUpperCase() + fallback.slice(1));
+	return /^[A-Za-z_$]/u.test(identifier) ? identifier : `User${identifier}`;
+};
+
+const renderJsLine = (segments) => segments.map(([className, value]) => token(className, value)).join("");
+
+const renderMessageLines = (message, index) => {
+	const author = toIdentifierPart(message.displayName, "anonymous");
+	const timeToken = formatTimeToken(message.timestamp);
+	const timeLabel = formatTimestamp(message.timestamp);
+	const text = message.text;
+	const variant = index % 5;
+	const lines = [jsComment(`// checkpoint ${author} ${timeLabel}`)];
+
+	if (variant == 0) {
+		lines.push(
+			renderJsLine([
+				["vscode-token-keyword", "async"],
+				["", " "],
+				["vscode-token-keyword", "function"],
+				["", " "],
+				["vscode-token-function", `sync${author}State${timeToken}`],
+				["", "() {"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-property", "console"],
+				["vscode-token-operator", "."],
+				["vscode-token-function", "log"],
+				["", "("],
+				["vscode-token-string", JSON.stringify(String(text ?? ""))],
+				["", ");"],
+			]),
+			"}"
+		);
+	} else if (variant == 1) {
+		lines.push(
+			renderJsLine([
+				["vscode-token-keyword", "if"],
+				["", " ("],
+				["vscode-token-property", "queue"],
+				["vscode-token-operator", "."],
+				["vscode-token-function", "has"],
+				["", "("],
+				["vscode-token-string", JSON.stringify(author)],
+				["", ")) {"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-keyword", "throw"],
+				["", " "],
+				["vscode-token-keyword", "new"],
+				["", " "],
+				["vscode-token-function", "Error"],
+				["", "("],
+				["vscode-token-string", JSON.stringify(String(text ?? ""))],
+				["", ");"],
+			]),
+			"}"
+		);
+	} else if (variant == 2) {
+		lines.push(
+			renderJsLine([
+				["vscode-token-keyword", "for"],
+				["", " ("],
+				["vscode-token-keyword", "let"],
+				["", ` retry${timeToken} = `],
+				["vscode-token-number", "0"],
+				["", `; retry${timeToken} < `],
+				["vscode-token-number", "1"],
+				["", `; retry${timeToken}++) {`],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-keyword", "const"],
+				["", ` payload${author} = `],
+				["vscode-token-string", JSON.stringify(String(text ?? ""))],
+				["", ";"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-keyword", "await"],
+				["", " "],
+				["vscode-token-function", "flushQueue"],
+				["", `(${author.length}, payload${author});`],
+			]),
+			"}"
+		);
+	} else if (variant == 3) {
+		lines.push(
+			renderJsLine([
+				["vscode-token-keyword", "try"],
+				["", " {"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-keyword", "await"],
+				["", " "],
+				["vscode-token-function", "runTask"],
+				["", "("],
+				["vscode-token-string", JSON.stringify(`task:${timeToken}`)],
+				["", ", () => "],
+				["vscode-token-string", JSON.stringify(String(text ?? ""))],
+				["", ");"],
+			]),
+			renderJsLine([
+				["", "} "],
+				["vscode-token-keyword", "catch"],
+				["", " (error) {"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-property", "console"],
+				["vscode-token-operator", "."],
+				["vscode-token-function", "warn"],
+				["", "(error.message);"],
+			]),
+			"}"
+		);
+	} else {
+		lines.push(
+			renderJsLine([
+				["vscode-token-keyword", "const"],
+				["", ` snapshot${author}${timeToken} = `],
+				["vscode-token-function", "Object"],
+				["vscode-token-operator", "."],
+				["vscode-token-function", "freeze"],
+				["", "({"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-property", "owner"],
+				["", ": "],
+				["vscode-token-string", JSON.stringify(author)],
+				["", ","],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-property", "reason"],
+				["", ": "],
+				["vscode-token-string", JSON.stringify(String(text ?? ""))],
+				["", ","],
+			]),
+			"});"
+		);
+	}
+
+	lines.push("");
+	return lines;
+};
+
 export default class VscodeChatEditor extends HTMLElement {
 	constructor() {
 		super();
@@ -41,12 +222,11 @@ export default class VscodeChatEditor extends HTMLElement {
 	render() {
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<div class="vscode-markdown-editor" role="textbox" aria-label="daily-log.md" aria-multiline="true" style="scrollbar-width: thin;">
+			<div class="vscode-code-editor" role="textbox" aria-label="automation.js" aria-multiline="true" style="scrollbar-width: thin;">
 				<div class="vscode-editor-lines" id="message-list"></div>
 				<form class="vscode-editor-input-line" id="form-input">
 					<span class="vscode-line-number" id="input-line-number">1</span>
-					<span class="vscode-token-comment">//</span>
-					<input id="message-input" autocomplete="off" aria-label="Append daily note" placeholder="append daily note" />
+					<span class="vscode-token-property">console</span><span class="vscode-token-operator">.</span><span class="vscode-token-function">log</span><span>(</span><span class="vscode-token-string">"</span><input id="message-input" autocomplete="off" aria-label="Append runtime log" placeholder="append runtime log" /><span class="vscode-token-string">"</span><span>);</span>
 				</form>
 			</div>
 		`;
@@ -77,35 +257,63 @@ export default class VscodeChatEditor extends HTMLElement {
 		if (!messageList) return;
 
 		const lines = [
-			{
-				className: "vscode-line-content vscode-token-heading",
-				content: `# ${escapeHtml(this.roomName || "workspace")} daily log`,
-			},
-			{
-				className: "vscode-line-content vscode-token-comment",
-				content: "<!-- meeting notes are appended below -->",
-			},
-			{
-				className: "vscode-line-content",
-				content: "",
-			},
-			...this.messages.map((message) => ({
-				className: "vscode-line-content",
-				content: `<span class="vscode-token-list">-</span> <span class="vscode-token-time">[${formatTimestamp(message.timestamp)}]</span> <span class="vscode-token-author">${escapeHtml(message.displayName || "Anonymous")}</span>: ${escapeHtml(message.text)}`,
-			})),
+			renderJsLine([
+				["vscode-token-keyword", "import"],
+				["", " "],
+				["vscode-token-property", "fs"],
+				["", " "],
+				["vscode-token-keyword", "from"],
+				["", " "],
+				["vscode-token-string", "\"node:fs/promises\""],
+				["", ";"],
+			]),
+			renderJsLine([
+				["vscode-token-keyword", "const"],
+				["", " WORKSPACE_ID = "],
+				["vscode-token-string", JSON.stringify(String(this.roomName || "workspace"))],
+				["", ";"],
+			]),
+			renderJsLine([
+				["vscode-token-keyword", "const"],
+				["", " SHORT_TIMEOUT = "],
+				["vscode-token-number", "5_000"],
+				["", ";"],
+			]),
+			"",
+			renderJsLine([
+				["vscode-token-keyword", "export"],
+				["", " "],
+				["vscode-token-keyword", "async"],
+				["", " "],
+				["vscode-token-keyword", "function"],
+				["", " "],
+				["vscode-token-function", "runAutomationFlow"],
+				["", "({ signal, log }) {"],
+			]),
+			renderJsLine([
+				["", "\t"],
+				["vscode-token-keyword", "const"],
+				["", " queue = "],
+				["vscode-token-keyword", "new"],
+				["", " "],
+				["vscode-token-function", "Set"],
+				["", "();"],
+			]),
+			...this.messages.flatMap(renderMessageLines).map((line) => line ? `\t${line}` : ""),
+			"}",
 		];
 
 		messageList.innerHTML = lines.map((line, index) => `
 			<div class="vscode-editor-line">
 				<span class="vscode-line-number">${index + 1}</span>
-				<span class="${line.className}">${line.content}</span>
+				<span class="vscode-line-content">${line}</span>
 			</div>
 		`).join("");
 
 		const inputLineNumber = this.querySelector("#input-line-number");
 		if (inputLineNumber) inputLineNumber.textContent = String(lines.length + 1);
 
-		const editor = this.querySelector(".vscode-markdown-editor");
+		const editor = this.querySelector(".vscode-code-editor");
 		editor?.scrollTo({ top: editor.scrollHeight });
 	}
 }

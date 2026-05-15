@@ -2996,7 +2996,8 @@ body {
 	color: var(--vscode-descriptionForeground, #9d9d9d);
 }
 
-.vscode-markdown-editor {
+.vscode-markdown-editor,
+.vscode-code-editor {
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
@@ -3017,7 +3018,7 @@ body {
 }
 
 .vscode-editor-input-line {
-	grid-template-columns: 64px 24px minmax(0, 1fr);
+	grid-template-columns: 64px auto auto auto auto auto minmax(8rem, 42rem) auto auto;
 	align-items: center;
 }
 
@@ -3040,7 +3041,7 @@ body {
 	border: 0;
 	outline: 0;
 	background: transparent;
-	color: var(--vscode-editor-foreground, #d4d4d4);
+	color: #ce9178;
 	font: inherit;
 }
 
@@ -3067,4 +3068,28 @@ body {
 
 .vscode-token-list {
 	color: #c586c0;
+}
+
+.vscode-token-keyword {
+	color: #569cd6;
+}
+
+.vscode-token-function {
+	color: #dcdcaa;
+}
+
+.vscode-token-string {
+	color: #ce9178;
+}
+
+.vscode-token-number {
+	color: #b5cea8;
+}
+
+.vscode-token-property {
+	color: #9cdcfe;
+}
+
+.vscode-token-operator {
+	color: #d4d4d4;
 }

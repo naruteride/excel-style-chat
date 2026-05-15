@@ -28,7 +28,7 @@ export default class VscodePartTitlebar extends HTMLElement {
 		const isChat = this.getAttribute("mode") == "chat";
 		const roomName = this.getAttribute("room") || "workspace";
 		const commandLabel = isChat ? roomName : "Search";
-		const windowLabel = isChat ? `${roomName} - daily-log.md - Visual Studio Code` : "Visual Studio Code";
+		const windowLabel = isChat ? `${roomName} - automation.js - Visual Studio Code` : "Visual Studio Code";
 
 		this.id = "workbench.parts.titlebar";
 		this.classList.add("part", "titlebar");

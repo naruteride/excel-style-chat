@@ -36,7 +36,7 @@ export default class VscodePartStatusbar extends HTMLElement {
 		const rightItems = isChat
 			? [
 				["status.room", roomName],
-				["status.language", "Markdown"],
+				["status.language", "JavaScript"],
 				["status.encoding", "UTF-8"],
 				["status.position", "Ln 1, Col 1"],
 				["status.spaces", "Spaces: 4"],
