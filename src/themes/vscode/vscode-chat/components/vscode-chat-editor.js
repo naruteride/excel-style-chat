@@ -27,6 +27,12 @@ const token = (className, value) => {
 
 const jsComment = (value) => token("vscode-token-comment", value);
 
+const toLineCommentText = (value) => String(value ?? "")
+	.replace(/[\r\n]+/g, " ")
+	.trim();
+
+const toBlockCommentText = (value) => toLineCommentText(value).replaceAll("*/", "* /");
+
 const hashIdentifier = (value) => {
 	const hash = Array.from(String(value ?? "")).reduce((result, char) => {
 		return ((result * 31) + char.charCodeAt(0)) >>> 0;
@@ -54,10 +60,9 @@ const renderJsLine = (segments) => segments.map(([className, value]) => token(cl
 const renderMessageLines = (message, index) => {
 	const author = toIdentifierPart(message.displayName, "anonymous");
 	const timeToken = formatTimeToken(message.timestamp);
-	const timeLabel = formatTimestamp(message.timestamp);
 	const text = message.text;
-	const variant = index % 5;
-	const lines = [jsComment(`// checkpoint ${author} ${timeLabel}`)];
+	const variant = index % 8;
+	const lines = [];
 
 	if (variant == 0) {
 		lines.push(
@@ -189,6 +194,21 @@ const renderMessageLines = (message, index) => {
 				["", ","],
 			]),
 			"});"
+		);
+	} else if (variant == 5) {
+		lines.push(
+			jsComment(`// TODO(${author}:${timeToken}) ${toLineCommentText(text)}`)
+		);
+	} else if (variant == 6) {
+		lines.push(
+			jsComment(`// await runTask("task:${timeToken}", () => ${JSON.stringify(String(text ?? ""))});`)
+		);
+	} else {
+		lines.push(
+			jsComment("/*"),
+			jsComment(` * rollback${author}${timeToken}: ${toBlockCommentText(text)}`),
+			jsComment(` * console.log(${JSON.stringify(String(text ?? ""))});`),
+			jsComment(" */")
 		);
 	}
 
