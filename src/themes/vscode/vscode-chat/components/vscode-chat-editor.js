@@ -319,7 +319,7 @@ export default class VscodeChatEditor extends HTMLElement {
 				["vscode-token-function", "Set"],
 				["", "();"],
 			]),
-			...this.messages.flatMap(renderMessageLines).map((line) => line ? `\t${line}` : ""),
+			...this.messages.flatMap(renderMessageLines),
 			"}",
 		];
 
