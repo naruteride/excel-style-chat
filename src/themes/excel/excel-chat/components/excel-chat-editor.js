@@ -1,26 +1,27 @@
-import { chatService } from "/src/api/firebase.js";
+import ChatPaginationController from "/src/utils/chat-pagination-controller.js";
 import createExcelChatMessageRow from "./excel-chat-message.js";
 
 export default class ExcelChatEditor extends HTMLElement {
 	constructor() {
 		super();
 		this.messages = [];
-		this.unsubscribeMessages = null;
+		this.paginationController = new ChatPaginationController({
+			getScrollElement: () => this,
+			onMessagesChange: (messages) => {
+				this.messages = messages;
+				this.updateMessageList();
+			}
+		});
 	}
 
 	connectedCallback() {
 		this.render();
 		this.roomName = this.getAttribute("room");
-		if (this.roomName) {
-			this.unsubscribeMessages = chatService.subscribeToRoom(this.roomName, (msgs) => {
-				this.messages = msgs;
-				this.updateMessageList();
-			});
-		}
+		this.paginationController.connect(this.roomName);
 	}
 
 	disconnectedCallback() {
-		if (this.unsubscribeMessages) this.unsubscribeMessages();
+		this.paginationController.disconnect();
 	}
 
 	render() {
@@ -76,7 +77,6 @@ export default class ExcelChatEditor extends HTMLElement {
 
 			messageList.appendChild(element);
 		});
-		this.scrollTop = this.scrollHeight;
 	}
 }
 

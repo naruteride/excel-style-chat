@@ -1,12 +1,30 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, getDocs, query, where, orderBy, serverTimestamp, limitToLast, endBefore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 import firebaseConfig from "./config.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const DEFAULT_MESSAGE_PAGE_SIZE = 100;
+
+function messageFromDoc(doc) {
+	const data = doc.data();
+	return {
+		id: doc.id,
+		...data,
+		timestamp: data.timestamp ? data.timestamp.toDate() : new Date()
+	};
+}
+
+function pageFromSnapshot(snapshot) {
+	return {
+		messages: snapshot.docs.map(messageFromDoc),
+		oldestDoc: snapshot.docs[0] || null,
+		size: snapshot.size
+	};
+}
 
 let authReadyPromise = null;
 let authReady = false;
@@ -87,15 +105,36 @@ export const chatService = {
 		);
 
 		return onSnapshot(q, (snapshot) => {
-			const messages = snapshot.docs.map(doc => {
-				const data = doc.data();
-				return {
-					id: doc.id,
-					...data,
-					timestamp: data.timestamp ? data.timestamp.toDate() : new Date()
-				};
-			});
+			const messages = snapshot.docs.map(messageFromDoc);
 			callback(messages);
 		});
+	},
+
+	subscribeToLatestMessages: (roomName, callback, pageSize = DEFAULT_MESSAGE_PAGE_SIZE) => {
+		const q = query(
+			collection(db, "chatRooms", roomName, "messages"),
+			orderBy("timestamp", "asc"),
+			limitToLast(pageSize)
+		);
+
+		return onSnapshot(q, (snapshot) => {
+			callback(pageFromSnapshot(snapshot));
+		});
+	},
+
+	loadOlderMessages: async (roomName, beforeDoc, pageSize = DEFAULT_MESSAGE_PAGE_SIZE) => {
+		if (!beforeDoc) {
+			return { messages: [], oldestDoc: null, size: 0 };
+		}
+
+		const q = query(
+			collection(db, "chatRooms", roomName, "messages"),
+			orderBy("timestamp", "asc"),
+			endBefore(beforeDoc),
+			limitToLast(pageSize)
+		);
+
+		const snapshot = await getDocs(q);
+		return pageFromSnapshot(snapshot);
 	}
 };

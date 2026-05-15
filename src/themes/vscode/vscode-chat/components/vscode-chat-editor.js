@@ -1,4 +1,5 @@
 import { chatService } from "/src/api/firebase.js";
+import ChatPaginationController from "/src/utils/chat-pagination-controller.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -216,23 +217,23 @@ export default class VscodeChatEditor extends HTMLElement {
 	constructor() {
 		super();
 		this.messages = [];
-		this.unsubscribeMessages = null;
+		this.paginationController = new ChatPaginationController({
+			getScrollElement: () => this.querySelector(".vscode-code-editor"),
+			onMessagesChange: (messages) => {
+				this.messages = messages;
+				this.updateMessageList();
+			}
+		});
 	}
 
 	connectedCallback() {
 		this.roomName = this.getAttribute("room");
 		this.render();
-
-		if (this.roomName) {
-			this.unsubscribeMessages = chatService.subscribeToRoom(this.roomName, (msgs) => {
-				this.messages = msgs;
-				this.updateMessageList();
-			});
-		}
+		this.paginationController.connect(this.roomName);
 	}
 
 	disconnectedCallback() {
-		if (this.unsubscribeMessages) this.unsubscribeMessages();
+		this.paginationController.disconnect();
 	}
 
 	render() {
@@ -327,9 +328,6 @@ export default class VscodeChatEditor extends HTMLElement {
 
 		const inputLineNumber = this.querySelector("#input-line-number");
 		if (inputLineNumber) inputLineNumber.textContent = String(lines.length + 1);
-
-		const editor = this.querySelector(".vscode-code-editor");
-		editor?.scrollTo({ top: editor.scrollHeight });
 	}
 }
 
