@@ -2,6 +2,9 @@ import VscodeSplitViewView from "./vscode-split-view-view.js";
 import VscodePartBanner from "./vscode-part-banner.js";
 import VscodePartTitlebar from "./vscode-part-titlebar.js";
 import VscodePartStatusbar from "./vscode-part-statusbar.js";
+import { getVscodePlatformClass, vscodePlatformClassNames } from "../utils/platform.js";
+
+export { getVscodePlatformClass };
 
 const escapeAttribute = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -10,6 +13,10 @@ const escapeAttribute = (value) => String(value ?? "")
 	.replaceAll(">", "&gt;");
 
 export default class VscodeMonacoWorkbench extends HTMLElement {
+	static getPlatformClass(navigatorLike) {
+		return getVscodePlatformClass(navigatorLike);
+	}
+
 	constructor() {
 		super();
 	}
@@ -21,7 +28,8 @@ export default class VscodeMonacoWorkbench extends HTMLElement {
 	}
 
 	render() {
-		this.classList.add("monaco-enable-motion", "monaco-workbench", "windows", "web", "chromium", "nopanel", "noauxiliarybar", "file-icons-enabled", "vs-dark", "vscode-theme-defaults-themes-dark_plus-json");
+		this.classList.remove(...vscodePlatformClassNames);
+		this.classList.add("monaco-enable-motion", "monaco-workbench", getVscodePlatformClass(), "web", "chromium", "nopanel", "noauxiliarybar", "file-icons-enabled", "vs-dark", "vscode-theme-defaults-themes-dark_plus-json");
 		this.style.cssText = "display: block; width: 100%; height: 100%;";
 		const contextAttributes = [
 			["mode", this.getAttribute("mode") || "login"],

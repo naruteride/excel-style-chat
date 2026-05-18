@@ -6,7 +6,8 @@ export default {
 	css: [
 		"/src/themes/vscode/index.css",
 		"/src/themes/vscode/workbench.web.main.internal.css",
-		"/src/themes/vscode/codicon-styles.css"
+		"/src/themes/vscode/codicon-styles.css",
+		"/src/themes/vscode/font-overrides.css"
 	],
 	// 각 라우트/뷰에 사용할 커스텀 엘리먼트 태그를 정의
 	views: {
