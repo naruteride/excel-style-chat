@@ -1,5 +1,9 @@
 import "../vscode-chat/components/vscode-chat-editor.js";
 
+const ACTIVITY_BAR_WIDTH = 48;
+const SIDEBAR_WIDTH = 300;
+const MOBILE_LAYOUT_QUERY = "(max-width: 767px)";
+
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
 	.replaceAll("<", "&lt;")
@@ -14,10 +18,40 @@ export default class VscodePartMain extends HTMLElement {
 
 	constructor() {
 		super();
+		this.sidebarVisibleOverride = null;
+		this.handleViewportChange = () => this.syncSidebarLayout();
+		this.handleSidebarToggle = () => {
+			this.sidebarVisibleOverride = !this.isSidebarVisible();
+			this.syncSidebarLayout();
+		};
+		this.handleSidebarToggleKeydown = (event) => {
+			if (event.key != "Enter" && event.key != " ") return;
+			event.preventDefault();
+			this.handleSidebarToggle();
+		};
 	}
 
 	connectedCallback() {
 		this.render();
+		if (globalThis.matchMedia) {
+			this.mobileLayoutMedia = globalThis.matchMedia(MOBILE_LAYOUT_QUERY);
+			if (this.mobileLayoutMedia.addEventListener) {
+				this.mobileLayoutMedia.addEventListener("change", this.handleViewportChange);
+			} else {
+				this.mobileLayoutMedia.addListener?.(this.handleViewportChange);
+			}
+		} else {
+			globalThis.addEventListener?.("resize", this.handleViewportChange);
+		}
+	}
+
+	disconnectedCallback() {
+		if (this.mobileLayoutMedia?.removeEventListener) {
+			this.mobileLayoutMedia.removeEventListener("change", this.handleViewportChange);
+		} else {
+			this.mobileLayoutMedia?.removeListener?.(this.handleViewportChange);
+		}
+		globalThis.removeEventListener?.("resize", this.handleViewportChange);
 	}
 
 	attributeChangedCallback() {
@@ -30,6 +64,14 @@ export default class VscodePartMain extends HTMLElement {
 
 	get roomName() {
 		return this.getAttribute("room") || "workspace";
+	}
+
+	isMobileLayout() {
+		return globalThis.matchMedia?.(MOBILE_LAYOUT_QUERY).matches ?? globalThis.innerWidth <= 767;
+	}
+
+	isSidebarVisible() {
+		return this.sidebarVisibleOverride ?? !this.isMobileLayout();
 	}
 
 	render() {
@@ -53,6 +95,54 @@ export default class VscodePartMain extends HTMLElement {
 				</div>
 			</div>
 		`;
+		this.bindSidebarToggle();
+		this.syncSidebarLayout();
+	}
+
+	bindSidebarToggle() {
+		const button = this.querySelector(".menubar-menu-button");
+		if (!button) return;
+
+		button.addEventListener("click", this.handleSidebarToggle);
+		button.addEventListener("keydown", this.handleSidebarToggleKeydown);
+	}
+
+	syncSidebarLayout() {
+		const views = this.querySelectorAll(".vscode-stealth-main > .monaco-scrollable-element > .split-view-container > .split-view-view.visible");
+		const activityBarView = views[0];
+		const sidebarView = views[1];
+		const editorView = views[2];
+		if (!activityBarView || !sidebarView || !editorView) return;
+
+		const isMobile = this.isMobileLayout();
+		const sidebarVisible = this.isSidebarVisible();
+		const editorLeft = isMobile || !sidebarVisible ? ACTIVITY_BAR_WIDTH : ACTIVITY_BAR_WIDTH + SIDEBAR_WIDTH;
+
+		activityBarView.style.left = "0px";
+		activityBarView.style.width = `${ACTIVITY_BAR_WIDTH}px`;
+
+		sidebarView.style.left = `${ACTIVITY_BAR_WIDTH}px`;
+		sidebarView.style.width = isMobile ? `min(${SIDEBAR_WIDTH}px, calc(100% - ${ACTIVITY_BAR_WIDTH}px))` : `${SIDEBAR_WIDTH}px`;
+		sidebarView.style.display = sidebarVisible ? "block" : "none";
+		sidebarView.style.zIndex = isMobile && sidebarVisible ? "10" : "";
+
+		const sidebarPart = sidebarView.querySelector(".part.sidebar");
+		const sidebarContent = sidebarView.querySelector(".vscode-sidebar-content");
+		if (sidebarPart) sidebarPart.style.width = "100%";
+		if (sidebarContent) sidebarContent.style.width = isMobile ? "100%" : `${SIDEBAR_WIDTH}px`;
+
+		editorView.style.left = `${editorLeft}px`;
+		editorView.style.width = `calc(100% - ${editorLeft}px)`;
+		editorView.style.zIndex = "1";
+
+		const secondSash = this.querySelectorAll(".sash-container .monaco-sash.vertical")[1];
+		if (secondSash) secondSash.style.display = isMobile || !sidebarVisible ? "none" : "block";
+
+		const button = this.querySelector(".menubar-menu-button");
+		if (!button) return;
+		button.classList.toggle("checked", sidebarVisible);
+		button.setAttribute("aria-pressed", String(sidebarVisible));
+		button.setAttribute("aria-label", sidebarVisible ? "Hide Explorer" : "Show Explorer");
 	}
 
 	renderActivityBar() {
@@ -69,7 +159,7 @@ export default class VscodePartMain extends HTMLElement {
 				<div class="part activitybar left" id="workbench.parts.activitybar" role="none" style="background-color: rgb(51, 51, 51);">
 					<div class="content vscode-activitybar-content">
 						<div class="menubar compact inactive overflow-menu-only" role="menubar">
-							<div class="menubar-menu-button" role="menuitem" tabindex="0" aria-label="Application Menu" aria-haspopup="true">
+							<div class="menubar-menu-button" role="button" tabindex="0" aria-label="Toggle Explorer" aria-pressed="true">
 								<div class="menubar-menu-title toolbar-toggle-more codicon codicon-menubar-more" role="none" aria-hidden="true"></div>
 							</div>
 						</div>
