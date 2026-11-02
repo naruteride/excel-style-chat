@@ -1,5 +1,6 @@
 import { chatService } from "/src/api/firebase.js";
 import ChatPaginationController from "/src/utils/chat-pagination-controller.js";
+import setupChatInput from "/src/utils/chat-input.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -57,9 +58,18 @@ const renderMessageLines = (message, index) => {
 	const authorName = toDisplayName(message.displayName);
 	const author = toIdentifierPart(authorName);
 	const timeToken = formatTimeToken(message.timestamp);
-	const text = message.text;
+	const text = String(message.text ?? "");
 	const variant = index % 8;
 	const lines = [];
+
+	if (/[\r\n]/u.test(text)) {
+		lines.push(
+			jsComment(`// ${authorName}:${timeToken}`),
+			...text.split(/\r\n?|\n/u).map((line) => jsComment(`// ${line}`)),
+			""
+		);
+		return lines;
+	}
 
 	if (variant == 0) {
 		lines.push(
@@ -243,24 +253,27 @@ export default class VscodeChatEditor extends HTMLElement {
 				<div class="vscode-editor-lines" id="message-list"></div>
 				<form class="vscode-editor-input-line" id="form-input">
 					<span class="vscode-line-number" id="input-line-number">1</span>
-					<span class="vscode-token-property">console</span><span class="vscode-token-operator">.</span><span class="vscode-token-function">log</span><span>(</span><span class="vscode-token-string">"</span><input id="message-input" autocomplete="off" aria-label="Append runtime log" placeholder="append runtime log" /><span class="vscode-token-string">"</span><span>);</span>
+					<span class="vscode-token-property">console</span><span class="vscode-token-operator">.</span><span class="vscode-token-function">log</span><span>(</span><span class="vscode-token-string">"</span><textarea id="message-input" rows="1" autocomplete="off" aria-label="Append runtime log" placeholder="append runtime log" title="Enter to send, Shift+Enter for a new line"></textarea><span class="vscode-token-string">"</span><span>);</span>
 				</form>
 			</div>
 		`;
 
-		this.querySelector("#form-input")?.addEventListener("submit", (event) => this.sendMessage(event));
+		const form = this.querySelector("#form-input");
+		form.addEventListener("submit", (event) => this.sendMessage(event));
+		setupChatInput(this.querySelector("#message-input"), () => form.requestSubmit());
 		this.updateMessageList();
 	}
 
 	async sendMessage(event) {
 		event.preventDefault();
 		const input = this.querySelector("#message-input");
-		const text = input?.value.trim();
-		if (!text) return;
+		const text = input?.value;
+		if (!text?.trim()) return;
 
 		try {
 			await chatService.sendMessage(this.roomName, text);
 			input.value = "";
+			input.dispatchEvent(new Event("input"));
 			input.focus();
 		} catch (error) {
 			console.error("Unable to send message: ", error);

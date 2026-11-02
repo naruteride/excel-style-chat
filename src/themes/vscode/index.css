@@ -3019,7 +3019,7 @@ body {
 
 .vscode-editor-input-line {
 	grid-template-columns: 64px auto auto auto auto auto minmax(8rem, 42rem) auto auto;
-	align-items: center;
+	align-items: start;
 }
 
 .vscode-line-number {
@@ -3036,16 +3036,21 @@ body {
 	overflow-wrap: anywhere;
 }
 
-.vscode-editor-input-line input {
+.vscode-editor-input-line textarea {
+	box-sizing: border-box;
 	min-width: 0;
+	height: 19px;
+	margin: 0;
+	padding: 0;
 	border: 0;
 	outline: 0;
+	resize: none;
 	background: transparent;
 	color: #ce9178;
 	font: inherit;
 }
 
-.vscode-editor-input-line input::placeholder {
+.vscode-editor-input-line textarea::placeholder {
 	color: var(--vscode-editorLineNumber-foreground, #858585);
 }
 

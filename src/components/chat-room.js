@@ -1,5 +1,6 @@
 import BaseComponent from "./base-component.js";
 import { chatService } from "../api/firebase.js";
+import setupChatInput from "../utils/chat-input.js";
 import "./chat-message.js";
 
 export default class ChatRoom extends BaseComponent {
@@ -43,7 +44,7 @@ export default class ChatRoom extends BaseComponent {
 					<!-- Messages go here -->
 				</div>
 				<div style="${inputAreaStyle}">
-					<input type="text" id="msg-input" placeholder="Type a message..." style="${inputStyle}" />
+					<textarea id="msg-input" rows="1" placeholder="Type a message..." aria-label="Message" title="Enter to send, Shift+Enter for a new line" style="${inputStyle} min-width: 0; box-sizing: border-box; font: inherit; resize: none;"></textarea>
 					<button id="btn-send" style="${btnStyle}">Send</button>
 				</div>
 			</div>
@@ -60,6 +61,7 @@ export default class ChatRoom extends BaseComponent {
 			try {
 				await chatService.sendMessage(this.roomName, text);
 				input.value = "";
+				input.dispatchEvent(new Event("input"));
 			} catch (error) {
 				console.error("Unable to send message: ", error);
 				alert("Unable to send message. Please try again.");
@@ -67,9 +69,7 @@ export default class ChatRoom extends BaseComponent {
 		};
 
 		btnSend.addEventListener("click", sendMessage);
-		input.addEventListener("keypress", (e) => {
-			if (e.key == "Enter") sendMessage();
-		});
+		setupChatInput(input, sendMessage);
 
 		// Initial populate if we already have messages (re-render case)
 		this.updateMessageList();

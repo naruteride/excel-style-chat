@@ -29,12 +29,13 @@ export default class ChatMessage extends BaseComponent {
 
 		this.innerHTML = `
             <div style="${containerStyle}">
-                ${!isMe ? `<span style="${authorStyle}">${author}</span>` : ""}
-                <div style="${bubbleStyle}">
-                    ${text}
-                </div>
+                ${!isMe ? `<span data-message-author style="${authorStyle}"></span>` : ""}
+                <div data-message-text style="${bubbleStyle} white-space: pre-wrap; overflow-wrap: anywhere;"></div>
             </div>
         `;
+		this.querySelector("[data-message-text]").textContent = text;
+		const authorElement = this.querySelector("[data-message-author]");
+		if (authorElement) authorElement.textContent = author;
 	}
 }
 

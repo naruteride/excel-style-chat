@@ -12,7 +12,7 @@ export default function createExcelChatMessageRow({ index, text, author, timesta
 		<td style="text-align: right;">${escapeHtml(formatTimestamp(timestamp))}</td>
 		<td style="${isBoldGroup ? "font-weight: bold;" : ""}">${escapeHtml(group)}</td>
 		<td style="padding-right: 1rem;">${escapeHtml(author || "Unknown")}</td>
-		<td style="padding-right: 1rem; white-space: normal; word-break: keep-all;">${escapeHtml(text || "")}</td>
+		<td style="padding-right: 1rem; white-space: pre-wrap; word-break: keep-all; overflow-wrap: anywhere;">${escapeHtml(text || "")}</td>
 		<td style="padding-right: 1rem;">${escapeHtml(taskStr)}</td>
 		<td style="padding-right: 1rem;">${escapeHtml(duration)}</td>
 		<td style="text-align: center;">${escapeHtml(month)}</td>
