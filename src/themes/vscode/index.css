@@ -3027,6 +3027,7 @@ body {
 	color: var(--vscode-editorLineNumber-foreground, #858585);
 	text-align: right;
 	user-select: none;
+	-webkit-user-select: none;
 }
 
 .vscode-line-content {
@@ -3034,6 +3035,9 @@ body {
 	padding-right: 24px;
 	white-space: pre-wrap;
 	overflow-wrap: anywhere;
+	user-select: text;
+	-webkit-user-select: text;
+	cursor: text;
 }
 
 .vscode-editor-input-line textarea {
