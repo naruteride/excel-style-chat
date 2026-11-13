@@ -11,6 +11,7 @@ themeStore.registerTheme("excel", excelTheme);
 themeStore.registerTheme("pdf", { name: "pdf", components: {} });
 themeStore.registerTheme("figma", { name: "figma", components: {} });
 themeStore.registerTheme("notion", { name: "notion", components: {} });
+themeStore.registerTheme("vim", { name: "vim", components: {} });
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Initialize Router

@@ -3,7 +3,7 @@ import themeStore from "../utils/theme-store.js";
 export default class ThemeSwitcher extends HTMLElement {
 	constructor() {
 		super();
-		this.themes = ["excel", "vscode", "pdf", "figma", "notion"];
+		this.themes = ["excel", "vscode", "pdf", "figma", "notion", "vim"];
 	}
 
 	connectedCallback() {
