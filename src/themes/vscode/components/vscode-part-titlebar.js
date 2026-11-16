@@ -1,4 +1,5 @@
 import ThemeSwitcher from "/src/components/theme-switcher.js";
+import router from "../../../utils/router.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -37,7 +38,7 @@ export default class VscodePartTitlebar extends HTMLElement {
 		this.innerHTML = `
 			<div class="titlebar-container has-center">
 				<div class="titlebar-left">
-					<a class="window-appicon"></a>
+					<a class="window-appicon" href="/" aria-label="로그인 화면으로 돌아가기"></a>
 					<div class="window-controls-container"></div>
 				</div>
 				<div class="titlebar-center">
@@ -96,6 +97,11 @@ export default class VscodePartTitlebar extends HTMLElement {
 				</div>
 			</div>
 		`;
+
+		this.querySelector(".window-appicon").addEventListener("click", (event) => {
+			event.preventDefault();
+			router.navigateTo("/");
+		});
 	}
 }
 
