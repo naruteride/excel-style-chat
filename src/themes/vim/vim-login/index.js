@@ -16,17 +16,24 @@ export default class VimLogin extends BaseComponent {
 		super();
 		this.user = null;
 		this.busy = false;
-		this.history = [];
-		this.historyIndex = 0;
-		this.historyDraft = "";
 		this.connectionId = 0;
-		this.isComposing = false;
+		this.cursorRow = 0;
+		this.cursorColumn = 0;
+		this.desiredColumn = 0;
+		this.pendingG = false;
+		this.handleCommand = (event) => this.runCommand(event);
+		this.handleKeydown = (event) => this.handleEditorKeydown(event);
+		this.handleModeChange = (event) => this.applyMode(event.detail.mode);
 	}
 
 	connectedCallback() {
 		this.connectionId += 1;
 		this.user = authService.getCurrentUser();
 		super.connectedCallback();
+		this.setBusy(false);
+		this.addEventListener("vim-command", this.handleCommand);
+		this.addEventListener("keydown", this.handleKeydown);
+		this.addEventListener("vim-mode-change", this.handleModeChange);
 		this.authUnsubscribe = authService.onUserChange((user) => {
 			this.user = user;
 			this.updateSession();
@@ -36,12 +43,15 @@ export default class VimLogin extends BaseComponent {
 	disconnectedCallback() {
 		this.connectionId += 1;
 		super.disconnectedCallback();
+		this.removeEventListener("vim-command", this.handleCommand);
+		this.removeEventListener("keydown", this.handleKeydown);
+		this.removeEventListener("vim-mode-change", this.handleModeChange);
 		this.authUnsubscribe?.();
 		this.authUnsubscribe = null;
 	}
 
 	render() {
-		if (this.querySelector(".vim-cli-form")) {
+		if (this.querySelector(".vim-login-editor")) {
 			this.updateSession();
 			return;
 		}
@@ -59,7 +69,7 @@ export default class VimLogin extends BaseComponent {
 			"",
 			'<span class="vim-token-command">let</span> g:session_user = <span class="vim-token-string" data-vim-session></span>',
 			"",
-			'<span class="vim-token-comment">" Sign in from the command line below.</span>',
+			'<span class="vim-token-comment">" Press : to enter a command.</span>',
 			'<span class="vim-token-comment">" :login anonymous  — anonymous session</span>',
 			'<span class="vim-token-comment">" :login google     — Google sign-in</span>',
 			'<span class="vim-token-comment">" :join daily-scrum — open a room</span>',
@@ -70,8 +80,8 @@ export default class VimLogin extends BaseComponent {
 		];
 
 		this.innerHTML = `
-			<vim-workbench filename=".vimrc" mode="NORMAL" position="1,1" command=":help — login and room commands">
-				<div class="vim-editor vim-login-editor" aria-label="Vim configuration">
+			<vim-workbench filename=".vimrc" mode="NORMAL" position="1,1">
+				<div class="vim-editor vim-login-editor" tabindex="0" aria-label="Vim configuration">
 					${lines.map((line, index) => `
 						<div class="vim-code-line">
 							<span class="vim-line-number" aria-hidden="true">${index + 1}</span>
@@ -80,139 +90,226 @@ export default class VimLogin extends BaseComponent {
 					`).join("")}
 					<div class="vim-filler" aria-hidden="true">${"<span>~</span>".repeat(12)}</div>
 				</div>
-				<section class="vim-login-cli" aria-label="Login command line">
-					<div class="vim-cli-output" role="log" aria-live="polite" aria-relevant="additions text"></div>
-					<form class="vim-cli-form">
-						<label class="vim-cli-prompt" for="vim-command-input">:</label>
-						<input class="vim-cli-input" id="vim-command-input" type="text" placeholder="login anonymous" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Vim command" aria-describedby="vim-command-help" maxlength="240" />
-						<button class="vim-cli-submit" type="submit">Enter ↵</button>
-					</form>
-					<span id="vim-command-help" class="vim-command-help">:login anonymous · :login google · :join room-name · :help</span>
-				</section>
 			</vim-workbench>
 		`;
 
-		const form = this.querySelector(".vim-cli-form");
-		const input = this.querySelector(".vim-cli-input");
-		form.addEventListener("submit", (event) => this.runCommand(event));
-		input.addEventListener("compositionstart", () => this.isComposing = true);
-		input.addEventListener("compositionend", () => this.isComposing = false);
-		input.addEventListener("keydown", (event) => {
-			if (event.isComposing || this.isComposing || event.keyCode == 229) return;
-			if (event.key == "Enter") {
-				event.preventDefault();
-				if (!event.repeat) form.requestSubmit();
-			} else if (event.key == "ArrowUp" || event.key == "ArrowDown") {
-				if (!this.history.length) return;
-				event.preventDefault();
-				if (this.historyIndex == this.history.length) this.historyDraft = input.value;
-				this.historyIndex = Math.max(0, Math.min(this.history.length, this.historyIndex + (event.key == "ArrowUp" ? -1 : 1)));
-				input.value = this.history[this.historyIndex] ?? this.historyDraft;
-				input.setSelectionRange(input.value.length, input.value.length);
+		this.querySelector(".vim-login-editor").addEventListener("click", (event) => {
+			const row = event.target.closest(".vim-code-line");
+			if (row) {
+				this.cursorRow = this.getNormalRows().indexOf(row);
+				this.cursorColumn = 0;
+				this.desiredColumn = 0;
 			}
+			this.querySelector("vim-workbench").focusEditor();
+			this.updateNormalCursor();
 		});
-		input.addEventListener("focus", () => this.querySelector("vim-workbench")?.setAttribute("mode", "COMMAND"));
-		input.addEventListener("blur", () => this.querySelector("vim-workbench")?.setAttribute("mode", "NORMAL"));
-		this.appendOutput("Vim / Retrobox — type :help to get started.");
 		this.updateSession();
+		if (this.isConnected) this.querySelector("vim-workbench").focusEditor();
+	}
+
+	get mode() {
+		return this.querySelector("vim-workbench")?.getAttribute("mode") || "NORMAL";
+	}
+
+	applyMode(mode) {
+		if (mode == "NORMAL") this.updateNormalCursor();
+		else {
+			this.pendingG = false;
+			this.clearNormalCursor();
+		}
+	}
+
+	handleEditorKeydown(event) {
+		if (
+			event.defaultPrevented || event.isComposing || event.keyCode == 229 ||
+			this.mode != "NORMAL" || event.ctrlKey || event.metaKey || event.altKey ||
+			event.target.closest("input, textarea, select, button, a, [contenteditable]")
+		) return;
+
+		const workbench = this.querySelector("vim-workbench");
+		const key = event.key;
+		if (key == "g") {
+			event.preventDefault();
+			if (this.pendingG) this.goToLine(0);
+			this.pendingG = !this.pendingG;
+			return;
+		}
+		this.pendingG = false;
+		if (key == ":") {
+			event.preventDefault();
+			if (!this.busy) workbench.openCommandLine(":");
+		} else if (["i", "I", "a", "A", "o", "O"].includes(key)) {
+			event.preventDefault();
+			workbench.showMessage("E21: Cannot make changes, 'modifiable' is off", "error");
+		} else if (key == "G") {
+			event.preventDefault();
+			this.goToLine(this.getNormalRows().length - 1);
+		} else if (["0", "$", "Home", "End"].includes(key)) {
+			event.preventDefault();
+			this.desiredColumn = key == "0" || key == "Home" ? 0 : Number.MAX_SAFE_INTEGER;
+			this.cursorColumn = this.desiredColumn;
+			this.updateNormalCursor(true);
+		} else {
+			const movements = {
+				h: [0, -1], ArrowLeft: [0, -1],
+				j: [1, 0], ArrowDown: [1, 0],
+				k: [-1, 0], ArrowUp: [-1, 0],
+				l: [0, 1], ArrowRight: [0, 1]
+			};
+			const movement = movements[key];
+			if (!movement) return;
+			event.preventDefault();
+			this.cursorRow += movement[0];
+			if (movement[0]) this.cursorColumn = this.desiredColumn;
+			else {
+				this.cursorColumn = Math.max(0, this.cursorColumn + movement[1]);
+				this.desiredColumn = this.cursorColumn;
+			}
+			this.updateNormalCursor(true);
+			if (!movement[0]) this.desiredColumn = this.cursorColumn;
+		}
+	}
+
+	goToLine(index) {
+		const rows = this.getNormalRows();
+		this.cursorRow = Math.max(0, Math.min(index, rows.length - 1));
+		const text = rows[this.cursorRow]?.querySelector(".vim-line-content")?.textContent || "";
+		this.cursorColumn = Array.from(text.match(/^\s*/u)[0]).length;
+		this.desiredColumn = this.cursorColumn;
+		this.updateNormalCursor(true);
+		this.desiredColumn = this.cursorColumn;
+	}
+
+	getNormalRows() {
+		return Array.from(this.querySelectorAll(".vim-login-editor .vim-code-line"));
+	}
+
+	clearNormalCursor() {
+		this.querySelectorAll(".vim-normal-cursor").forEach(cursor => {
+			const parent = cursor.parentNode;
+			if (cursor.dataset.empty) cursor.remove();
+			else cursor.replaceWith(...cursor.childNodes);
+			parent.normalize();
+		});
+		this.querySelector(".vim-normal-line")?.classList.remove("vim-normal-line");
+	}
+
+	updateNormalCursor(shouldScroll = false) {
+		this.clearNormalCursor();
+		if (this.mode != "NORMAL") return;
+		const rows = this.getNormalRows();
+		this.cursorRow = Math.max(0, Math.min(this.cursorRow, rows.length - 1));
+		const row = rows[this.cursorRow];
+		const content = row?.querySelector(".vim-line-content");
+		if (!content) return;
+		row.classList.add("vim-normal-line");
+		this.cursorColumn = Math.max(0, Math.min(this.cursorColumn, Array.from(content.textContent).length - 1));
+		const cursor = document.createElement("span");
+		cursor.className = "vim-normal-cursor";
+		const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+		let offset = this.cursorColumn;
+		let textNode = walker.nextNode();
+		while (textNode && offset >= Array.from(textNode.data).length) {
+			offset -= Array.from(textNode.data).length;
+			textNode = walker.nextNode();
+		}
+		if (textNode) {
+			const characters = Array.from(textNode.data);
+			const start = characters.slice(0, offset).join("").length;
+			const range = document.createRange();
+			range.setStart(textNode, start);
+			range.setEnd(textNode, start + characters[offset].length);
+			range.surroundContents(cursor);
+		} else {
+			cursor.dataset.empty = "true";
+			cursor.textContent = " ";
+			content.appendChild(cursor);
+		}
+		if (shouldScroll) row.scrollIntoView({ block: "nearest", inline: "nearest" });
+		this.querySelector("vim-workbench")?.setAttribute("position", `${this.cursorRow + 1},${this.cursorColumn + 1}`);
 	}
 
 	updateSession() {
+		this.clearNormalCursor();
 		const userName = this.user ? this.user.displayName || "Anonymous" : "not authenticated";
 		const session = this.querySelector("[data-vim-session]");
 		if (session) session.textContent = `'${userName.replaceAll("'", "''")}'`;
-		this.querySelector("vim-workbench")?.setAttribute("status", this.user ? `signed in: ${userName}` : "not authenticated");
-	}
-
-	appendOutput(text, type = "") {
-		const output = this.querySelector(".vim-cli-output");
-		if (!output) return;
-		const line = document.createElement("div");
-		line.className = `vim-cli-line${type ? ` vim-cli-${type}` : ""}`;
-		line.textContent = text;
-		output.appendChild(line);
-		while (output.children.length > 80) output.firstElementChild.remove();
-		output.scrollTop = output.scrollHeight;
+		this.updateNormalCursor();
 	}
 
 	setBusy(busy) {
 		this.busy = busy;
-		this.querySelector(".vim-cli-form")?.setAttribute("aria-busy", String(busy));
-		const input = this.querySelector(".vim-cli-input");
-		const button = this.querySelector(".vim-cli-submit");
-		if (input) input.disabled = busy;
-		if (button) {
-			button.disabled = busy;
-			button.textContent = busy ? "Working…" : "Enter ↵";
-		}
+		this.querySelector("vim-workbench")?.setAttribute("busy", String(busy));
 	}
 
 	async runCommand(event) {
-		event.preventDefault();
-		if (this.busy || this.isComposing) return;
-		const input = this.querySelector(".vim-cli-input");
-		const value = input.value.trim().replace(/^:/, "").trim();
-		if (!value) return;
+		if (this.busy) return;
+		const workbench = this.querySelector("vim-workbench");
+		const raw = String(event.detail?.command || "").trim();
+		if (!raw.startsWith(":")) {
+			workbench.showMessage("E492: Not an editor command. Commands must start with :", "error");
+			return;
+		}
+		const value = raw.slice(1).trim();
+		if (!value) {
+			workbench.showMessage("");
+			return;
+		}
 		const [command, ...args] = value.split(/\s+/);
 		const connectionId = this.connectionId;
 		const isActive = () => this.isConnected && this.connectionId == connectionId;
-
-		this.history.push(value);
-		if (this.history.length > 50) this.history.shift();
-		this.historyIndex = this.history.length;
-		this.historyDraft = "";
-		input.value = "";
-		this.appendOutput(`:${value}`);
 
 		try {
 			if ((command == "login" && args.length <= 1) || (command == "anon" && !args.length)) {
 				const provider = command == "anon" ? "anonymous" : args[0] || "anonymous";
 				if (provider != "anonymous" && provider != "anon" && provider != "google") {
-					this.appendOutput("Usage: :login anonymous | :login google", "error");
+					workbench.showMessage("Usage: :login anonymous | :login google", "error");
 					return;
 				}
 				this.setBusy(true);
-				this.appendOutput(provider == "google" ? "Opening Google sign-in…" : "Starting anonymous session…");
+				workbench.showMessage(provider == "google" ? "Opening Google sign-in…" : "Starting anonymous session…");
 				const credential = await (provider == "google" ? authService.loginGoogle() : authService.loginAnonymously());
 				if (!isActive()) return;
 				this.user = credential.user;
 				this.updateSession();
-				this.appendOutput(`Signed in as ${this.user.displayName || "Anonymous"}. Enter :join room-name to continue.`, "success");
+				workbench.showMessage(`Signed in as ${this.user.displayName || "Anonymous"}. Enter :join room-name to continue.`);
 			} else if (command == "logout" && !args.length) {
 				this.setBusy(true);
 				await authService.logout();
 				if (!isActive()) return;
 				this.user = null;
 				this.updateSession();
-				this.appendOutput("Signed out. Enter :login anonymous or :login google.", "success");
+				workbench.showMessage("Signed out. Enter :login anonymous or :login google.");
 			} else if (command == "join") {
 				const roomName = args[0];
 				if (args.length != 1 || !roomName || /[/?#\\%\u0000-\u0020\u007f]/.test(roomName) || roomName == "." || roomName == "..") {
-					this.appendOutput("Usage: :join room-name (one name without spaces, /, ?, # or %)", "error");
+					workbench.showMessage("Usage: :join room-name (one name without spaces, /, ?, # or %)", "error");
 					return;
 				}
 				this.setBusy(true);
-				this.appendOutput(`Opening ${roomName}/.vimrc…`);
+				workbench.showMessage(`Opening ${roomName}/.vimrc…`);
 				await authService.ensureAnonymousUser();
 				if (isActive()) router.navigateTo(`/${roomName}`);
 			} else if (command == "help" && !args.length) {
-				this.appendOutput(":login anonymous  Start an anonymous session");
-				this.appendOutput(":login google     Sign in with Google");
-				this.appendOutput(":join room-name   Open a room (signs in anonymously if needed)");
-				this.appendOutput(":logout           Sign out");
-				this.appendOutput(":clear            Clear command output");
-				this.appendOutput("↑ / ↓             Previous / next command");
+				workbench.showMessage([
+					":login anonymous  Start an anonymous session",
+					":login google     Sign in with Google",
+					":join room-name   Open a room (signs in anonymously if needed)",
+					":logout           Sign out",
+					":clear            Clear the last-line message",
+					":NERDTreeToggle   Toggle the file explorer"
+				].join("\n"));
 			} else if (command == "clear" && !args.length) {
-				this.querySelector(".vim-cli-output").replaceChildren();
+				workbench.showMessage("");
 			} else {
-				this.appendOutput(`E492: Not an editor command: ${value}. Type :help.`, "error");
+				workbench.showMessage(`E492: Not an editor command: ${value}. Type :help.`, "error");
 			}
 		} catch (error) {
-			if (isActive()) this.appendOutput(loginErrors[error.code] || error.message || "Command failed. Try again.", "error");
+			if (isActive()) workbench.showMessage(loginErrors[error.code] || error.message || "Command failed. Try again.", "error");
 		} finally {
 			if (isActive()) {
 				this.setBusy(false);
-				input.focus();
+				workbench.focusEditor();
 			}
 		}
 	}
