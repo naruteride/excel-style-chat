@@ -30,8 +30,7 @@ const token = (className, value) => {
 const jsComment = (value) => token("vscode-token-comment", value);
 
 const toLineCommentText = (value) => String(value ?? "")
-	.replace(/[\r\n]+/g, " ")
-	.trim();
+	.replace(/[\r\n]+/g, " ");
 
 const toBlockCommentText = (value) => toLineCommentText(value).replaceAll("*/", "* /");
 
@@ -72,10 +71,10 @@ const renderMessageLines = (message, index) => {
 	const variant = index % 8;
 	const lines = [];
 
-	if (/[\r\n]/u.test(text)) {
+	if (/^ |[\r\n\t]/u.test(text)) {
 		lines.push(
 			jsComment(`// ${authorName}:${timeToken}`),
-			...text.split(/\r\n?|\n/u).map((line) => jsComment(`// ${line}`)),
+			...text.split(/\r\n?|\n/u).map((line) => jsComment("// ") + token("vscode-token-comment vscode-message-text", line)),
 			""
 		);
 		return lines;

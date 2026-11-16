@@ -219,6 +219,12 @@ vim-workbench ::selection {
 	overflow-wrap: anywhere;
 }
 
+.vim-message-text {
+	display: inline-block;
+	max-width: calc(100% - 2ch);
+	vertical-align: top;
+}
+
 .vim-token-comment,
 .vim-editor-empty-note {
 	color: var(--vim-comment);

@@ -3008,6 +3008,7 @@ body {
 	font-family: Consolas, "Courier New", monospace;
 	font-size: 13px;
 	line-height: 19px;
+	tab-size: 4;
 }
 
 .vscode-editor-line,
@@ -3038,6 +3039,12 @@ body {
 	user-select: text;
 	-webkit-user-select: text;
 	cursor: text;
+}
+
+.vscode-message-text {
+	display: inline-block;
+	max-width: calc(100% - 3ch);
+	vertical-align: top;
 }
 
 .vscode-editor-input-line textarea {

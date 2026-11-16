@@ -48,8 +48,8 @@ const renderMessageLines = (message) => {
 	const key = messageKey(message);
 	const lines = [comment(`" ${author} · ${formatTimestamp(message.timestamp)}`)];
 
-	if (/[\r\n]/u.test(text)) {
-		lines.push(...text.split(/\r\n?|\n/u).map(line => comment(`" ${line}`)));
+	if (/^ |[\r\n\t]/u.test(text)) {
+		lines.push(...text.split(/\r\n?|\n/u).map(line => comment('" ') + token("vim-token-comment vim-message-text", line)));
 	} else if (key % 4 == 0) {
 		lines.push(comment(`" ${text}`));
 	} else if (key % 4 == 1) {

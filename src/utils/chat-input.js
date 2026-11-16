@@ -1,4 +1,6 @@
 export default function setupChatInput(input, onSend) {
+	input.style.tabSize = "4";
+
 	const resize = () => {
 		const style = getComputedStyle(input);
 		const lineHeight = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.2;

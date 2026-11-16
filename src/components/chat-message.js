@@ -30,7 +30,7 @@ export default class ChatMessage extends BaseComponent {
 		this.innerHTML = `
             <div style="${containerStyle}">
                 ${!isMe ? `<span data-message-author style="${authorStyle}"></span>` : ""}
-                <div data-message-text style="${bubbleStyle} white-space: pre-wrap; overflow-wrap: anywhere;"></div>
+                <div data-message-text style="${bubbleStyle} white-space: pre-wrap; overflow-wrap: anywhere; text-align: left; tab-size: 4;"></div>
             </div>
         `;
 		this.querySelector("[data-message-text]").textContent = text;
