@@ -11,10 +11,15 @@ export default class ExcelLogin extends BaseComponent {
 
 	connectedCallback() {
 		super.connectedCallback();
-		authService.onUserChange((user) => {
+		this.authUnsubscribe = authService.onUserChange((user) => {
 			this.user = user;
 			this.render();
 		});
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		if (this.authUnsubscribe) this.authUnsubscribe();
 	}
 
 	goToRoom(e) {

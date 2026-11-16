@@ -11,10 +11,15 @@ export default class LoginView extends BaseComponent {
 	connectedCallback() {
 		super.connectedCallback();
 
-		authService.onUserChange((user) => {
+		this.authUnsubscribe = authService.onUserChange((user) => {
 			this.user = user;
 			this.render(); // Re-render to show logout or different UI
 		});
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		if (this.authUnsubscribe) this.authUnsubscribe();
 	}
 
 	render() {
