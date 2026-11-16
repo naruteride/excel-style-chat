@@ -12,10 +12,11 @@ export default class ExcelHeader extends HTMLElement {
 	}
 
 	render() {
+		const roomName = (this.getAttribute("room") || "").replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; background: #f9fbfd; border-bottom: 1px solid #f9fbfd; margin-bottom: -1px; white-space: nowrap; overflow: hidden;";
 		this.innerHTML = `
 			<!-- Menu -->
-			<excel-menu room="${this.getAttribute("room")}"></excel-menu>
+			<excel-menu room="${roomName}"></excel-menu>
 
 			<!-- Toolbar -->
 			<excel-toolbar></excel-toolbar>

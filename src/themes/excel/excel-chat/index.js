@@ -14,16 +14,17 @@ export default class ExcelChat extends BaseComponent {
 	}
 
 	render() {
+		const roomName = (this.roomName || "").replaceAll("&", "&amp;").replaceAll('"', "&quot;");
 		// Excel Editor Layout
 		this.style.cssText = "display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 100%;";
 		this.innerHTML = `
-			<excel-header room="${this.roomName}"></excel-header>
+			<excel-header room="${roomName}"></excel-header>
 
 			<!-- Editor Area (Messages) -->
-			<excel-chat-editor room="${this.roomName}"></excel-chat-editor>
+			<excel-chat-editor room="${roomName}"></excel-chat-editor>
 
 			<!-- Terminal / Input Area -->
-			<excel-chat-input room="${this.roomName}"></excel-chat-input>
+			<excel-chat-input room="${roomName}"></excel-chat-input>
 		`;
 	}
 }
