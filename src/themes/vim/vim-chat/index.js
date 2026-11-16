@@ -105,7 +105,7 @@ export default class VimChat extends HTMLElement {
 			if (shouldScrollToBottom) this.paginationController.scrollToBottom();
 		});
 		this.paginationController.connect(this.roomName);
-		this.enterInsert("A");
+		this.querySelector("vim-workbench").openCommandLine();
 	}
 
 	disconnectedCallback() {
