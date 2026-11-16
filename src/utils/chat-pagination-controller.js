@@ -18,6 +18,7 @@ export default class ChatPaginationController {
 		this.topThreshold = topThreshold;
 		this.bottomThreshold = bottomThreshold;
 		this.handleScroll = () => this.loadOlderMessagesIfNeeded();
+		this.generation = 0;
 
 		this.reset();
 	}
@@ -31,14 +32,22 @@ export default class ChatPaginationController {
 
 		if (!this.roomName) return;
 
+		const generation = this.generation;
+		let updates = Promise.resolve();
 		this.unsubscribeMessages = chatService.subscribeToLatestMessages(
 			this.roomName,
-			(page) => this.handleLatestMessages(page),
+			(page) => {
+				updates = updates
+					.then(() => this.handleLatestMessages(page, generation))
+					.catch(error => console.error("Error updating latest messages: ", error));
+				return updates;
+			},
 			this.pageSize
 		);
 	}
 
 	disconnect() {
+		this.generation += 1;
 		if (this.unsubscribeMessages) {
 			this.unsubscribeMessages();
 			this.unsubscribeMessages = null;
@@ -54,6 +63,7 @@ export default class ChatPaginationController {
 		this.messages = [];
 		this.messageMap = new Map();
 		this.oldestLoadedDoc = null;
+		this.newestLoadedDoc = null;
 		this.hasOlderMessages = true;
 		this.isLoadingOlder = false;
 		this.hasInitialSnapshot = false;
@@ -61,16 +71,41 @@ export default class ChatPaginationController {
 		this.scrollElement = null;
 	}
 
-	handleLatestMessages({ messages, oldestDoc, size }) {
+	async handleLatestMessages({ messages, oldestDoc, newestDoc, size, fromCache }, generation = this.generation) {
+		if (generation !== this.generation) return;
+
+		let missingMessages = [];
+		let updateNewestDoc = newestDoc && (!fromCache || !this.newestLoadedDoc);
+		if (
+			!fromCache &&
+			oldestDoc &&
+			this.newestLoadedDoc &&
+			!messages.some(message => message.id == this.newestLoadedDoc.id)
+		) {
+			try {
+				const page = await chatService.loadMessagesBetween(this.roomName, this.newestLoadedDoc, oldestDoc);
+				missingMessages = page.messages;
+			} catch (error) {
+				updateNewestDoc = false;
+				console.error("Error loading missed messages: ", error);
+			}
+		}
+
+		if (generation !== this.generation) return;
+
 		const shouldScrollToBottom = !this.hasInitialSnapshot || this.isNearBottom();
 
+		this.mergeMessages(missingMessages);
 		this.mergeMessages(messages);
+		if (updateNewestDoc) {
+			this.newestLoadedDoc = newestDoc;
+		}
 
 		if (!this.oldestLoadedDoc && oldestDoc) {
 			this.oldestLoadedDoc = oldestDoc;
 		}
 
-		if (size < this.pageSize) {
+		if (!fromCache && size < this.pageSize) {
 			this.hasOlderMessages = false;
 		}
 
@@ -100,25 +135,26 @@ export default class ChatPaginationController {
 
 		this.isLoadingOlder = true;
 		const roomName = this.roomName;
-		const previousScrollHeight = scrollElement.scrollHeight;
-		const previousScrollTop = scrollElement.scrollTop;
+		const generation = this.generation;
 
 		try {
-			const { messages, oldestDoc, size } = await chatService.loadOlderMessages(
+			const { messages, oldestDoc, size, fromCache } = await chatService.loadOlderMessages(
 				roomName,
 				this.oldestLoadedDoc,
 				this.pageSize
 			);
 
-			if (this.roomName !== roomName) return;
+			if (generation !== this.generation) return;
 
+			const previousScrollHeight = scrollElement.scrollHeight;
+			const previousScrollTop = scrollElement.scrollTop;
 			this.mergeMessages(messages);
 
 			if (oldestDoc) {
 				this.oldestLoadedDoc = oldestDoc;
 			}
 
-			if (size < this.pageSize) {
+			if (!fromCache && size < this.pageSize) {
 				this.hasOlderMessages = false;
 			}
 
@@ -130,7 +166,7 @@ export default class ChatPaginationController {
 		} catch (error) {
 			console.error("Error loading older messages: ", error);
 		} finally {
-			this.isLoadingOlder = false;
+			if (generation == this.generation) this.isLoadingOlder = false;
 		}
 	}
 

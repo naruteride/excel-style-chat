@@ -1,4 +1,5 @@
 import ChatPaginationController from "/src/utils/chat-pagination-controller.js";
+import chatOutbox from "/src/utils/chat-outbox.js";
 import createExcelChatMessageRow from "./excel-chat-message.js";
 
 export default class ExcelChatEditor extends HTMLElement {
@@ -9,18 +10,27 @@ export default class ExcelChatEditor extends HTMLElement {
 			getScrollElement: () => this,
 			onMessagesChange: (messages) => {
 				this.messages = messages;
+				chatOutbox.confirmMessages(this.roomName, messages);
 				this.updateMessageList();
 			}
 		});
 	}
 
 	connectedCallback() {
-		this.render();
 		this.roomName = this.getAttribute("room");
+		this.render();
+		this.unsubscribeOutbox = chatOutbox.subscribe(this.roomName, () => {
+			const shouldScrollToBottom = this.paginationController.isNearBottom();
+			this.updateMessageList();
+			if (shouldScrollToBottom) this.paginationController.scrollToBottom();
+		});
 		this.paginationController.connect(this.roomName);
+		this.updateMessageList();
 	}
 
 	disconnectedCallback() {
+		this.unsubscribeOutbox?.();
+		this.unsubscribeOutbox = null;
 		this.paginationController.disconnect();
 	}
 
@@ -56,21 +66,28 @@ export default class ExcelChatEditor extends HTMLElement {
 				</tbody>
 			</table>
 		`;
+		this.querySelector("#message-list").addEventListener("click", (event) => {
+			const button = event.target.closest("[data-retry-message]");
+			if (button) chatOutbox.retryMessage(button.dataset.retryMessage);
+		});
 	}
 
 	updateMessageList() {
 		const messageList = this.querySelector("#message-list");
+		if (!messageList) return;
 		messageList.innerHTML = "";
 
 		let currentIndex = 2;
 
-		this.messages.forEach(msg => {
+		chatOutbox.getMessages(this.roomName, this.messages).forEach(msg => {
 			const element = createExcelChatMessageRow({
 				index: currentIndex,
+				id: msg.id,
 				text: msg.text,
 				author: msg.displayName,
 				uid: msg.uid,
 				timestamp: msg.timestamp,
+				status: msg.status,
 			});
 			currentIndex += 1;
 			if (currentIndex > 999) currentIndex = 2;

@@ -1,6 +1,7 @@
 import BaseComponent from "./base-component.js";
 import { chatService } from "../api/firebase.js";
 import setupChatInput from "../utils/chat-input.js";
+import chatOutbox from "../utils/chat-outbox.js";
 import "./chat-message.js";
 
 export default class ChatRoom extends BaseComponent {
@@ -16,8 +17,10 @@ export default class ChatRoom extends BaseComponent {
 		super.connectedCallback();
 
 		if (this.roomName) {
+			this.unsubscribeOutbox = chatOutbox.subscribe(this.roomName, () => this.updateMessageList());
 			this.unsubscribeMessages = chatService.subscribeToRoom(this.roomName, (msgs) => {
 				this.messages = msgs;
+				chatOutbox.confirmMessages(this.roomName, msgs);
 				this.updateMessageList();
 			});
 		}
@@ -28,6 +31,8 @@ export default class ChatRoom extends BaseComponent {
 		if (this.unsubscribeMessages) {
 			this.unsubscribeMessages();
 		}
+		this.unsubscribeOutbox?.();
+		this.unsubscribeOutbox = null;
 	}
 
 	render() {
@@ -53,19 +58,18 @@ export default class ChatRoom extends BaseComponent {
 		// Attach event listeners
 		const btnSend = this.querySelector("#btn-send");
 		const input = this.querySelector("#msg-input");
+		this.querySelector("#message-list").addEventListener("click", (event) => {
+			const button = event.target.closest("[data-retry-message]");
+			if (button) chatOutbox.retryMessage(button.dataset.retryMessage);
+		});
 
-		const sendMessage = async () => {
+		const sendMessage = () => {
 			const text = input.value;
 			if (!text.trim() || !this.roomName) return;
 
-			try {
-				await chatService.sendMessage(this.roomName, text);
-				input.value = "";
-				input.dispatchEvent(new Event("input"));
-			} catch (error) {
-				console.error("Unable to send message: ", error);
-				alert("Unable to send message. Please try again.");
-			}
+			chatOutbox.sendMessage(this.roomName, text);
+			input.value = "";
+			input.dispatchEvent(new Event("input"));
 		};
 
 		btnSend.addEventListener("click", sendMessage);
@@ -81,12 +85,30 @@ export default class ChatRoom extends BaseComponent {
 
 		list.innerHTML = ""; // Full redraw is simple but expensive. optimization later if needed.
 
-		this.messages.forEach(msg => {
+		chatOutbox.getMessages(this.roomName, this.messages).forEach(msg => {
+			const row = document.createElement("div");
+			row.dataset.messageId = msg.id;
 			const el = document.createElement("chat-message");
 			el.setAttribute("text", msg.text);
 			el.setAttribute("author", msg.displayName);
 			el.setAttribute("uid", msg.uid);
-			list.appendChild(el);
+			row.appendChild(el);
+			if (msg.status == "sending" || msg.status == "failed") {
+				const status = document.createElement("span");
+				status.setAttribute("role", "status");
+				status.style.cssText = "margin-left: 0.5rem; font-size: 12px;";
+				status.textContent = msg.status == "sending" ? "전송 중…" : "전송 실패";
+				row.appendChild(status);
+				if (msg.status == "failed") {
+					const button = document.createElement("button");
+					button.type = "button";
+					button.dataset.retryMessage = msg.id;
+					button.style.cssText = "margin-left: 0.5rem; padding: 0; font-size: 12px; text-decoration: underline;";
+					button.textContent = "재시도";
+					row.appendChild(button);
+				}
+			}
+			list.appendChild(row);
 		});
 
 		// Auto scroll

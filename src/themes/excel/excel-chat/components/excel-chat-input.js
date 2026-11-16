@@ -1,4 +1,4 @@
-import { chatService } from "/src/api/firebase.js";
+import chatOutbox from "/src/utils/chat-outbox.js";
 import setupChatInput from "/src/utils/chat-input.js";
 
 export default class ExcelChatInput extends HTMLElement {
@@ -16,19 +16,14 @@ export default class ExcelChatInput extends HTMLElement {
 			</form>`;
 
 		const input = this.querySelector("#msg-input");
-		const sendMessage = async () => {
+		const sendMessage = () => {
 			const text = input.value;
 			const roomName = this.getAttribute("room");
 			if (!text.trim() || !roomName) return;
 
-			try {
-				await chatService.sendMessage(roomName, text);
-				input.value = "";
-				input.dispatchEvent(new Event("input"));
-			} catch (error) {
-				console.error("Unable to send message: ", error);
-				alert("Unable to send message. Please try again.");
-			}
+			chatOutbox.sendMessage(roomName, text);
+			input.value = "";
+			input.dispatchEvent(new Event("input"));
 		};
 
 		const form = this.querySelector("#form-input");

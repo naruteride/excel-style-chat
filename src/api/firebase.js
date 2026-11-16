@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, getDocs, query, where, orderBy, serverTimestamp, limitToLast, endBefore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, onSnapshot, getDocs, getDocsFromServer, query, where, orderBy, serverTimestamp, limitToLast, startAfter, endBefore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 import firebaseConfig from "./config.js";
 
 // Initialize Firebase
@@ -14,15 +14,19 @@ function messageFromDoc(doc) {
 	return {
 		id: doc.id,
 		...data,
-		timestamp: data.timestamp ? data.timestamp.toDate() : new Date()
+		timestamp: data.timestamp ? data.timestamp.toDate() : new Date(),
+		hasPendingWrites: doc.metadata.hasPendingWrites
 	};
 }
 
 function pageFromSnapshot(snapshot) {
+	const committedDocs = snapshot.docs.filter(doc => !doc.metadata.hasPendingWrites);
 	return {
 		messages: snapshot.docs.map(messageFromDoc),
-		oldestDoc: snapshot.docs[0] || null,
-		size: snapshot.size
+		oldestDoc: committedDocs[0] || null,
+		newestDoc: committedDocs[committedDocs.length - 1] || null,
+		size: snapshot.size,
+		fromCache: snapshot.metadata.fromCache
 	};
 }
 
@@ -79,14 +83,15 @@ export const authService = {
 
 // Chat Service
 export const chatService = {
-	sendMessage: async (roomName, text, user) => {
+	sendMessage: async (roomName, text, messageId) => {
 		if (!text.trim()) return;
 
 		try {
-			const sender = user || await authService.ensureAnonymousUser();
+			const sender = await authService.ensureAnonymousUser();
 
 			// 구조: chatRooms (col) -> roomName (doc) -> messages (subcol) -> message (doc)
-			await addDoc(collection(db, "chatRooms", roomName, "messages"), {
+			const messageRef = doc(db, "chatRooms", roomName, "messages", messageId);
+			await setDoc(messageRef, {
 				text: text,
 				uid: sender.uid,
 				displayName: sender.displayName || "Anonymous", // 폴백
@@ -104,7 +109,7 @@ export const chatService = {
 			orderBy("timestamp", "asc")
 		);
 
-		return onSnapshot(q, (snapshot) => {
+		return onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
 			const messages = snapshot.docs.map(messageFromDoc);
 			callback(messages);
 		});
@@ -117,9 +122,21 @@ export const chatService = {
 			limitToLast(pageSize)
 		);
 
-		return onSnapshot(q, (snapshot) => {
+		return onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
 			callback(pageFromSnapshot(snapshot));
 		});
+	},
+
+	loadMessagesBetween: async (roomName, afterDoc, beforeDoc) => {
+		const q = query(
+			collection(db, "chatRooms", roomName, "messages"),
+			orderBy("timestamp", "asc"),
+			startAfter(afterDoc),
+			endBefore(beforeDoc)
+		);
+
+		const snapshot = await getDocsFromServer(q);
+		return pageFromSnapshot(snapshot);
 	},
 
 	loadOlderMessages: async (roomName, beforeDoc, pageSize = DEFAULT_MESSAGE_PAGE_SIZE) => {

@@ -1,6 +1,6 @@
-import { chatService } from "/src/api/firebase.js";
 import ChatPaginationController from "/src/utils/chat-pagination-controller.js";
 import setupChatInput from "/src/utils/chat-input.js";
+import chatOutbox from "/src/utils/chat-outbox.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -53,6 +53,16 @@ const toIdentifierPart = (value) => {
 };
 
 const renderJsLine = (segments) => segments.map(([className, value]) => token(className, value)).join("");
+
+const renderDeliveryStatus = (message) => {
+	if (message.status == "sending") {
+		return `<span role="status" class="vscode-token-comment">// 전송 중…</span>`;
+	}
+	if (message.status == "failed") {
+		return `<span role="status" style="color: #f48771;">// 전송 실패</span> <button type="button" data-retry-message="${escapeHtml(message.id)}" style="padding: 0; border: none; background: transparent; color: #4fc1ff; font: inherit; text-decoration: underline; cursor: pointer;">재시도</button>`;
+	}
+	return "";
+};
 
 const renderMessageLines = (message, index) => {
 	const authorName = toDisplayName(message.displayName);
@@ -231,6 +241,7 @@ export default class VscodeChatEditor extends HTMLElement {
 			getScrollElement: () => this.querySelector(".vscode-code-editor"),
 			onMessagesChange: (messages) => {
 				this.messages = messages;
+				chatOutbox.confirmMessages(this.roomName, messages);
 				this.updateMessageList();
 			}
 		});
@@ -239,10 +250,17 @@ export default class VscodeChatEditor extends HTMLElement {
 	connectedCallback() {
 		this.roomName = this.getAttribute("room");
 		this.render();
+		this.unsubscribeOutbox = chatOutbox.subscribe(this.roomName, () => {
+			const shouldScrollToBottom = this.paginationController.isNearBottom();
+			this.updateMessageList();
+			if (shouldScrollToBottom) this.paginationController.scrollToBottom();
+		});
 		this.paginationController.connect(this.roomName);
 	}
 
 	disconnectedCallback() {
+		this.unsubscribeOutbox?.();
+		this.unsubscribeOutbox = null;
 		this.paginationController.disconnect();
 	}
 
@@ -259,26 +277,26 @@ export default class VscodeChatEditor extends HTMLElement {
 		`;
 
 		const form = this.querySelector("#form-input");
+		const input = this.querySelector("#message-input");
+		this.querySelector("#message-list").addEventListener("click", (event) => {
+			const button = event.target.closest("[data-retry-message]");
+			if (button) chatOutbox.retryMessage(button.dataset.retryMessage);
+		});
 		form.addEventListener("submit", (event) => this.sendMessage(event));
-		setupChatInput(this.querySelector("#message-input"), () => form.requestSubmit());
+		setupChatInput(input, () => form.requestSubmit());
 		this.updateMessageList();
 	}
 
-	async sendMessage(event) {
+	sendMessage(event) {
 		event.preventDefault();
 		const input = this.querySelector("#message-input");
 		const text = input?.value;
-		if (!text?.trim()) return;
+		if (!text?.trim() || !this.roomName) return;
 
-		try {
-			await chatService.sendMessage(this.roomName, text);
-			input.value = "";
-			input.dispatchEvent(new Event("input"));
-			input.focus();
-		} catch (error) {
-			console.error("Unable to send message: ", error);
-			alert("Unable to send message. Please try again.");
-		}
+		chatOutbox.sendMessage(this.roomName, text);
+		input.value = "";
+		input.dispatchEvent(new Event("input"));
+		input.focus();
 	}
 
 	updateMessageList() {
@@ -328,7 +346,12 @@ export default class VscodeChatEditor extends HTMLElement {
 				["vscode-token-function", "Set"],
 				["", "();"],
 			]),
-			...this.messages.flatMap(renderMessageLines),
+			...chatOutbox.getMessages(this.roomName, this.messages).flatMap((message, index) => {
+				const messageLines = renderMessageLines(message, index);
+				const status = renderDeliveryStatus(message);
+				if (status) messageLines.push(status);
+				return messageLines;
+			}),
 			"}",
 		];
 
