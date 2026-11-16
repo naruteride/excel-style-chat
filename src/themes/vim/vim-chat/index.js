@@ -343,10 +343,10 @@ export default class VimChat extends HTMLElement {
 	executeCommand(event) {
 		const value = event.detail.command.trim();
 		const workbench = this.querySelector("vim-workbench");
-		if ([":q", ":q!", ":wq"].includes(value)) {
+		if ([":q", ":q!", ":wq", ":wq!"].includes(value)) {
 			router.navigateTo("/");
 		} else if (value == ":help") {
-			workbench.showMessage("i a I A o O: insert | Esc: normal | hjkl / arrows: move | gg / G: top / bottom | Enter: send | :q / :q! / :wq: quit");
+			workbench.showMessage("i a I A o O: insert | Esc: normal | hjkl / arrows: move | gg / G: top / bottom | Enter: send | :q / :q! / :wq / :wq!: quit");
 		} else {
 			workbench.showMessage(`E492: Not an editor command: ${value.slice(1)}`, "error");
 		}
