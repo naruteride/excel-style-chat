@@ -1,6 +1,7 @@
 import ChatPaginationController from "../../../utils/chat-pagination-controller.js";
 import setupChatInput from "../../../utils/chat-input.js";
 import chatOutbox from "../../../utils/chat-outbox.js";
+import router from "../../../utils/router.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -105,7 +106,7 @@ export default class VimChat extends HTMLElement {
 
 	render() {
 		this.innerHTML = `
-			<vim-workbench filename=".vimrc" mode="NORMAL" status="vim" position="1,1" room="${escapeHtml(this.roomName)}" command="i: insert · Enter: send · Shift+Enter: new line · Esc: normal">
+			<vim-workbench filename=".vimrc" mode="NORMAL" status="vim" position="1,1" room="${escapeHtml(this.roomName)}" command="i: insert · Enter: send · Shift+Enter: new line · Esc: normal · :q + Enter: leave room">
 				<div class="vim-editor" tabindex="0" role="region" aria-label="Vim configuration buffer">
 					<div id="message-list"></div>
 					<form class="vim-code-line vim-chat-input-line" id="form-input">
@@ -166,6 +167,11 @@ export default class VimChat extends HTMLElement {
 		const input = this.querySelector("#message-input");
 		const text = input.value;
 		if (!text.trim() || !this.roomName) return;
+
+		if (text.trim() == ":q" && !/[\r\n]/u.test(text)) {
+			router.navigateTo("/");
+			return;
+		}
 
 		chatOutbox.sendMessage(this.roomName, text);
 		input.value = "";
