@@ -1,6 +1,7 @@
 import { renderIconButtons } from "./excel-icon.js";
 import ExcelDropdownIcon from "./excel-dropdown-icon.js";
 import ThemeSwitcher from "/src/components/theme-switcher.js";
+import router from "../../../utils/router.js";
 
 const menuLabels = ["파일", "수정", "보기", "삽입", "서식", "데이터", "도구", "확장 프로그램", "도움말"];
 
@@ -17,7 +18,7 @@ export default class ExcelMenu extends HTMLElement {
 		this.style.cssText = "overflow-x: auto; scrollbar-width: thin; margin-block: 0; padding-inline: 0; display: flex; justify-content: space-between; align-items: center; height: 4rem;";
 		this.innerHTML = `
 			<div style="display: flex; align-items: center; margin-inline: 0.5rem;">
-				<button class="excel-icon-button" image-position-left="-717px" image-position-top="-926px" style="width: 3.25rem; height: 3.25rem; padding: 0.5rem;"></button>
+				<button type="button" id="btn-home" class="excel-icon-button" aria-label="로그인 화면으로 돌아가기" image-position-left="-717px" image-position-top="-926px" style="width: 3.25rem; height: 3.25rem; padding: 0.5rem;"></button>
 
 				<div style="display: flex; flex-direction: column;">
 					<div style="display: flex; align-items: center; gap: 0.5rem">
@@ -58,6 +59,8 @@ export default class ExcelMenu extends HTMLElement {
 		this.querySelector("#room-title-input").value = this.getAttribute("room") || "";
 
 		renderIconButtons(this);
+
+		this.querySelector("#btn-home").addEventListener("click", () => router.navigateTo("/"));
 
 		this.querySelector("#room-title-input")?.addEventListener("input", (e) => {
 			document.title = e.target.value;
