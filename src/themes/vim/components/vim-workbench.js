@@ -1,6 +1,11 @@
 import "../../../components/theme-switcher.js";
 import themeStore from "../../../utils/theme-store.js";
 import { getThemeNames, getThemeCommandHelp } from "../utils/theme-commands.js";
+import { getCommandCompletion } from "../utils/command-completion.js";
+
+const sharedCommands = ["help", "theme", "NERDTree", "NERDTreeToggle", "NERDTreeClose", "colorscheme"];
+const loginCommands = ["login", "anon", "logout", "join", "clear"];
+const chatCommands = ["q", "q!", "wq", "wq!"];
 
 export default class VimWorkbench extends HTMLElement {
 	static get observedAttributes() {
@@ -19,6 +24,7 @@ export default class VimWorkbench extends HTMLElement {
 		this.message = "";
 		this.messageType = "";
 		this.isComposing = false;
+		this.completion = null;
 	}
 
 	connectedCallback() {
@@ -36,6 +42,7 @@ export default class VimWorkbench extends HTMLElement {
 	}
 
 	disconnectedCallback() {
+		this.completion = null;
 		this.treeMedia.removeEventListener("change", this.handleTreeResize);
 		this.removeEventListener("keydown", this.handleKeydown);
 		this.querySelector(".vim-editor")?.removeEventListener("scroll", this.handleScroll);
@@ -43,6 +50,7 @@ export default class VimWorkbench extends HTMLElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name == "mode" && oldValue != newValue) {
+			this.completion = null;
 			this.message = "";
 			this.messageType = "";
 		}
@@ -110,6 +118,7 @@ export default class VimWorkbench extends HTMLElement {
 
 	openCommandLine(value = "") {
 		if (this.getAttribute("busy") == "true") return;
+		this.completion = null;
 		this.setAttribute("mode", "COMMAND");
 		const input = this.querySelector(".vim-command-input");
 		input.value = value;
@@ -120,15 +129,58 @@ export default class VimWorkbench extends HTMLElement {
 	}
 
 	closeCommandLine() {
+		this.completion = null;
 		this.querySelector(".vim-command-input").value = "";
 		this.setAttribute("mode", "NORMAL");
 		this.focusEditor();
+	}
+
+	completeCommand(reverse = false) {
+		const input = this.querySelector(".vim-command-input");
+		if (this.isComposing || this.getAttribute("busy") == "true" || input.selectionStart != input.selectionEnd) {
+			this.completion = null;
+			return;
+		}
+		const cursor = input.selectionStart;
+		const previous = this.completion;
+		if (!previous || previous.value != input.value || previous.cursor != cursor) {
+			const commands = [
+				...sharedCommands,
+				...(this.closest("vim-login") ? loginCommands : this.closest("vim-chat") ? chatCommands : [])
+			];
+			const result = getCommandCompletion(input.value, cursor, { commands, themes: getThemeNames() });
+			if (!result?.candidates.length) {
+				this.completion = null;
+				return;
+			}
+			this.completion = {
+				before: input.value.slice(0, result.start),
+				after: input.value.slice(result.end),
+				candidates: result.candidates,
+				index: reverse ? 0 : -1
+			};
+		}
+
+		const completion = this.completion;
+		completion.index = (completion.index + (reverse ? -1 : 1) + completion.candidates.length) % completion.candidates.length;
+		const candidate = completion.candidates[completion.index];
+		input.value = `${completion.before}${candidate}${completion.after}`;
+		const position = completion.before.length + candidate.length;
+		input.setSelectionRange(position, position);
+		completion.value = input.value;
+		completion.cursor = position;
 	}
 
 	handleCommandKeydown(event) {
 		if (event.defaultPrevented || event.isComposing || this.isComposing || event.keyCode == 229) return;
 		const input = this.querySelector(".vim-command-input");
 		if (event.target == input) {
+			if (event.key == "Tab" && !event.ctrlKey && !event.metaKey && !event.altKey) {
+				event.preventDefault();
+				this.completeCommand(event.shiftKey);
+				return;
+			}
+			if (!["Shift", "Control", "Alt", "Meta"].includes(event.key)) this.completion = null;
 			if (event.key == "Escape" || (event.ctrlKey && (event.key == "[" || event.key.toLowerCase() == "c"))) {
 				event.preventDefault();
 				this.closeCommandLine();
@@ -258,7 +310,12 @@ export default class VimWorkbench extends HTMLElement {
 			event.preventDefault();
 			this.openCommandLine();
 		});
-		input.addEventListener("compositionstart", () => this.isComposing = true);
+		input.addEventListener("input", () => this.completion = null);
+		input.addEventListener("click", () => this.completion = null);
+		input.addEventListener("compositionstart", () => {
+			this.completion = null;
+			this.isComposing = true;
+		});
 		input.addEventListener("compositionend", () => this.isComposing = false);
 	}
 }
