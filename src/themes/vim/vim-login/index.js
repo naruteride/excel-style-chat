@@ -46,6 +46,7 @@ export default class VimLogin extends BaseComponent {
 			this.user = user;
 			this.updateSession();
 		});
+		this.querySelector("vim-workbench").openCommandLine();
 	}
 
 	disconnectedCallback() {
@@ -113,7 +114,6 @@ export default class VimLogin extends BaseComponent {
 			this.updateNormalCursor();
 		});
 		this.updateSession();
-		if (this.isConnected) this.querySelector("vim-workbench").focusEditor();
 	}
 
 	get mode() {
