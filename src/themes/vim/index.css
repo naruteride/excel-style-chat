@@ -1,0 +1,492 @@
+/* Retrobox dark: Vim's Normal, Comment, String, Function and Statement groups. */
+vim-login,
+vim-chat,
+vim-workbench {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+}
+
+vim-workbench {
+	--vim-background: #1c1c1c;
+	--vim-foreground: #ebdbb2;
+	--vim-comment: #928374;
+	--vim-string: #b8bb26;
+	--vim-statement: #fb5944;
+	--vim-identifier: #83a598;
+	--vim-number: #d3869b;
+	--vim-special: #fe8019;
+	--vim-selection: #504945;
+	--vim-gutter: #7c6f64;
+	--vim-surface: #3c3836;
+	--vim-cursorline: #303030;
+	color-scheme: dark;
+	background: var(--vim-background);
+	color: var(--vim-foreground);
+	font: 14px/1.6 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+	-webkit-font-smoothing: antialiased;
+}
+
+vim-workbench * {
+	box-sizing: border-box;
+}
+
+vim-workbench button,
+vim-workbench input,
+vim-workbench textarea,
+vim-workbench select {
+	font: inherit;
+}
+
+vim-workbench button {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+}
+
+vim-workbench :focus-visible {
+	outline: 1px solid var(--vim-identifier);
+	outline-offset: -1px;
+}
+
+vim-workbench ::selection {
+	background: var(--vim-selection);
+	color: var(--vim-foreground);
+}
+
+.vim-workbench {
+	display: flex;
+	flex-direction: column;
+	height: 100dvh;
+	overflow: hidden;
+}
+
+.vim-tabline {
+	display: flex;
+	flex-shrink: 0;
+	height: 30px;
+	background: var(--vim-surface);
+	color: #a89984;
+}
+
+.vim-tree-toggle {
+	width: 242px;
+	flex-shrink: 0;
+	padding: 0 14px;
+	text-align: left;
+	border-right: 1px solid var(--vim-selection);
+}
+
+.vim-active-tab {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 0 18px;
+	background: var(--vim-background);
+	color: #fbf1c7;
+	font-weight: bold;
+}
+
+.vim-tab-number {
+	color: var(--vim-number);
+}
+
+.vim-tabline-fill {
+	flex: 1;
+	min-width: 0;
+	padding: 3px 14px;
+	text-align: right;
+}
+
+.vim-tabline select {
+	padding: 0 8px;
+	border: 0;
+	border-left: 1px solid var(--vim-selection);
+	border-radius: 0;
+	background: var(--vim-surface);
+	color: var(--vim-foreground);
+	cursor: pointer;
+}
+
+.vim-layout {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+}
+
+.vim-tree {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: 242px;
+	padding-top: 5px;
+	overflow: auto;
+	border-right: 1px solid var(--vim-selection);
+}
+
+.vim-tree-help,
+.vim-tree-up,
+.vim-tree-root {
+	padding: 0 12px;
+	white-space: nowrap;
+}
+
+.vim-tree-help {
+	color: var(--vim-comment);
+}
+
+.vim-tree-up {
+	margin-top: 15px;
+	color: var(--vim-identifier);
+}
+
+.vim-tree-root,
+.vim-tree-directory {
+	color: var(--vim-string);
+	text-align: left;
+}
+
+.vim-tree-entries {
+	padding-top: 3px;
+}
+
+.vim-tree-entries details {
+	padding-left: 16px;
+}
+
+.vim-tree-directory {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.vim-tree-file {
+	padding-left: 16px;
+	color: var(--vim-foreground);
+	white-space: nowrap;
+}
+
+.vim-tree-current {
+	display: block;
+	width: 100%;
+	padding: 0 14px;
+	background: var(--vim-cursorline);
+	color: #fabd2f;
+	text-align: left;
+	white-space: pre;
+}
+
+.vim-tree-spacer {
+	flex: 1;
+	min-height: 24px;
+}
+
+.vim-tree-status {
+	padding: 0 12px;
+	background: var(--vim-surface);
+	color: #a89984;
+}
+
+.vim-tree-hidden {
+	display: none;
+}
+
+.vim-buffer {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+}
+
+.vim-editor {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+	padding: 8px 0 0;
+	overflow: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--vim-selection) var(--vim-background);
+	tab-size: 4;
+}
+
+.vim-code-line {
+	display: flex;
+	flex-shrink: 0;
+	min-height: 1.6em;
+}
+
+.vim-line-number {
+	width: 5ch;
+	flex-shrink: 0;
+	padding-right: 2ch;
+	color: var(--vim-gutter);
+	text-align: right;
+	user-select: none;
+}
+
+.vim-line-content {
+	flex: 1;
+	min-width: 0;
+	padding-right: 16px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.vim-token-comment,
+.vim-editor-empty-note {
+	color: var(--vim-comment);
+}
+
+.vim-token-command,
+.vim-token-keyword {
+	color: var(--vim-statement);
+}
+
+.vim-token-string,
+.vim-token-function,
+.vim-cli-success {
+	color: var(--vim-string);
+}
+
+.vim-token-number {
+	color: var(--vim-number);
+}
+
+.vim-token-identifier {
+	color: var(--vim-identifier);
+}
+
+.vim-filler {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 1.6em;
+	overflow: hidden;
+	padding-left: 1ch;
+	color: var(--vim-selection);
+	user-select: none;
+}
+
+.vim-statusline {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	min-height: 24px;
+	background: var(--vim-selection);
+	font-weight: bold;
+}
+
+.vim-mode {
+	align-self: stretch;
+	padding: 1px 12px;
+	background: #a89984;
+	color: var(--vim-background);
+}
+
+vim-workbench[data-mode="insert"] .vim-mode {
+	background: var(--vim-string);
+}
+
+.vim-status-filename,
+.vim-status-detail,
+.vim-status-encoding,
+.vim-status-filetype,
+.vim-status-position {
+	padding: 0 12px;
+	white-space: nowrap;
+}
+
+.vim-status-detail {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	color: #a89984;
+	text-overflow: ellipsis;
+}
+
+.vim-status-position {
+	min-width: 9ch;
+	text-align: right;
+}
+
+.vim-commandline {
+	flex-shrink: 0;
+	min-height: 26px;
+	padding: 1px 12px;
+	color: var(--vim-comment);
+	font-size: 12px;
+}
+
+.vim-login-cli {
+	flex-shrink: 0;
+	max-height: 45%;
+	padding: 8px 16px 10px;
+	border-top: 1px solid var(--vim-selection);
+	overflow: auto;
+}
+
+.vim-cli-output {
+	max-height: 9.6em;
+	overflow: auto;
+	scrollbar-width: thin;
+}
+
+.vim-cli-line {
+	min-height: 1.6em;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.vim-cli-error {
+	color: var(--vim-statement);
+}
+
+.vim-command-help {
+	display: block;
+	margin-top: 4px;
+	color: var(--vim-comment);
+	font-size: 12px;
+}
+
+.vim-cli-form {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.vim-cli-prompt {
+	color: #fabd2f;
+	font-weight: bold;
+}
+
+.vim-cli-input {
+	width: 100%;
+	min-width: 0;
+	padding: 4px 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--vim-foreground);
+	caret-color: #fabd2f;
+}
+
+.vim-cli-input::placeholder,
+.vim-chat-input::placeholder {
+	color: var(--vim-comment);
+	opacity: 1;
+}
+
+.vim-cli-submit,
+.vim-retry-button {
+	padding: 2px 8px;
+	color: #fabd2f;
+	white-space: nowrap;
+}
+
+.vim-cli-submit:hover,
+.vim-retry-button:hover {
+	background: var(--vim-selection);
+}
+
+.vim-cli-submit:disabled {
+	opacity: 0.5;
+	cursor: wait;
+}
+
+.vim-chat-input-line {
+	display: flex;
+	align-items: baseline;
+	flex-shrink: 0;
+	min-height: 1.6em;
+	margin: 0;
+	padding-right: 16px;
+	background: var(--vim-cursorline);
+}
+
+.vim-chat-input {
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--vim-string);
+	line-height: inherit;
+	caret-color: #fbf1c7;
+	resize: none;
+}
+
+.vim-chat-input-prefix,
+.vim-chat-input-suffix {
+	flex-shrink: 0;
+	white-space: pre;
+}
+
+.vim-message-status {
+	color: var(--vim-comment);
+}
+
+.vim-message-failed {
+	color: var(--vim-statement);
+}
+
+@media (max-width: 767px) {
+	vim-workbench {
+		font-size: 13px;
+	}
+
+	.vim-tree {
+		display: none;
+		width: 200px;
+	}
+
+	.vim-tree-open {
+		display: flex;
+	}
+
+	.vim-tree-toggle {
+		width: auto;
+		padding: 0 10px;
+	}
+
+	.vim-active-tab {
+		padding: 0 12px;
+	}
+
+	.vim-tabline-fill,
+	.vim-status-encoding,
+	.vim-status-filetype {
+		display: none;
+	}
+
+	.vim-tabline theme-switcher {
+		margin-left: auto;
+	}
+
+	.vim-line-number {
+		width: 4ch;
+		padding-right: 1ch;
+	}
+
+	.vim-status-filename,
+	.vim-status-detail,
+	.vim-status-position {
+		padding: 0 8px;
+	}
+
+	.vim-commandline {
+		font-size: 11px;
+	}
+
+	.vim-cli-input {
+		font-size: 16px;
+	}
+}

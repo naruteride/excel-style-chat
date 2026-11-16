@@ -3,6 +3,7 @@ import themeStore from "./utils/theme-store.js";
 import router from "./utils/router.js";
 import vscodeTheme from "./themes/vscode/index.js";
 import excelTheme from "./themes/excel/index.js";
+import vimTheme from "./themes/vim/index.js";
 
 // Register initial themes (more can be added later)
 themeStore.registerTheme("vscode", vscodeTheme);
@@ -11,7 +12,7 @@ themeStore.registerTheme("excel", excelTheme);
 themeStore.registerTheme("pdf", { name: "pdf", components: {} });
 themeStore.registerTheme("figma", { name: "figma", components: {} });
 themeStore.registerTheme("notion", { name: "notion", components: {} });
-themeStore.registerTheme("vim", { name: "vim", components: {} });
+themeStore.registerTheme("vim", vimTheme);
 
 document.addEventListener("DOMContentLoaded", () => {
 	// Initialize Router
