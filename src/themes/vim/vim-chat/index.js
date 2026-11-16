@@ -2,11 +2,18 @@ import ChatPaginationController from "../../../utils/chat-pagination-controller.
 import setupChatInput from "../../../utils/chat-input.js";
 import chatOutbox from "../../../utils/chat-outbox.js";
 import router from "../../../utils/router.js";
-import { escapeHtml, highlightVimLine, vimString as vimStringLiteral } from "../utils/vim-code.js";
+
+const escapeHtml = (value) => String(value ?? "")
+	.replaceAll("&", "&amp;")
+	.replaceAll("<", "&lt;")
+	.replaceAll(">", "&gt;")
+	.replaceAll('"', "&quot;")
+	.replaceAll("'", "&#039;");
 
 const token = (className, value) => `<span class="${className}">${escapeHtml(value)}</span>`;
 const comment = (value) => token("vim-token-comment", value);
 const command = (value) => token("vim-token-command", value);
+const vimString = (value) => token("vim-token-string", `'${String(value ?? "").replaceAll("'", "''")}'`);
 const COMPOSER_PREFIX = "let g:note = '";
 
 const formatTimestamp = (timestamp) => {
@@ -42,23 +49,19 @@ const renderMessageLines = (message) => {
 
 	if (/[\r\n]/u.test(text)) {
 		lines.push(...text.split(/\r\n?|\n/u).map(line => comment(`" ${line}`)));
-	} else if (key % 6 == 0) {
+	} else if (key % 4 == 0) {
 		lines.push(comment(`" ${text}`));
-	} else if (key % 6 == 1) {
-		lines.push(highlightVimLine(`let s:note_${key.toString(16)} = ${vimStringLiteral(text)}`));
-	} else if (key % 6 == 2) {
-		lines.push(...[
-			`function! s:Sync${key.toString(16)}() abort`,
-			`  let l:note = ${vimStringLiteral(text)}`,
-			"  call append(line('$'), l:note)",
-			"endfunction"
-		].map(highlightVimLine));
-	} else if (key % 6 == 3) {
-		lines.push(highlightVimLine(`autocmd User WorkspaceSync call s:Note(${vimStringLiteral(text)})`));
-	} else if (key % 6 == 4) {
-		lines.push(highlightVimLine(`command! -nargs=0 Note${key.toString(16)} echo ${vimStringLiteral(text)}`));
+	} else if (key % 4 == 1) {
+		lines.push(`${command("let")} s:note_${key.toString(16)} = ${vimString(text)}`);
+	} else if (key % 4 == 2) {
+		lines.push(
+			`${command("function!")} ${token("vim-token-function", `s:Sync${key.toString(16)}`)}() ${command("abort")}`,
+			`  ${command("let")} l:note = ${vimString(text)}`,
+			`  ${command("return")} l:note`,
+			command("endfunction")
+		);
 	} else {
-		lines.push(highlightVimLine(`nnoremap <silent> <leader>n :call s:Note(${vimStringLiteral(text)})<CR>`));
+		lines.push(`${command("call")} ${token("vim-token-function", "append")}(${token("vim-token-function", "line")}(${vimString("$")}), ${vimString(text)})`);
 	}
 
 	const status = renderDeliveryStatus(message);
@@ -448,27 +451,19 @@ export default class VimChat extends HTMLElement {
 
 		const messages = chatOutbox.getMessages(this.roomName, this.messages);
 		const lines = [
-			'" ~/.vimrc — workspace configuration',
-			"set number",
-			"set background=dark",
-			"colorscheme retrobox",
+			comment('" ~/.vimrc — workspace configuration'),
+			`${command("set")} nocompatible`,
+			`${command("set")} number`,
+			`${command("set")} hidden`,
+			`${command("set")} background=dark`,
+			`${command("colorscheme")} ${token("vim-token-string", "retrobox")}`,
+			`${command("filetype")} plugin indent on`,
 			"",
-			'" Key mappings',
-			"inoremap <C-[> <Esc>",
-			"nnoremap <C-[> <Esc>",
+			`${command("let")} g:workspace = ${vimString(this.roomName)}`,
 			"",
-			'" Filetype detection',
-			"augroup filetypes",
-			"  autocmd!",
-			"  autocmd BufNewFile,BufRead *.vim setfiletype vim",
-			"  autocmd FileType vim setlocal shiftwidth=2",
-			"augroup END",
-			"",
-			`let g:workspace = ${vimStringLiteral(this.roomName)}`,
-			"",
-			'" Runtime notes',
+			comment('" Runtime notes'),
 			""
-		].map((line, index) => ({ html: highlightVimLine(line), key: `config:${index}` }));
+		].map((html, index) => ({ html, key: `config:${index}` }));
 		messages.forEach(message => {
 			renderMessageLines(message).forEach((html, index) => {
 				lines.push({ html, key: `message:${message.id || messageKey(message)}:${index}` });

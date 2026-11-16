@@ -1,4 +1,4 @@
-/* Retrobox's 256-color palette, matching the terminal reference. */
+/* Native Vim windows with the Retrobox dark highlight palette. */
 vim-login,
 vim-chat,
 vim-workbench {
@@ -11,24 +11,20 @@ vim-workbench {
 
 vim-workbench {
 	--vim-background: #1c1c1c;
-	--vim-foreground: #d7d7af;
-	--vim-comment: #878787;
-	--vim-string: #afaf00;
-	--vim-statement: #ff5f5f;
-	--vim-identifier: #87afaf;
-	--vim-number: #d787af;
-	--vim-special: #ff8700;
-	--vim-event: #ffaf00;
-	--vim-option: #87af5f;
-	--vim-selection: #4e4e4e;
-	--vim-gutter: #767676;
-	--vim-surface: #3a3a3a;
+	--vim-foreground: #ebdbb2;
+	--vim-comment: #928374;
+	--vim-string: #b8bb26;
+	--vim-statement: #fb5944;
+	--vim-identifier: #83a598;
+	--vim-number: #d3869b;
+	--vim-selection: #504945;
+	--vim-gutter: #7c6f64;
+	--vim-surface: #3c3836;
 	--vim-cursorline: #303030;
-	--vim-line-height: 23px;
 	color-scheme: dark;
 	background: var(--vim-background);
 	color: var(--vim-foreground);
-	font: 17px/var(--vim-line-height) Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+	font: 14px/1.6 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -130,7 +126,7 @@ vim-workbench ::selection {
 }
 
 .vim-tree-up {
-	margin-top: var(--vim-line-height);
+	margin-top: 1.6em;
 	color: var(--vim-identifier);
 }
 
@@ -158,14 +154,14 @@ vim-workbench ::selection {
 	display: block;
 	width: 100%;
 	padding: 0 8px;
-	color: var(--vim-event);
+	color: #fabd2f;
 	text-align: left;
 	white-space: pre;
 }
 
 .vim-tree-spacer {
 	flex: 1;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 }
 
 .vim-tree-status {
@@ -203,13 +199,13 @@ vim-workbench ::selection {
 .vim-code-line {
 	display: flex;
 	flex-shrink: 0;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 }
 
 .vim-line-number {
-	width: 4.5ch;
+	width: 5ch;
 	flex-shrink: 0;
-	padding-right: 1ch;
+	padding-right: 2ch;
 	color: var(--vim-gutter);
 	text-align: right;
 	user-select: none;
@@ -234,25 +230,8 @@ vim-workbench ::selection {
 }
 
 .vim-token-string,
-.vim-token-builtin {
-	color: var(--vim-string);
-}
-
 .vim-token-function {
-	color: var(--vim-foreground);
-}
-
-.vim-token-special {
-	color: var(--vim-special);
-}
-
-.vim-token-event {
-	color: var(--vim-event);
-}
-
-.vim-token-option,
-.vim-token-operator {
-	color: var(--vim-option);
+	color: var(--vim-string);
 }
 
 .vim-token-number {
@@ -267,7 +246,7 @@ vim-workbench ::selection {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 	overflow: hidden;
 	padding-left: 1ch;
 	color: var(--vim-selection);
@@ -278,7 +257,7 @@ vim-workbench ::selection {
 	display: none;
 	justify-content: space-between;
 	flex-shrink: 0;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 	padding: 0 1ch;
 	background: var(--vim-selection);
 	font-weight: bold;
@@ -298,7 +277,7 @@ vim-workbench[data-tree-open="true"] .vim-window-status {
 	align-items: flex-start;
 	gap: 2ch;
 	flex-shrink: 0;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 	margin: 0;
 	padding: 0 1ch;
 }
@@ -311,7 +290,7 @@ vim-workbench[data-tree-open="true"] .vim-window-status {
 }
 
 vim-workbench[data-mode="insert"] .vim-command-display {
-	color: var(--vim-event);
+	color: #fabd2f;
 	font-weight: bold;
 }
 
@@ -343,7 +322,7 @@ vim-workbench[data-mode="command"] .vim-ruler {
 	display: flex;
 	align-items: baseline;
 	flex-shrink: 0;
-	min-height: var(--vim-line-height);
+	min-height: 1.6em;
 	margin: 0;
 	padding-right: 1ch;
 }
@@ -393,7 +372,7 @@ vim-workbench[data-mode="command"] .vim-ruler {
 
 .vim-retry-button {
 	padding: 0 1ch;
-	color: var(--vim-event);
+	color: #fabd2f;
 }
 
 .vim-retry-button:hover {
@@ -402,8 +381,7 @@ vim-workbench[data-mode="command"] .vim-ruler {
 
 @media (max-width: 767px) {
 	vim-workbench {
-		--vim-line-height: 20px;
-		font-size: 14px;
+		font-size: 13px;
 	}
 
 	.vim-tree {

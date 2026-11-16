@@ -1,7 +1,6 @@
 import BaseComponent from "../../../components/base-component.js";
 import { authService } from "../../../api/firebase.js";
 import router from "../../../utils/router.js";
-import { highlightVimLine } from "../utils/vim-code.js";
 
 const loginErrors = {
 	"auth/popup-closed-by-user": "Google sign-in cancelled. Try :login google again.",
@@ -58,40 +57,26 @@ export default class VimLogin extends BaseComponent {
 		}
 
 		const lines = [
-			'" ~/.vimrc — development environment',
-			"set nocompatible",
-			"syntax on",
-			"filetype plugin indent on",
+			'<span class="vim-token-comment">" ~/.vimrc — development environment</span>',
+			'<span class="vim-token-command">set</span> nocompatible',
+			'<span class="vim-token-command">syntax</span> on',
+			'<span class="vim-token-command">filetype</span> plugin indent on',
 			"",
-			'" Editor settings',
-			"set number",
-			"set cursorline",
-			"set background=dark",
-			"colorscheme retrobox",
+			'<span class="vim-token-command">set</span> number',
+			'<span class="vim-token-command">set</span> cursorline',
+			'<span class="vim-token-command">set</span> background=dark',
+			'<span class="vim-token-command">colorscheme</span> retrobox',
 			"",
-			'" Filetype detection',
-			"augroup filetypes",
-			"  autocmd!",
-			"  autocmd BufNewFile,BufRead *.vim setfiletype vim",
-			"  autocmd FileType vim setlocal shiftwidth=2 softtabstop=2",
-			"augroup END",
+			'<span class="vim-token-command">let</span> g:session_user = <span class="vim-token-string" data-vim-session></span>',
 			"",
-			'" Session commands',
-			"let g:session_user = 'not authenticated'",
-			'" Press : to enter a command.',
-			'" :login anonymous  — anonymous session',
-			'" :login google     — Google sign-in',
-			'" :join daily-scrum — open a room',
-			'" :help             — available commands',
+			'<span class="vim-token-comment">" Press : to enter a command.</span>',
+			'<span class="vim-token-comment">" :login anonymous  — anonymous session</span>',
+			'<span class="vim-token-comment">" :login google     — Google sign-in</span>',
+			'<span class="vim-token-comment">" :join daily-scrum — open a room</span>',
 			"",
-			"function! StartSession(room) abort",
-			"  let l:room = trim(a:room)",
-			"  if empty(l:room)",
-			"    echo 'Use :join room-name'",
-			"    return",
-			"  endif",
-			'  " :join daily-scrum',
-			"endfunction"
+			'<span class="vim-token-command">function!</span> <span class="vim-token-function">StartSession</span>(room) <span class="vim-token-command">abort</span>',
+			'  <span class="vim-token-comment">" Enter :help for all available commands.</span>',
+			'<span class="vim-token-command">endfunction</span>'
 		];
 
 		this.innerHTML = `
@@ -100,7 +85,7 @@ export default class VimLogin extends BaseComponent {
 					${lines.map((line, index) => `
 						<div class="vim-code-line">
 							<span class="vim-line-number" aria-hidden="true">${index + 1}</span>
-							<span class="vim-line-content"${line.startsWith("let g:session_user") ? " data-vim-session" : ""}>${highlightVimLine(line) || " "}</span>
+							<span class="vim-line-content">${line || " "}</span>
 						</div>
 					`).join("")}
 					<div class="vim-filler" aria-hidden="true">${"<span>~</span>".repeat(12)}</div>
@@ -248,7 +233,7 @@ export default class VimLogin extends BaseComponent {
 		this.clearNormalCursor();
 		const userName = this.user ? this.user.displayName || "Anonymous" : "not authenticated";
 		const session = this.querySelector("[data-vim-session]");
-		if (session) session.innerHTML = highlightVimLine(`let g:session_user = '${userName.replaceAll("'", "''")}'`);
+		if (session) session.textContent = `'${userName.replaceAll("'", "''")}'`;
 		this.updateNormalCursor();
 	}
 
