@@ -1,4 +1,6 @@
 import "../../../components/theme-switcher.js";
+import themeStore from "../../../utils/theme-store.js";
+import { getThemeNames, getThemeCommandHelp } from "../utils/theme-commands.js";
 
 export default class VimWorkbench extends HTMLElement {
 	static get observedAttributes() {
@@ -170,7 +172,20 @@ export default class VimWorkbench extends HTMLElement {
 		this.commandHistory.push(value);
 		if (this.commandHistory.length > 50) this.commandHistory.shift();
 		const command = value.slice(1).trim();
-		if (command == "NERDTreeToggle") this.setTreeVisibility(this.dataset.treeOpen != "true");
+		const [name, ...args] = command.split(/\s+/);
+		if (name == "theme") {
+			if (!args.length) {
+				this.showMessage(`Current theme: ${themeStore.currentTheme}\n${getThemeCommandHelp()}`);
+				return;
+			}
+			const themeName = args[0].toLowerCase();
+			if (args.length != 1 || !getThemeNames().includes(themeName)) {
+				this.showMessage(`E475: Invalid theme: ${args.join(" ")}\n${getThemeCommandHelp()}`, "error");
+				return;
+			}
+			themeStore.setTheme(themeName);
+			if (this.isConnected) this.showMessage(`Theme: ${themeName}`);
+		} else if (command == "NERDTreeToggle") this.setTreeVisibility(this.dataset.treeOpen != "true");
 		else if (command == "NERDTree") this.setTreeVisibility(true);
 		else if (command == "NERDTreeClose") this.setTreeVisibility(false);
 		else if (command.startsWith("colorscheme ")) {

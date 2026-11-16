@@ -2,6 +2,7 @@ import ChatPaginationController from "../../../utils/chat-pagination-controller.
 import setupChatInput from "../../../utils/chat-input.js";
 import chatOutbox from "../../../utils/chat-outbox.js";
 import router from "../../../utils/router.js";
+import { getThemeCommandHelp } from "../utils/theme-commands.js";
 
 const escapeHtml = (value) => String(value ?? "")
 	.replaceAll("&", "&amp;")
@@ -346,7 +347,10 @@ export default class VimChat extends HTMLElement {
 		if ([":q", ":q!", ":wq", ":wq!"].includes(value)) {
 			router.navigateTo("/");
 		} else if (value == ":help") {
-			workbench.showMessage("i a I A o O: insert | Esc: normal | hjkl / arrows: move | gg / G: top / bottom | Enter: send | :q / :q! / :wq / :wq!: quit");
+			workbench.showMessage([
+				"i a I A o O: insert | Esc: normal | hjkl / arrows: move | gg / G: top / bottom | Enter: send | :q / :q! / :wq / :wq!: quit",
+				getThemeCommandHelp()
+			].join("\n"));
 		} else {
 			workbench.showMessage(`E492: Not an editor command: ${value.slice(1)}`, "error");
 		}

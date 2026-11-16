@@ -1,6 +1,14 @@
 import BaseComponent from "../../../components/base-component.js";
 import { authService } from "../../../api/firebase.js";
 import router from "../../../utils/router.js";
+import { getThemeCommandHelp } from "../utils/theme-commands.js";
+
+const escapeHtml = (value) => String(value ?? "")
+	.replaceAll("&", "&amp;")
+	.replaceAll("<", "&lt;")
+	.replaceAll(">", "&gt;")
+	.replaceAll('"', "&quot;")
+	.replaceAll("'", "&#039;");
 
 const loginErrors = {
 	"auth/popup-closed-by-user": "Google sign-in cancelled. Try :login google again.",
@@ -73,6 +81,7 @@ export default class VimLogin extends BaseComponent {
 			'<span class="vim-token-comment">" :login anonymous  — anonymous session</span>',
 			'<span class="vim-token-comment">" :login google     — Google sign-in</span>',
 			'<span class="vim-token-comment">" :join daily-scrum — open a room</span>',
+			...getThemeCommandHelp().split("\n").map(line => `<span class="vim-token-comment">${escapeHtml(`" ${line}`)}</span>`),
 			"",
 			'<span class="vim-token-command">function!</span> <span class="vim-token-function">StartSession</span>(room) <span class="vim-token-command">abort</span>',
 			'  <span class="vim-token-comment">" Enter :help for all available commands.</span>',
@@ -297,7 +306,8 @@ export default class VimLogin extends BaseComponent {
 					":join room-name   Open a room (signs in anonymously if needed)",
 					":logout           Sign out",
 					":clear            Clear the last-line message",
-					":NERDTreeToggle   Toggle the file explorer"
+					":NERDTreeToggle   Toggle the file explorer",
+					getThemeCommandHelp()
 				].join("\n"));
 			} else if (command == "clear" && !args.length) {
 				workbench.showMessage("");
