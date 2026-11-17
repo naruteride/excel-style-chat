@@ -116,6 +116,15 @@ export default class VimWorkbench extends HTMLElement {
 		this.querySelector(".vim-editor")?.focus({ preventScroll: true });
 	}
 
+	focusOnEntry() {
+		if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+			this.openCommandLine();
+		} else {
+			this.setAttribute("mode", "NORMAL");
+			this.focusEditor();
+		}
+	}
+
 	openCommandLine(value = "") {
 		if (this.getAttribute("busy") == "true") return;
 		this.completion = null;

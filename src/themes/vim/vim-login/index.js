@@ -46,7 +46,7 @@ export default class VimLogin extends BaseComponent {
 			this.user = user;
 			this.updateSession();
 		});
-		this.querySelector("vim-workbench").openCommandLine();
+		this.querySelector("vim-workbench").focusOnEntry();
 	}
 
 	disconnectedCallback() {
